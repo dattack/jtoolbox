@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +81,7 @@ public final class TimeUtils {
      */
     public static Date parseDate(final String txt) {
 
-        if (StringUtils.isBlank(txt)) {
+        if (txt == null || txt.length() == 0) {
             return null;
         }
 
@@ -200,7 +199,7 @@ public final class TimeUtils {
         if (text != null) {
             try {
                 result = Long.valueOf(text);
-            } catch (@SuppressWarnings("unused") final NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 result = parseTimeSpanExpression(text);
             }
         }

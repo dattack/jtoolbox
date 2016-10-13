@@ -1,12 +1,9 @@
 /*
  * Copyright (c) 2016, The Dattack team (http://www.dattack.com)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +16,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.commons.lang3.Validate;
 
 /**
  * @author cvarela
@@ -64,8 +59,10 @@ public final class SimpleThreadFactory implements ThreadFactory {
          */
         public ThreadFactoryBuilder withPriority(final int value) {
 
-            Validate.isTrue(value >= Thread.MIN_PRIORITY && value <= Thread.MAX_PRIORITY, String.format(
-                    "Thread priority (%s) must be in range [%s..%s]", value, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY));
+            if (value < Thread.MIN_PRIORITY || value > Thread.MAX_PRIORITY) {
+                throw new IllegalArgumentException(String.format("Thread priority (%s) must be in range [%s..%s]",
+                        value, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY));
+            }
 
             this.priority = value;
             return this;
@@ -109,7 +106,6 @@ public final class SimpleThreadFactory implements ThreadFactory {
          */
         public ThreadFactoryBuilder withUncaughtExceptionHandler(final UncaughtExceptionHandler value) {
 
-            Validate.notNull(value);
             this.uncaughtExceptionHandler = value;
             return this;
         }
