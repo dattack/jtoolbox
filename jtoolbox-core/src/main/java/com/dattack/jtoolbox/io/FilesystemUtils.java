@@ -1,12 +1,9 @@
 /*
  * Copyright (c) 2016, The Dattack team (http://www.dattack.com)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +16,9 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +80,27 @@ public final class FilesystemUtils {
         }
 
         return new File(path);
+    }
+
+    /**
+     * Try to find into the classpath the files with the given names.
+     *
+     * @see #locateFile(String)
+     * @param paths
+     *            the name of the files to locate
+     * @return the <code>File</code>
+     */
+    public static Collection<File> locateFiles(final Collection<?> paths) {
+
+        Collection<File> result = new HashSet<>(paths.size());
+        for (Object item : paths) {
+            if (item instanceof File) {
+                result.add((File) item);
+            } else {
+                result.add(locateFile(Objects.toString(item)));
+            }
+        }
+        return result;
     }
 
     private FilesystemUtils() {

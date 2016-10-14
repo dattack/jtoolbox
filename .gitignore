@@ -6,6 +6,9 @@
 *.exe
 *.o
 *.so
+*.jar
+*.war
+*.ear
 
 # Packages #
 ############
@@ -15,7 +18,6 @@
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip

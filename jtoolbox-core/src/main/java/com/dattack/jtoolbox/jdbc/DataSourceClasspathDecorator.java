@@ -27,14 +27,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.dattack.jtoolbox.io.FilesystemUtils;
 
 /**
  * @author cvarela
@@ -44,7 +45,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JNDIDataSource.class);
 
-    private final List<String> extraClasspath;
+    private final Set<File> extraClasspath;
     private volatile boolean initialized;
 
     private static void configureClasspathFromUrls(final List<URL> urlList) throws NoSuchMethodException,
@@ -97,9 +98,9 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
         }
     }
 
-    public DataSourceClasspathDecorator(final DataSource inner, final List<String> extraClasspath) {
+    public DataSourceClasspathDecorator(final DataSource inner, final Collection<File> extraClasspath) {
         super(inner);
-        this.extraClasspath = new ArrayList<>(extraClasspath);
+        this.extraClasspath = new HashSet<File>(extraClasspath);
         initialized = false;
     }
 
@@ -109,8 +110,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
             return;
         }
 
-        for (final String path : extraClasspath) {
-            final File file = FilesystemUtils.locateFile(path);
+        for (final File file : extraClasspath) {
             if (file.exists()) {
                 try {
                     if (file.isDirectory()) {
@@ -123,7 +123,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
                     LOGGER.warn(e.getMessage());
                 }
             } else {
-                LOGGER.debug("Missing directory/file: '{}'", path);
+                LOGGER.debug("Missing directory/file: '{}'", file);
             }
         }
 
