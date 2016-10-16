@@ -45,6 +45,7 @@
     <modules>
         <module>jtoolbox-core</module>
         <module>jtoolbox-commons-configuration</module>
+        <module>jtoolbox-commons-email</module>
     </modules>
     <scm>
         <connection>scm:git:https://github.com/dattack/jtoolbox.git</connection>
@@ -68,6 +69,7 @@
     </distributionManagement>
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
+        <commons-email.version>1.4</commons-email.version>
         <compiler.source.version>1.7</compiler.source.version>
         <compiler.target.version>1.7</compiler.target.version>
         <junit.version>4.12</junit.version>
@@ -81,6 +83,11 @@
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
                 <version>${commons-configuration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${commons-email.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
