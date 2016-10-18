@@ -13,6 +13,7 @@
 package com.dattack.jtoolbox.io;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -32,6 +33,28 @@ import org.slf4j.LoggerFactory;
 public final class FilesystemUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilesystemUtils.class);
+
+    /**
+     * Create a new {@link FilenameFilter}} that can be used to filter directory listings and retrieve only the
+     * filenames that contains that extension.
+     * 
+     * @param extension
+     *            the extension to filter. If the extension is <tt>null</tt> then the filter do nothing.
+     * @return the filename filter instance
+     */
+    public static final FilenameFilter createFilenameFilterByExtension(final String extension) {
+
+        final String lowerExtension = extension.toLowerCase();
+        FilenameFilter filter = new FilenameFilter() {
+
+            @Override
+            public boolean accept(final File dir, final String name) {
+                return name.toLowerCase().endsWith(lowerExtension);
+            }
+        };
+
+        return filter;
+    }
 
     /**
      * Gets the extension of a filename.
