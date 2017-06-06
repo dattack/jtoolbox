@@ -13,16 +13,15 @@
 package com.dattack.jtoolbox.io;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A collection of useful methods to deal with filesystem operations.
@@ -32,20 +31,18 @@ import org.slf4j.LoggerFactory;
  */
 public final class FilesystemUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FilesystemUtils.class);
-
     /**
      * Create a new {@link FilenameFilter}} that can be used to filter directory listings and retrieve only the
      * filenames that contains that extension.
-     * 
+     *
      * @param extension
      *            the extension to filter. If the extension is <tt>null</tt> then the filter do nothing.
      * @return the filename filter instance
      */
-    public static final FilenameFilter createFilenameFilterByExtension(final String extension) {
+    public static FilenameFilter createFilenameFilterByExtension(final String extension) {
 
         final String lowerExtension = extension.toLowerCase();
-        FilenameFilter filter = new FilenameFilter() {
+        final FilenameFilter filter = new FilenameFilter() {
 
             @Override
             public boolean accept(final File dir, final String name) {
@@ -95,9 +92,8 @@ public final class FilesystemUtils {
             try {
                 final URI uri = new URI(url.toExternalForm());
                 return new File(uri);
-            } catch (final URISyntaxException e) {
+            } catch (@SuppressWarnings("unused") final URISyntaxException e) {
                 // URI syntax error? we have a valid URL
-                LOGGER.warn(e.getMessage());
                 return new File(path);
             }
         }
@@ -115,8 +111,8 @@ public final class FilesystemUtils {
      */
     public static Collection<File> locateFiles(final Collection<?> paths) {
 
-        Collection<File> result = new HashSet<>(paths.size());
-        for (Object item : paths) {
+        final Collection<File> result = new HashSet<>(paths.size());
+        for (final Object item : paths) {
             if (item instanceof File) {
                 result.add((File) item);
             } else {
@@ -124,6 +120,32 @@ public final class FilesystemUtils {
             }
         }
         return result;
+    }
+
+    /**
+     * Writes the data from the specified byte array to the named file.
+     *
+     * @param path
+     *            The file path.
+     * @param data
+     *            the content to write
+     * @throws IOException
+     *             if an I/O error occurs.
+     * @since 0.2
+     */
+    public static void writeToFile(final String path, final byte[] data) throws IOException {
+
+        final File file = new File(path);
+        final File parentFile = file.getParentFile();
+        if (parentFile != null) {
+            parentFile.mkdirs();
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(data);
+            fos.flush();
+            fos.close();
+        }
     }
 
     private FilesystemUtils() {
