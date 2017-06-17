@@ -199,7 +199,7 @@ public final class TimeUtils {
         if (text != null) {
             try {
                 result = Long.valueOf(text);
-            } catch (final NumberFormatException e) {
+            } catch (@SuppressWarnings("unused") final NumberFormatException e) {
                 result = parseTimeSpanExpression(text);
             }
         }

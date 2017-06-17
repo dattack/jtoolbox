@@ -152,8 +152,8 @@ public final class RsaUtils {
         try {
             final byte[] keyBytes = Files.readAllBytes(new File(path).toPath());
             final PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
-            final KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
-            return kf.generatePrivate(spec);
+            final KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+            return keyFactory.generatePrivate(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new DattackSecurityException(e);
         }
@@ -173,8 +173,8 @@ public final class RsaUtils {
         try {
             final byte[] keyBytes = Files.readAllBytes(new File(filename).toPath());
             final X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-            final KeyFactory kf = KeyFactory.getInstance(ALGORITHM);
-            return kf.generatePublic(spec);
+            final KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
+            return keyFactory.generatePublic(spec);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new DattackSecurityException(e);
         }

@@ -48,18 +48,15 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
 
             if (minValue != null && result < minValue) {
                 getConsole().error("Value must be greater than %d", minValue);
-                continue;
+            } else if (maxValue != null && result > maxValue) {
+                getConsole().error("Value must be less than %d", maxValue);
+            } else {
+                return result;
             }
-
-            if (maxValue != null && result > maxValue) {
-                getConsole().error("Value must be less than %d", minValue);
-                continue;
-            }
-
-            return result;
         }
     }
 
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     private int readInt() {
 
         while (true) {

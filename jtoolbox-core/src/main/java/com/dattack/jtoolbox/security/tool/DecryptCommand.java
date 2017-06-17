@@ -49,18 +49,18 @@ final class DecryptCommand extends AbstractCommand {
 
             ansiConsole.info("[INFO] Secret message: %s", new String(plainMessage));
 
-        } catch (final DattackSecurityException | RuntimeException e) {
+        } catch (final DattackSecurityException e) {
             ansiConsole.error(e.getMessage());
         }
     }
 
     @Override
-    public String getDescription() {
+    protected String getDescription() {
         return "Decrypt an encripted text";
     }
 
     @Override
-    public String getName() {
+    protected String getName() {
         return "decrypt";
     }
 }
