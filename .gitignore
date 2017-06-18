@@ -42,6 +42,7 @@ Thumbs.db
 ###############
 .checkstyle
 .classpath
+.eclipse-pmd
 .externalToolBuilders
 .pmd
 .project

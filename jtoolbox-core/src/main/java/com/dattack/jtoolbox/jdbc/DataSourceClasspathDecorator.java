@@ -31,11 +31,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author cvarela
@@ -43,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class DataSourceClasspathDecorator extends AbstractDataSourceDecorator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JNDIDataSource.class);
+    private static final Logger LOGGER = Logger.getLogger(DataSourceClasspathDecorator.class.getName());
 
     private final Set<File> extraClasspath;
     private volatile boolean initialized;
@@ -74,10 +73,10 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
             final List<URL> urlList = new ArrayList<>(jars.length);
             for (final File jar : jars) {
                 try {
-                    LOGGER.info("Scanning JAR: {}", jar);
+                    LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
                     urlList.add(jar.toURI().toURL());
                 } catch (final MalformedURLException e) {
-                    LOGGER.warn(e.getMessage());
+                    LOGGER.log(Level.WARNING, e.getMessage());
                 }
             }
 
@@ -90,17 +89,17 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
 
         final List<URL> urlList = new ArrayList<>();
         try {
-            LOGGER.info("Scanning JAR: {}", jar);
+            LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
             urlList.add(jar.toURI().toURL());
             configureClasspathFromUrls(urlList);
         } catch (final MalformedURLException e) {
-            LOGGER.warn(e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 
     public DataSourceClasspathDecorator(final DataSource inner, final Collection<File> extraClasspath) {
         super(inner);
-        this.extraClasspath = new HashSet<File>(extraClasspath);
+        this.extraClasspath = new HashSet<>(extraClasspath);
         initialized = false;
     }
 
@@ -120,10 +119,10 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
                     }
                 } catch (final NoSuchMethodException | SecurityException | IllegalAccessException
                         | IllegalArgumentException | InvocationTargetException e) {
-                    LOGGER.warn(e.getMessage());
+                    LOGGER.log(Level.WARNING, e.getMessage());
                 }
             } else {
-                LOGGER.debug("Missing directory/file: '{}'", file);
+                LOGGER.log(Level.FINER, "Missing directory/file: '{}'", file);
             }
         }
 
@@ -165,7 +164,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
     }
 
     @Override
-    public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         if (!initialized) {
             configureClasspath();
         }

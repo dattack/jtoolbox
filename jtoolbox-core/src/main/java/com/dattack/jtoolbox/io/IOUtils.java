@@ -18,9 +18,6 @@ package com.dattack.jtoolbox.io;
 import java.io.Closeable;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A collection of useful method to simplify the I/O operations.
  *
@@ -29,25 +26,24 @@ import org.slf4j.LoggerFactory;
  */
 public final class IOUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
-
-    private IOUtils() {
-        // utility class
-    }
-
     /**
      * Closes a {@link Closeable} unconditionally.
      *
      * @param obj
      *            the object to close, may be null
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public static void closeQuietly(final Closeable obj) {
         if (obj != null) {
             try {
                 obj.close();
-            } catch (final IOException e) {
-                LOGGER.warn(e.getMessage());
+            } catch (@SuppressWarnings("unused") final IOException e) {
+                // ignore
             }
         }
+    }
+
+    private IOUtils() {
+        // utility class
     }
 }

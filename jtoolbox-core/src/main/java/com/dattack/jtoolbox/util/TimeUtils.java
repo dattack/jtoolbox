@@ -22,9 +22,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A suite of utilities surrounding the use of the {@link java.util.Calendar} and {@link java.util.Date} object.
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class TimeUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(TimeUtils.class.getName());
 
     private static final long MILLIS_PER_SECOND = 1000;
     private static final long MILLIS_PER_MINUTE = 60 * MILLIS_PER_SECOND;
@@ -93,7 +92,7 @@ public final class TimeUtils {
                     parser.applyPattern(pattern);
                     return parser.parse(txt);
                 } catch (final ParseException e) {
-                    LOGGER.trace(e.getMessage());
+                    LOGGER.log(Level.FINE, e.getMessage());
                 }
             }
         }
