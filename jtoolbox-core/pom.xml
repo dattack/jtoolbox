@@ -10,21 +10,4 @@
     <packaging>jar</packaging>
     <name>jtoolbox-core</name>
     <description>Utility classes that only depends on JDK</description>
-    <dependencies>
-        <!-- For test only -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
--->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-        </dependency>
-    </dependencies>
 </project>

@@ -19,9 +19,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 /**
  * A collection of useful method to simplify working with JDBC.
@@ -31,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class JDBCUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JDBCUtils.class);
+    private static final Logger LOGGER = Logger.getLogger(JDBCUtils.class.getName());
 
     private JDBCUtils() {
         // utility class
@@ -48,7 +46,7 @@ public final class JDBCUtils {
             try {
                 resultSet.close();
             } catch (final SQLException e) {
-                LOGGER.warn(e.getMessage());
+                LOGGER.finest(e.getMessage());
             }
         }
     }
@@ -64,7 +62,7 @@ public final class JDBCUtils {
             try {
                 stmt.close();
             } catch (final SQLException e) {
-                LOGGER.warn(e.getMessage());
+                LOGGER.finest(e.getMessage());
             }
         }
     }
@@ -80,7 +78,7 @@ public final class JDBCUtils {
             try {
                 connection.close();
             } catch (final SQLException e) {
-                LOGGER.warn(e.getMessage());
+                LOGGER.finest(e.getMessage());
             }
         }
     }
