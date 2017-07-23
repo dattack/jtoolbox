@@ -29,16 +29,13 @@ public final class IOUtils {
 
     private static final Logger LOGGER = Logger.getLogger(IOUtils.class.getName());
 
-    private IOUtils() {
-        // utility class
-    }
-
     /**
      * Closes a {@link Closeable} unconditionally.
      *
      * @param obj
      *            the object to close, may be null
      */
+    @SuppressWarnings("PMD.EmptyCatchBlock")
     public static void closeQuietly(final Closeable obj) {
         if (obj != null) {
             try {
@@ -47,5 +44,9 @@ public final class IOUtils {
                 LOGGER.finest(e.getMessage());
             }
         }
+    }
+
+    private IOUtils() {
+        // utility class
     }
 }

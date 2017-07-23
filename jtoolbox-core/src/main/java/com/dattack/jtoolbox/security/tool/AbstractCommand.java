@@ -30,17 +30,17 @@ abstract class AbstractCommand {
         return new AnsiConsole().stringReader().setPrompt(prompt).setDefaultValue(defaultValue).read();
     }
 
-    static String getPrivateKeyPath(final String defaultValue) {
+    protected static String getPrivateKeyPath(final String defaultValue) {
         return getKeyPath(defaultValue, String.format("> Private key filename (default: %s): ", defaultValue));
     }
 
-    static String getPublicKeyPath(final String defaultValue) {
+    protected static String getPublicKeyPath(final String defaultValue) {
         return getKeyPath(defaultValue, String.format("> Public key filename (default: %s): ", defaultValue));
     }
 
-    abstract void execute();
+    protected abstract void execute();
 
-    abstract String getDescription();
+    protected abstract String getDescription();
 
-    abstract String getName();
+    protected abstract String getName();
 }

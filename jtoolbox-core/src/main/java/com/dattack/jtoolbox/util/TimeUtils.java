@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -91,7 +92,7 @@ public final class TimeUtils {
                     parser.applyPattern(pattern);
                     return parser.parse(txt);
                 } catch (final ParseException e) {
-                    LOGGER.fine(e.getMessage());
+                    LOGGER.log(Level.FINE, e.getMessage());
                 }
             }
         }
@@ -197,7 +198,7 @@ public final class TimeUtils {
         if (text != null) {
             try {
                 result = Long.valueOf(text);
-            } catch (final NumberFormatException e) {
+            } catch (@SuppressWarnings("unused") final NumberFormatException e) {
                 result = parseTimeSpanExpression(text);
             }
         }

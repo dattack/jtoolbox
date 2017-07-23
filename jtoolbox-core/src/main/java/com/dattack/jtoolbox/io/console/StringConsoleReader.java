@@ -45,9 +45,9 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
 
             if (regex != null && !regex.trim().isEmpty() && !Pattern.compile(regex).matcher(result).matches()) {
                 getConsole().error("The input not matches the regular expression: %s", regex);
-                continue;
+            } else {
+                return result;
             }
-            return result;
         }
     }
 
@@ -58,11 +58,6 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
         }
     }
 
-    public StringConsoleReader regex(final String value) {
-        this.regex = value;
-        return this;
-    }
-
     public StringConsoleReader setDefaultValue(final String value) {
         this.defaultValue = value;
         return this;
@@ -70,6 +65,11 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
 
     public StringConsoleReader setPrompt(final String value) {
         this.prompt = value;
+        return this;
+    }
+
+    public StringConsoleReader setRegex(final String value) {
+        this.regex = value;
         return this;
     }
 

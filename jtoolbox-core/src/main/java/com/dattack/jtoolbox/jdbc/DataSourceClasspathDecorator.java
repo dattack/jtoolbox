@@ -76,7 +76,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
                     LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
                     urlList.add(jar.toURI().toURL());
                 } catch (final MalformedURLException e) {
-                    LOGGER.fine(e.getMessage());
+                    LOGGER.log(Level.WARNING, e.getMessage());
                 }
             }
 
@@ -89,17 +89,17 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
 
         final List<URL> urlList = new ArrayList<>();
         try {
-            LOGGER.log(Level.CONFIG, "Scanning JAR: {}", jar);
+            LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
             urlList.add(jar.toURI().toURL());
             configureClasspathFromUrls(urlList);
         } catch (final MalformedURLException e) {
-            LOGGER.warning(e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage());
         }
     }
 
     public DataSourceClasspathDecorator(final DataSource inner, final Collection<File> extraClasspath) {
         super(inner);
-        this.extraClasspath = new HashSet<File>(extraClasspath);
+        this.extraClasspath = new HashSet<>(extraClasspath);
         initialized = false;
     }
 
@@ -119,10 +119,10 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
                     }
                 } catch (final NoSuchMethodException | SecurityException | IllegalAccessException
                         | IllegalArgumentException | InvocationTargetException e) {
-                    LOGGER.warning(e.getMessage());
+                    LOGGER.log(Level.WARNING, e.getMessage());
                 }
             } else {
-                LOGGER.log(Level.CONFIG, "Missing directory/file: '{}'", file);
+                LOGGER.log(Level.FINER, "Missing directory/file: '{}'", file);
             }
         }
 
@@ -164,7 +164,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
     }
 
     @Override
-    public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
         if (!initialized) {
             configureClasspath();
         }

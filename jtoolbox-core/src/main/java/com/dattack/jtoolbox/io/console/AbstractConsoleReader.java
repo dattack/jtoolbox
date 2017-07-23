@@ -26,10 +26,12 @@ public abstract class AbstractConsoleReader<T> {
     /**
      * Prints a String. If the argument is null, then prints none.
      *
+     * @param style
+     *            the ANSI style to use
      * @param text
      *            the <code>String</code> to be printed
      */
-    static void print(final AnsiStyle style, final String text) {
+    protected static void print(final AnsiStyle style, final String text) {
         if (text != null) {
             AnsiConsole.printAndReset(style, text);
         }
@@ -39,10 +41,12 @@ public abstract class AbstractConsoleReader<T> {
      * Prints a String and then terminate the line. This method behaves as though it invokes print(String) and then
      * println().
      *
+     * @param style
+     *            the ANSI style to use
      * @param text
      *            the <code>String</code> to be printed
      */
-    static void println(final AnsiStyle style, final String text) {
+    protected static void println(final AnsiStyle style, final String text) {
         if (text != null) {
             AnsiConsole.printlnAndReset(style, text);
         }
@@ -57,9 +61,9 @@ public abstract class AbstractConsoleReader<T> {
      *
      * @return the ansiConsole
      */
-    AnsiConsole getConsole() {
+    protected AnsiConsole getConsole() {
         return console;
     }
 
-    abstract T read();
+    protected abstract T read();
 }

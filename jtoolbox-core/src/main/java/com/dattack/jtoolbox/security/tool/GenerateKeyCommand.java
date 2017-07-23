@@ -70,18 +70,18 @@ class GenerateKeyCommand extends AbstractCommand {
             ansiConsole.info("[INFO] Private key file: %s", privateKeyPath);
             ansiConsole.info("[INFO] Public key file: %s", publicKeyPath);
 
-        } catch (final DattackSecurityException | IOException | RuntimeException e) {
+        } catch (final DattackSecurityException | IOException e) {
             ansiConsole.error(e.getMessage());
         }
     }
 
     @Override
-    public String getDescription() {
+    protected String getDescription() {
         return "Generate a new key pair";
     }
 
     @Override
-    public String getName() {
+    protected String getName() {
         return "generatekeys";
     }
 }

@@ -24,18 +24,20 @@ import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
  * @author cvarela
  * @since 0.2
  */
-public class SecurityTool {
+public final class SecurityTool {
 
-    private static final AnsiConsole ansiConsole = new AnsiConsole();
+    private static final AnsiConsole CONSOLE = new AnsiConsole();
+
+    private static boolean exit;
 
     private static final AbstractCommand[] COMMANDS = { //
-        new GenerateKeyCommand(ansiConsole), //
-        new EncryptCommand(ansiConsole), //
-        new DecryptCommand(ansiConsole), //
+        new GenerateKeyCommand(CONSOLE), //
+        new EncryptCommand(CONSOLE), //
+        new DecryptCommand(CONSOLE), //
         new AbstractCommand() {
 
             @Override
-            void execute() {
+            protected void execute() {
                 System.out.println("\n  Available commands:\n");
                 for (final AbstractCommand command : COMMANDS) {
                     System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(), command.getDescription());
@@ -44,34 +46,38 @@ public class SecurityTool {
             }
 
             @Override
-            String getDescription() {
+            protected String getDescription() {
                 return "Print this help message";
             }
 
             @Override
-            String getName() {
+            protected String getName() {
                 return "Help";
             }
         }, //
         new AbstractCommand() {
 
             @Override
-            void execute() {
+            protected void execute() {
                 System.out.println("\n  Have a nice day!\n");
-                System.exit(0);
+                exit = true;
             }
 
             @Override
-            String getDescription() {
+            protected String getDescription() {
                 return "Exit the application";
             }
 
             @Override
-            String getName() {
+            protected String getName() {
                 return "Exit";
             }
         }, //
     };
+
+    static {
+        exit = false;
+    }
 
     /**
      * Main method.
@@ -79,6 +85,7 @@ public class SecurityTool {
      * @param args
      *            execution arguments
      */
+    @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static void main(final String[] args) {
 
         final AnsiStyle boldStyle = new AnsiStyle().add(EscapeCode.INTENSITY_BOLD_ON);
@@ -87,11 +94,11 @@ public class SecurityTool {
 
         final AnsiStyle greenStyle = new AnsiStyle().foreground(Color.GREEN);
 
-        while (true) {
+        while (!exit) {
 
             try {
 
-                final String commandName = ansiConsole.stringReader() //
+                final String commandName = CONSOLE.stringReader() //
                         .setPrompt("[SecurityTool]$ ") //
                         .setStyle(greenStyle) //
                         .read();
@@ -109,11 +116,15 @@ public class SecurityTool {
                 }
 
                 if (unknownCommand) {
-                    ansiConsole.error("%s: command not found", commandName);
+                    CONSOLE.error("%s: command not found", commandName);
                 }
             } catch (final RuntimeException e) {
-                ansiConsole.error(e.getMessage());
+                CONSOLE.error(e.getMessage());
             }
         }
+    }
+
+    private SecurityTool() {
+        // Main class
     }
 }

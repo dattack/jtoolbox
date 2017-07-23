@@ -42,11 +42,12 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
             if (result == null || result.trim().isEmpty()) {
                 if (mandatory) {
                     getConsole().error("Enter a valid text");
-                    continue;
+                } else {
+                    return new byte[0];
                 }
-                return new byte[0];
+            } else {
+                return result.getBytes();
             }
-            return result.getBytes();
         }
     }
 

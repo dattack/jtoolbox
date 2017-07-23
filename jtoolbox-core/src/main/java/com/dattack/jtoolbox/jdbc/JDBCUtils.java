@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -31,8 +32,20 @@ public final class JDBCUtils {
 
     private static final Logger LOGGER = Logger.getLogger(JDBCUtils.class.getName());
 
-    private JDBCUtils() {
-        // utility class
+    /**
+     * Close a <code>Connection</code> ignoring <code>null</code> values and exceptions.
+     *
+     * @param connection
+     *            the Connection to close, may be null.
+     */
+    public static void closeQuietly(final Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (final SQLException e) {
+                LOGGER.log(Level.WARNING, e.getMessage());
+            }
+        }
     }
 
     /**
@@ -46,7 +59,7 @@ public final class JDBCUtils {
             try {
                 resultSet.close();
             } catch (final SQLException e) {
-                LOGGER.finest(e.getMessage());
+                LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
     }
@@ -62,24 +75,12 @@ public final class JDBCUtils {
             try {
                 stmt.close();
             } catch (final SQLException e) {
-                LOGGER.finest(e.getMessage());
+                LOGGER.log(Level.WARNING, e.getMessage());
             }
         }
     }
 
-    /**
-     * Close a <code>Connection</code> ignoring <code>null</code> values and exceptions.
-     *
-     * @param connection
-     *            the Connection to close, may be null.
-     */
-    public static void closeQuietly(final Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (final SQLException e) {
-                LOGGER.finest(e.getMessage());
-            }
-        }
+    private JDBCUtils() {
+        // utility class
     }
 }

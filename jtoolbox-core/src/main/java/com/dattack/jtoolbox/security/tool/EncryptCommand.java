@@ -58,18 +58,18 @@ final class EncryptCommand extends AbstractCommand {
 
             ansiConsole.info("[INFO] Encrypted data: %s", new String(encryptedSecret));
 
-        } catch (final DattackSecurityException | RuntimeException e) {
+        } catch (final DattackSecurityException e) {
             ansiConsole.error(e.getMessage());
         }
     }
 
     @Override
-    public String getDescription() {
+    protected String getDescription() {
         return "Encrypt a plain text";
     }
 
     @Override
-    public String getName() {
+    protected String getName() {
         return "encrypt";
     }
 }
