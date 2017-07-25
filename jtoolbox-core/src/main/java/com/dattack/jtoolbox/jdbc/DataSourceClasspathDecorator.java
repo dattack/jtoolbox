@@ -73,7 +73,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
             final List<URL> urlList = new ArrayList<>(jars.length);
             for (final File jar : jars) {
                 try {
-                    LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
+                    LOGGER.log(Level.INFO, "Scanning JAR: {0}", jar);
                     urlList.add(jar.toURI().toURL());
                 } catch (final MalformedURLException e) {
                     LOGGER.log(Level.WARNING, e.getMessage());
@@ -89,7 +89,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
 
         final List<URL> urlList = new ArrayList<>();
         try {
-            LOGGER.log(Level.INFO, "Scanning JAR: {}", jar);
+            LOGGER.log(Level.INFO, "Scanning JAR: {0}", jar);
             urlList.add(jar.toURI().toURL());
             configureClasspathFromUrls(urlList);
         } catch (final MalformedURLException e) {
@@ -122,7 +122,7 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
                     LOGGER.log(Level.WARNING, e.getMessage());
                 }
             } else {
-                LOGGER.log(Level.FINER, "Missing directory/file: '{}'", file);
+                LOGGER.log(Level.FINER, "Missing directory/file: ''{0}''", file);
             }
         }
 

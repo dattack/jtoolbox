@@ -43,7 +43,7 @@ public final class JDBCUtils {
             try {
                 connection.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, e.getMessage());
+                LOGGER.log(Level.WARNING, "Unable to close the Connection object", e.getMessage());
             }
         }
     }
@@ -59,7 +59,7 @@ public final class JDBCUtils {
             try {
                 resultSet.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, e.getMessage());
+                LOGGER.log(Level.WARNING, "Unable to close the ResultSet object", e.getMessage());
             }
         }
     }
@@ -75,7 +75,7 @@ public final class JDBCUtils {
             try {
                 stmt.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, e.getMessage());
+                LOGGER.log(Level.WARNING, "Unable to close the Statement object", e.getMessage());
             }
         }
     }
