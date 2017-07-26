@@ -46,6 +46,10 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
         private final StringBuffer compiledSql;
         private final Map<String, List<Integer>> parameterName2IndexMap;
 
+        private static String normalizeParameterName(final String parameterName) {
+            return parameterName.toLowerCase();
+        }
+
         ParseResult(final int length) {
             this.parameterIndex = 1;
             this.compiledSql = new StringBuffer(length);
@@ -53,10 +57,12 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
         }
 
         void addParameter(final String parameterName) {
-            List<Integer> list = parameterName2IndexMap.get(parameterName);
+
+            final String normalizedName = normalizeParameterName(parameterName);
+            List<Integer> list = parameterName2IndexMap.get(normalizedName);
             if (list == null) {
                 list = new ArrayList<>();
-                parameterName2IndexMap.put(parameterName, list);
+                parameterName2IndexMap.put(normalizedName, list);
             }
             list.add(parameterIndex++);
         }
@@ -69,18 +75,19 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
             return compiledSql.toString();
         }
 
-        Collection<Integer> getParameterIndexes(final String parameter) {
+        Collection<Integer> getParameterIndexes(final String parameterName) {
 
-            final List<Integer> indexes = parameterName2IndexMap.get(parameter);
+            final String normalizedName = normalizeParameterName(parameterName);
+            final List<Integer> indexes = parameterName2IndexMap.get(normalizedName);
 
             if (indexes.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Parameter not found: '%s'", parameter));
+                throw new IllegalArgumentException(String.format("Parameter not found: '%s'", normalizedName));
             }
             return indexes;
         }
 
-        boolean hasNamedParameter(final String parameter) {
-            return parameterName2IndexMap.keySet().contains(parameter);
+        boolean hasNamedParameter(final String parameterName) {
+            return parameterName2IndexMap.keySet().contains(normalizeParameterName(parameterName));
         }
 
         boolean hasNamedParameters() {
