@@ -13,12 +13,14 @@
 package com.dattack.jtoolbox.io;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -141,7 +143,7 @@ public final class FilesystemUtils {
             parentFile.mkdirs();
         }
 
-        try (FileOutputStream fos = new FileOutputStream(file)) {
+        try (OutputStream fos = Files.newOutputStream(Paths.get(path))) {
             fos.write(data);
             fos.flush();
             fos.close();
