@@ -44,6 +44,7 @@ Thumbs.db
 .classpath
 .eclipse-pmd
 .externalToolBuilders
+.idea
 .pmd
 .project
 .ruleset
