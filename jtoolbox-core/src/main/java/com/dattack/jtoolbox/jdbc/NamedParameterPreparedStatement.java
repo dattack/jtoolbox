@@ -17,12 +17,7 @@ package com.dattack.jtoolbox.jdbc;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -87,7 +82,7 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
         }
 
         boolean hasNamedParameter(final String parameterName) {
-            return parameterName2IndexMap.keySet().contains(normalizeParameterName(parameterName));
+            return parameterName2IndexMap.containsKey(normalizeParameterName(parameterName));
         }
 
         boolean hasNamedParameters() {
@@ -249,7 +244,7 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
      *            Query containing named parameters
      * @return ParseResult
      */
-    public static ParseResult parse(final String query) {
+    private static ParseResult parse(final String query) {
 
         final int length = query.length();
         boolean inSingleQuote = false;
@@ -372,6 +367,23 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
     }
 
     /**
+     * {@link #setBlob(int, Blob)}.
+     *
+     * @param name
+     *            the parameter name
+     * @param value
+     *            the parameter value
+     * @throws SQLException
+     *             if parameterName does not correspond to a parameter marker in the SQL statement; if a database access
+     *             error occurs or this method is called on a closed PreparedStatement
+     */
+    public void setBlob(final String name, final Blob value) throws SQLException {
+        for (final Integer i : parseResult.getParameterIndexes(name)) {
+            getDelegate().setBlob(i, value);
+        }
+    }
+
+    /**
      * {@link #setBoolean(int, boolean)}.
      *
      * @param name
@@ -419,6 +431,23 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
     public void setBytes(final String name, final byte[] value) throws SQLException {
         for (final Integer i : parseResult.getParameterIndexes(name)) {
             getDelegate().setBytes(i, value);
+        }
+    }
+
+    /**
+     * {@link #setClob(int, Clob)}.
+     *
+     * @param name
+     *            the parameter name
+     * @param value
+     *            the parameter value
+     * @throws SQLException
+     *             if parameterName does not correspond to a parameter marker in the SQL statement; if a database access
+     *             error occurs or this method is called on a closed PreparedStatement
+     */
+    public void setClob(final String name, final Clob value) throws SQLException {
+        for (final Integer i : parseResult.getParameterIndexes(name)) {
+            getDelegate().setClob(i, value);
         }
     }
 
@@ -671,6 +700,23 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
     public void setUnicodeStream(final String name, final InputStream value, final int length) throws SQLException {
         for (final Integer i : parseResult.getParameterIndexes(name)) {
             getDelegate().setUnicodeStream(i, value, length);
+        }
+    }
+
+    /**
+     * {@link #setSQLXML(int, SQLXML)}.
+     *
+     * @param name
+     *            the parameter name
+     * @param value
+     *            the parameter value
+     * @throws SQLException
+     *             if parameterName does not correspond to a parameter marker in the SQL statement; if a database access
+     *             error occurs or this method is called on a closed PreparedStatement
+     */
+    public void setSQLXML(final String name, SQLXML value) throws SQLException {
+        for (final Integer i : parseResult.getParameterIndexes(name)) {
+            getDelegate().setSQLXML(i, value);
         }
     }
 }
