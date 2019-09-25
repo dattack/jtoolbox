@@ -65,7 +65,7 @@
     </distributionManagement>
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <commons-email.version>1.4</commons-email.version>
+        <commons-email.version>1.5</commons-email.version>
         <junit.version>4.12</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
