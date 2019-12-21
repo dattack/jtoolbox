@@ -38,7 +38,7 @@ public final class FilesystemUtils {
      * filenames that contains that extension.
      *
      * @param extension
-     *            the extension to filter. If the extension is <tt>null</tt> then the filter do nothing.
+     *            the extension to filter. If the extension is <code>null</code> then the filter do nothing.
      * @return the filename filter instance
      */
     public static FilenameFilter createFilenameFilterByExtension(final String extension) {
