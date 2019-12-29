@@ -31,8 +31,8 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     private String regex;
     private AnsiStyle style;
 
-    StringConsoleReader(final AnsiConsole ansiConsole) {
-        super(ansiConsole);
+    StringConsoleReader(final Console console) {
+        super(console);
     }
 
     @Override

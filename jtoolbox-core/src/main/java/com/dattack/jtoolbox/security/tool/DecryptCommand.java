@@ -18,6 +18,7 @@ package com.dattack.jtoolbox.security.tool;
 import java.security.PrivateKey;
 
 import com.dattack.jtoolbox.io.console.AnsiConsole;
+import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
 
@@ -27,10 +28,8 @@ import com.dattack.jtoolbox.security.RsaUtils;
  */
 final class DecryptCommand extends AbstractCommand {
 
-    private final AnsiConsole ansiConsole;
-
-    public DecryptCommand(final AnsiConsole ansiConsole) {
-        this.ansiConsole = ansiConsole;
+    public DecryptCommand(final Console console) {
+        super(console);
     }
 
     @Override
@@ -39,24 +38,24 @@ final class DecryptCommand extends AbstractCommand {
         try {
             final String privateKeyPath = getPrivateKeyPath(DEFAULT_PRIVATE_KEY_FILENAME);
 
-            ansiConsole.info("[INFO] Loading private key: %s", privateKeyPath);
+            getConsole().info("[INFO] Loading private key: %s", privateKeyPath);
             final PrivateKey key = RsaUtils.loadPrivateKey(privateKeyPath);
 
-            final String encryptedData = ansiConsole.stringReader().setPrompt("> Encrypted data: ").read().trim();
+            final String encryptedData = getConsole().stringReader().setPrompt("> Encrypted data: ").read().trim();
 
-            ansiConsole.info("[INFO] Running decrypt process ...");
+            getConsole().info("[INFO] Running decrypt process ...");
             final byte[] plainMessage = RsaUtils.decryptBase64(encryptedData.getBytes(), key);
 
-            ansiConsole.info("[INFO] Secret message: %s", new String(plainMessage));
+            getConsole().info("[INFO] Secret message: %s", new String(plainMessage));
 
         } catch (final DattackSecurityException e) {
-            ansiConsole.error(e.getMessage());
+            getConsole().error(e.getMessage());
         }
     }
 
     @Override
     protected String getDescription() {
-        return "Decrypt an encripted text";
+        return "Decrypt an encrypted text";
     }
 
     @Override

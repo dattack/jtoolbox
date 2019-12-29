@@ -31,8 +31,8 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
     private Integer maxValue;
     private AnsiStyle style;
 
-    IntConsoleReader(final AnsiConsole ansiConsole) {
-        super(ansiConsole);
+    IntConsoleReader(final Console console) {
+        super(console);
     }
 
     /**

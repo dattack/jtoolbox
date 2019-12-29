@@ -16,6 +16,7 @@
 package com.dattack.jtoolbox.security.tool;
 
 import com.dattack.jtoolbox.io.console.AnsiConsole;
+import com.dattack.jtoolbox.io.console.Console;
 
 /**
  * @author cvarela
@@ -26,15 +27,25 @@ abstract class AbstractCommand {
     protected static final String DEFAULT_PRIVATE_KEY_FILENAME = "dattack_rsa";
     protected static final String DEFAULT_PUBLIC_KEY_FILENAME = "dattack_rsa.pub";
 
-    private static String getKeyPath(final String defaultValue, final String prompt) {
-        return new AnsiConsole().stringReader().setPrompt(prompt).setDefaultValue(defaultValue).read();
+    private Console console;
+
+    protected AbstractCommand(Console console) {
+        this.console = console;
     }
 
-    protected static String getPrivateKeyPath(final String defaultValue) {
+    protected Console getConsole() {
+        return console;
+    }
+
+    private String getKeyPath(final String defaultValue, final String prompt) {
+        return getConsole().stringReader().setPrompt(prompt).setDefaultValue(defaultValue).read();
+    }
+
+    protected String getPrivateKeyPath(final String defaultValue) {
         return getKeyPath(defaultValue, String.format("> Private key filename (default: %s): ", defaultValue));
     }
 
-    protected static String getPublicKeyPath(final String defaultValue) {
+    protected String getPublicKeyPath(final String defaultValue) {
         return getKeyPath(defaultValue, String.format("> Public key filename (default: %s): ", defaultValue));
     }
 

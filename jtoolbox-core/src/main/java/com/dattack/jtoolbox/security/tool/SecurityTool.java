@@ -19,6 +19,8 @@ import com.dattack.jtoolbox.io.console.AnsiConsole;
 import com.dattack.jtoolbox.io.console.AnsiStyle;
 import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
 import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
+import com.dattack.jtoolbox.io.console.Console;
+import com.dattack.jtoolbox.io.console.SimpleConsole;
 
 /**
  * @author cvarela
@@ -26,15 +28,15 @@ import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
  */
 public final class SecurityTool {
 
-    private static final AnsiConsole CONSOLE = new AnsiConsole();
+    private static Console console = new SimpleConsole();
 
     private static boolean exit;
 
     private static final AbstractCommand[] COMMANDS = { //
-        new GenerateKeyCommand(CONSOLE), //
-        new EncryptCommand(CONSOLE), //
-        new DecryptCommand(CONSOLE), //
-        new AbstractCommand() {
+        new GenerateKeyCommand(console), //
+        new EncryptCommand(console), //
+        new DecryptCommand(console), //
+        new AbstractCommand(console) {
 
             @Override
             protected void execute() {
@@ -55,7 +57,7 @@ public final class SecurityTool {
                 return "Help";
             }
         }, //
-        new AbstractCommand() {
+        new AbstractCommand(console) {
 
             @Override
             protected void execute() {
@@ -73,7 +75,33 @@ public final class SecurityTool {
                 return "Exit";
             }
         }, //
+        new AbstractCommand(console) {
+
+            @Override
+            protected void execute() {
+                switchConsole();
+            }
+
+            @Override
+            protected String getDescription() {
+                return "Enable/disable ANSI console";
+            }
+
+            @Override
+            protected String getName() {
+                return "ansi";
+            }
+        } //
     };
+
+    private static void switchConsole() {
+
+        if (console instanceof AnsiConsole) {
+            console = new SimpleConsole();
+        } else {
+            console = new AnsiConsole();
+        }
+    }
 
     static {
         exit = false;
@@ -89,7 +117,7 @@ public final class SecurityTool {
     public static void main(final String[] args) {
 
         final AnsiStyle boldStyle = new AnsiStyle().add(EscapeCode.INTENSITY_BOLD_ON);
-        AnsiConsole.println(boldStyle, "Welcome to the Dattack Security Tool");
+        console.println(boldStyle, "Welcome to the Dattack Security Tool");
         System.out.println();
 
         final AnsiStyle greenStyle = new AnsiStyle().foreground(Color.GREEN);
@@ -98,7 +126,7 @@ public final class SecurityTool {
 
             try {
 
-                final String commandName = CONSOLE.stringReader() //
+                final String commandName = console.stringReader() //
                         .setPrompt("[SecurityTool]$ ") //
                         .setStyle(greenStyle) //
                         .read();
@@ -107,21 +135,25 @@ public final class SecurityTool {
                     continue;
                 }
 
-                boolean unknownCommand = true;
-                for (final AbstractCommand command : COMMANDS) {
-                    if (command.getName().equalsIgnoreCase(commandName)) {
-                        unknownCommand = false;
-                        command.execute();
-                    }
-                }
-
-                if (unknownCommand) {
-                    CONSOLE.error("%s: command not found", commandName);
+                AbstractCommand command = lookupCommand(commandName);
+                if (command == null) {
+                    console.error("%s: command not found", commandName);
+                } else {
+                    command.execute();
                 }
             } catch (final RuntimeException e) {
-                CONSOLE.error(e.getMessage());
+                console.error(e.getMessage());
             }
         }
+    }
+
+    private static AbstractCommand lookupCommand(final String commandName) {
+        for (final AbstractCommand command : COMMANDS) {
+            if (command.getName().equalsIgnoreCase(commandName)) {
+                return command;
+            }
+        }
+        return null;
     }
 
     private SecurityTool() {

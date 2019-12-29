@@ -21,6 +21,7 @@ import java.security.KeyPair;
 
 import com.dattack.jtoolbox.io.FilesystemUtils;
 import com.dattack.jtoolbox.io.console.AnsiConsole;
+import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
 
@@ -33,10 +34,8 @@ class GenerateKeyCommand extends AbstractCommand {
     private static final int RSA_MIN_SIZE = 512;
     private static final int DEFAULT_RSA_SIZE = 1024;
 
-    private final AnsiConsole ansiConsole;
-
-    public GenerateKeyCommand(final AnsiConsole ansiConsole) {
-        this.ansiConsole = ansiConsole;
+    public GenerateKeyCommand(final Console console) {
+        super(console);
     }
 
     @Override
@@ -44,7 +43,7 @@ class GenerateKeyCommand extends AbstractCommand {
 
         try {
             // key size
-            final int keySize = ansiConsole.intReader() //
+            final int keySize = getConsole().intReader() //
                     .setPrompt(String.format("> Key size (default %d): ", DEFAULT_RSA_SIZE)) //
                     .setDefaultValue(DEFAULT_RSA_SIZE) //
                     .setMinValue(RSA_MIN_SIZE) //
@@ -61,17 +60,17 @@ class GenerateKeyCommand extends AbstractCommand {
             // public key path
             final String publicKeyPath = getPublicKeyPath(privateKeyPath + ".pub");
 
-            ansiConsole.info("[INFO] Generating RSA key pair ...");
+            getConsole().info("[INFO] Generating RSA key pair ...");
             final KeyPair keyPair = RsaUtils.createKeys(keySize);
 
             FilesystemUtils.writeToFile(privateKeyPath, keyPair.getPrivate().getEncoded());
             FilesystemUtils.writeToFile(publicKeyPath, keyPair.getPublic().getEncoded());
 
-            ansiConsole.info("[INFO] Private key file: %s", privateKeyPath);
-            ansiConsole.info("[INFO] Public key file: %s", publicKeyPath);
+            getConsole().info("[INFO] Private key file: %s", privateKeyPath);
+            getConsole().info("[INFO] Public key file: %s", publicKeyPath);
 
         } catch (final DattackSecurityException | IOException e) {
-            ansiConsole.error(e.getMessage());
+            getConsole().error(e.getMessage());
         }
     }
 
@@ -82,6 +81,6 @@ class GenerateKeyCommand extends AbstractCommand {
 
     @Override
     protected String getName() {
-        return "generatekeys";
+        return "generateKeys";
     }
 }

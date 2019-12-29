@@ -19,6 +19,7 @@ import java.security.PublicKey;
 import java.util.Arrays;
 
 import com.dattack.jtoolbox.io.console.AnsiConsole;
+import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
 
@@ -28,10 +29,8 @@ import com.dattack.jtoolbox.security.RsaUtils;
  */
 final class EncryptCommand extends AbstractCommand {
 
-    private final AnsiConsole ansiConsole;
-
-    public EncryptCommand(final AnsiConsole ansiConsole) {
-        this.ansiConsole = ansiConsole;
+    public EncryptCommand(final Console console) {
+        super(console);
     }
 
     @Override
@@ -40,26 +39,26 @@ final class EncryptCommand extends AbstractCommand {
         try {
             final String publicKeyPath = getPublicKeyPath(DEFAULT_PUBLIC_KEY_FILENAME);
 
-            ansiConsole.info("[INFO] Loading public key: %s", publicKeyPath);
+            getConsole().info("[INFO] Loading public key: %s", publicKeyPath);
             final PublicKey key = RsaUtils.loadPublicKey(publicKeyPath);
 
             byte[] secret = null;
             while (true) {
-                secret = ansiConsole.passwordReader().setPrompt("> Secret message: ").read();
-                final byte[] retypeSecret = ansiConsole.passwordReader().setPrompt("> Retype secret message: ").read();
+                secret = getConsole().passwordReader().setPrompt("> Secret message: ").read();
+                final byte[] retypeSecret = getConsole().passwordReader().setPrompt("> Retype secret message: ").read();
                 if (Arrays.equals(secret, retypeSecret)) {
                     break;
                 }
-                ansiConsole.error("Secret messages don't match");
+                getConsole().error("Secret messages don't match");
             }
 
-            ansiConsole.info("[INFO] Running encrypt process ...");
+            getConsole().info("[INFO] Running encrypt process ...");
             final byte[] encryptedSecret = RsaUtils.encryptBase64(secret, key);
 
-            ansiConsole.info("[INFO] Encrypted data: %s", new String(encryptedSecret));
+            getConsole().info("[INFO] Encrypted data: %s", new String(encryptedSecret));
 
         } catch (final DattackSecurityException e) {
-            ansiConsole.error(e.getMessage());
+            getConsole().error(e.getMessage());
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, The Dattack team (http://www.dattack.com)
+ * Copyright (c) 2019, The Dattack team (http://www.dattack.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,73 +15,39 @@
  */
 package com.dattack.jtoolbox.io.console;
 
-import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
-import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
+import java.lang.annotation.Inherited;
 
 /**
- * <p>
- * A basic implementation of an ANSI console printer. See
- * <a href="https://en.wikipedia.org/wiki/ANSI_escape_code">Wikipedia</a> for information.
- * </p>
- *
- * <p>
+ * A {@link Console} implementation that avoids all ANSI codes.
  * This class is not synchronized.
- * </p>
  *
  * @author cvarela
  * @since 0.2
  */
-public class AnsiConsole implements Console {
-
-    private static final AnsiStyle DEFAULT_ERROR_STYLE = new AnsiStyle().foreground(Color.RED);
-    private static final AnsiStyle DEFAULT_INFO_STYLE = new AnsiStyle().foreground(Color.CYAN);
-    private static final AnsiStyle RESET_STYLE = new AnsiStyle().add(EscapeCode.RESET);
-
-    private final AnsiStyle errorStyle;
-    private final AnsiStyle infoStyle;
-
-    private static void print(final AnsiStyle style) {
-        if (style != null) {
-            System.out.print(style.toAnsiEscapeCodes());
-        }
-    }
+public class SimpleConsole implements Console {
 
     public void print(final AnsiStyle style, final String text, final Object... args) {
-        print(style);
         System.out.format(text, args);
     }
 
     public void printAndReset(final AnsiStyle style, final String text, final Object... args) {
-        print(style);
-        System.out.format(text, args);
-        System.out.print(RESET_STYLE.toAnsiEscapeCodes());
+        print(style, text, args);
     }
 
     public void println(final AnsiStyle style, final String text, final Object... args) {
-        print(style, text, args);
-        System.out.println();
+        print(style, text + "%n", args);
     }
 
     public void printlnAndReset(final AnsiStyle style, final String text, final Object... args) {
-        print(style, text, args);
-        System.out.println(RESET_STYLE.toAnsiEscapeCodes());
-    }
-
-    public AnsiConsole() {
-        this(DEFAULT_ERROR_STYLE, DEFAULT_INFO_STYLE);
-    }
-
-    public AnsiConsole(final AnsiStyle errorStyle, final AnsiStyle infoStyle) {
-        this.errorStyle = errorStyle;
-        this.infoStyle = infoStyle;
+        println(style, text, args);
     }
 
     public void error(final String text, final Object... args) {
-        println(errorStyle, text, args);
+        System.out.format(text + "%n", args);
     }
 
     public void info(final String text, final Object... args) {
-        println(infoStyle, text, args);
+        println(null, text, args);
     }
 
     public IntConsoleReader intReader() {
