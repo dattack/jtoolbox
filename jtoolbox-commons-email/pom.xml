@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.dattack</groupId>
         <artifactId>jtoolbox</artifactId>
-        <version>0.2-SNAPSHOT</version>
+        <version>0.2.1</version>
     </parent>
     <artifactId>jtoolbox-commons-email</artifactId>
     <packaging>jar</packaging>
