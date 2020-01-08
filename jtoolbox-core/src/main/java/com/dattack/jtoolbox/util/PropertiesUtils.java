@@ -18,7 +18,10 @@ package com.dattack.jtoolbox.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * @author cvarela
@@ -42,6 +45,27 @@ public final class PropertiesUtils {
             properties.load(fin);
             return properties;
         }
+    }
+
+    /**
+     * Null-safe utility method that allows converting a <code>Properties</code> object into a
+     * <code>Map&lt;String, String&gt;</code>.
+     *
+     * @param properties the object to be converted
+     * @return a map that will contain the same keys and values that exist in the Properties object.
+     */
+    public static Map<String, String> toMap(Properties properties) {
+
+        if (properties == null) {
+            return new HashMap<>();
+        }
+
+        return properties.entrySet().stream().collect(
+                Collectors.toMap(
+                        e -> e.getKey().toString(),
+                        e -> e.getValue().toString()
+                )
+        );
     }
 
     private PropertiesUtils() {

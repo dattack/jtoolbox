@@ -15,7 +15,6 @@
  */
 package com.dattack.jtoolbox.io.console;
 
-import java.io.Console;
 import java.util.Scanner;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
@@ -30,8 +29,8 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
     private boolean mandatory;
     private AnsiStyle style;
 
-    PasswordConsoleReader(final AnsiConsole ansiConsole) {
-        super(ansiConsole);
+    PasswordConsoleReader(final Console console) {
+        super(console);
         this.mandatory = true;
     }
 
@@ -53,10 +52,10 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
 
     private String readString() {
 
-        final Console console = System.console();
+        final java.io.Console ioConsole = System.console();
 
-        if (console != null) {
-            return new String(console.readPassword(prompt));
+        if (ioConsole != null) {
+            return new String(ioConsole.readPassword(prompt));
         }
 
         // no console available (IDE)

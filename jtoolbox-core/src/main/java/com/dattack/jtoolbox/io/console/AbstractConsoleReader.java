@@ -21,7 +21,7 @@ package com.dattack.jtoolbox.io.console;
  */
 public abstract class AbstractConsoleReader<T> {
 
-    private final AnsiConsole console;
+    private final Console console;
 
     /**
      * Prints a String. If the argument is null, then prints none.
@@ -31,9 +31,9 @@ public abstract class AbstractConsoleReader<T> {
      * @param text
      *            the <code>String</code> to be printed
      */
-    protected static void print(final AnsiStyle style, final String text) {
+    protected void print(final AnsiStyle style, final String text) {
         if (text != null) {
-            AnsiConsole.printAndReset(style, text);
+            console.printAndReset(style, text);
         }
     }
 
@@ -46,14 +46,14 @@ public abstract class AbstractConsoleReader<T> {
      * @param text
      *            the <code>String</code> to be printed
      */
-    protected static void println(final AnsiStyle style, final String text) {
+    protected void println(final AnsiStyle style, final String text) {
         if (text != null) {
-            AnsiConsole.printlnAndReset(style, text);
+            console.printlnAndReset(style, text);
         }
     }
 
-    AbstractConsoleReader(final AnsiConsole ansiConsole) {
-        this.console = ansiConsole;
+    AbstractConsoleReader(final Console console) {
+        this.console = console;
     }
 
     /**
@@ -61,7 +61,7 @@ public abstract class AbstractConsoleReader<T> {
      *
      * @return the ansiConsole
      */
-    protected AnsiConsole getConsole() {
+    protected Console getConsole() {
         return console;
     }
 

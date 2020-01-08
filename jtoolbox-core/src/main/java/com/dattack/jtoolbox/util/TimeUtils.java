@@ -154,35 +154,16 @@ public final class TimeUtils {
      * defined:
      * </p>
      *
-     * <table summary="">
-     * <thead>
-     * <tr>
-     * <td>Letter</td>
-     * <td>Time unit</td>
-     * </tr>
-     * </thead> <tbody>
-     * <tr>
-     * <td>w or W</td>
-     * <td>Week</td>
-     * </tr>
-     * <tr>
-     * <td>d or D</td>
-     * <td>Day</td>
-     * </tr>
-     * <tr>
-     * <td>h or H</td>
-     * <td>Hour</td>
-     * </tr>
-     * <tr>
-     * <td>m or M</td>
-     * <td>Minute</td>
-     * </tr>
-     * <tr>
-     * <td>s or S</td>
-     * <td>Second</td>
-     * </tr>
-     * </tbody>
-     * </table>
+     * <pre>
+     * | Letter | Time unit |
+     * |--------|-----------|
+     * | w or W | Week      |
+     * | d or D | Day       |
+     * | h or H | Hour      |
+     * | m or M | Minute    |
+     * | s or S | Second    |
+     * </pre>
+     *
      *
      * <p>
      * Example: <code>2h30m = 2 hours + 30 minutes = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 = 9.000.000 milliseconds</code>
