@@ -50,7 +50,7 @@
         <url>http://github.com/dattack/jtoolbox</url>
     </scm>
     <issueManagement>
-        <system>GitHub Issue Management</system>
+        <system>GitHub</system>
         <url>https://github.com/dattack/jtoolbox/issues</url>
     </issueManagement>
     <ciManagement>
