@@ -15,11 +15,12 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
 import java.util.Scanner;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * An integer reader from Console.
+ *
  * @author cvarela
  * @since 0.1
  */

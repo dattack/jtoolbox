@@ -51,6 +51,13 @@ public class AnsiConsole implements Console {
         System.out.format(text, args);
     }
 
+    /**
+     * Prints a formatted string to this output stream using the specified ANSI style, format string and arguments.
+     *
+     * @param style the ANSI style
+     * @param text  a format string
+     * @param args  arguments referenced by the format specifiers in the format string
+     */
     public void printAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style);
         System.out.format(text, args);

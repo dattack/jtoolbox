@@ -15,16 +15,16 @@
  */
 package com.dattack.jtoolbox.commons.email;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.mail.internet.InternetAddress;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
+import java.util.ArrayList;
+import java.util.List;
+import javax.mail.internet.InternetAddress;
 
 /**
+ * A fluent builder for {@code HtmlEmail} class.
+ *
  * @author cvarela
  * @since 0.1
  */
@@ -44,12 +44,17 @@ public class HtmlEmailBuilder {
     private final List<InternetAddress> bccList;
 
     private static String trim(final String value) {
-        if (value == null) {
-            return value;
+
+        String text = value;
+        if (text != null) {
+            text = text.trim();
         }
-        return value.trim();
+        return text;
     }
 
+    /**
+     * Default constructor.
+     */
     public HtmlEmailBuilder() {
         toList = new ArrayList<>();
         ccList = new ArrayList<>();
@@ -144,7 +149,7 @@ public class HtmlEmailBuilder {
 
     public HtmlEmailBuilder withPort(final Integer value) {
         if (value != null) {
-            this.port = value.intValue();
+            this.port = value;
         }
         return this;
     }

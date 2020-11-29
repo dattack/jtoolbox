@@ -24,6 +24,8 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
+ * Useful methods related to the Properties class.
+ *
  * @author cvarela
  * @since 0.1
  */

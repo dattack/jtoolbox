@@ -19,10 +19,11 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
 
 /**
+ * Core implementation of the final datasources defined in this package.
+ *
  * @author cvarela
  * @since 0.1
  */

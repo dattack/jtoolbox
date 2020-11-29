@@ -15,12 +15,13 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * A String reader from console.
+ *
  * @author cvarela
  * @since 0.1
  */

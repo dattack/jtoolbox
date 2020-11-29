@@ -18,6 +18,8 @@ package com.dattack.jtoolbox.security;
 import com.dattack.jtoolbox.exceptions.DattackNestableException;
 
 /**
+ * A marker exception launched when there is a problem related to security management.
+ *
  * @author cvarela
  * @since 0.2
  */

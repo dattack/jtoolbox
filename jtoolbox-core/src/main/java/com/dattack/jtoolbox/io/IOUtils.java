@@ -25,6 +25,7 @@ import java.util.logging.Logger;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class IOUtils {
 
     private static final Logger LOGGER = Logger.getLogger(IOUtils.class.getName());

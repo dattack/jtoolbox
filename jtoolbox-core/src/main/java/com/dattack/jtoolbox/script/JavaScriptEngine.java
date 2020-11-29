@@ -18,7 +18,6 @@ package com.dattack.jtoolbox.script;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;

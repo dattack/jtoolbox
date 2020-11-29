@@ -15,11 +15,12 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
 import java.util.Scanner;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * A password reader that does not display the characters entered in the console.
+ *
  * @author cvarela
  * @since 0.1
  */

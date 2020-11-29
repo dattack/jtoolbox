@@ -15,14 +15,14 @@
  */
 package com.dattack.jtoolbox.security.tool;
 
-import java.security.PrivateKey;
-
-import com.dattack.jtoolbox.io.console.AnsiConsole;
 import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
+import java.security.PrivateKey;
 
 /**
+ * A command that decrypts an encrypted message using the key provided.
+ *
  * @author cvarela
  * @since 0.2
  */

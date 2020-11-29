@@ -16,7 +16,6 @@
 package com.dattack.jtoolbox.jdbc;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,10 +32,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
 
 /**
+ * A {@link DataSource} decorator that allows the necessary drivers to be loaded dynamically from a list of local
+ * paths that do not necessarily have to be part of the application's classpath.
+ *
  * @author cvarela
  * @since 0.1
  */
@@ -51,23 +52,19 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
         final Class<?> urlClass = URLClassLoader.class;
-        final Method method = urlClass.getDeclaredMethod("addURL", new Class[] { URL.class });
+        final Method method = urlClass.getDeclaredMethod("addURL", URL.class);
         method.setAccessible(true);
 
         for (final URL u : urlList) {
-            method.invoke(ClassLoader.getSystemClassLoader(), new Object[] { u });
+            method.invoke(ClassLoader.getSystemClassLoader(), u);
         }
     }
 
     private static void configureDirectoryClasspath(final File directory) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
-        final File[] jars = directory.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(final File pathname) {
-                return pathname.isFile() && pathname.getAbsolutePath().endsWith(".jar");
-            }
-        });
+        final File[] jars = directory.listFiles(pathname -> pathname.isFile() && pathname.getAbsolutePath().endsWith(
+                ".jar"));
 
         if (jars != null) {
             final List<URL> urlList = new ArrayList<>(jars.length);
@@ -97,6 +94,12 @@ public final class DataSourceClasspathDecorator extends AbstractDataSourceDecora
         }
     }
 
+    /**
+     * Default constructor.
+     *
+     * @param inner          the datasource to be decorated
+     * @param extraClasspath a list of local paths that may contain the necessary drivers
+     */
     public DataSourceClasspathDecorator(final DataSource inner, final Collection<File> extraClasspath) {
         super(inner);
         this.extraClasspath = new HashSet<>(extraClasspath);

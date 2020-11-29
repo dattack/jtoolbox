@@ -23,6 +23,10 @@ import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.io.console.SimpleConsole;
 
 /**
+ * A security tool that allows the generation of security keys and the execution of encryption and decryption of text
+ * strings. All the executed operations are delegated in commands that can be extended to increase the tool's
+ * functionalities.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -32,66 +36,68 @@ public final class SecurityTool {
 
     private static boolean exit;
 
+    @SuppressWarnings("checkstyle:Indentation")
     private static final AbstractCommand[] COMMANDS = { //
-        new GenerateKeyCommand(console), //
-        new EncryptCommand(console), //
-        new DecryptCommand(console), //
-        new AbstractCommand(console) {
+            new GenerateKeyCommand(console), //
+            new EncryptCommand(console), //
+            new DecryptCommand(console), //
+            new AbstractCommand(console) {
 
-            @Override
-            protected void execute() {
-                System.out.println("\n  Available commands:\n");
-                for (final AbstractCommand command : COMMANDS) {
-                    System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(), command.getDescription());
+                @Override
+                protected void execute() {
+                    System.out.println("\n  Available commands:\n");
+                    for (final AbstractCommand command : COMMANDS) {
+                        System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(),
+                                command.getDescription());
+                    }
+                    System.out.println();
                 }
-                System.out.println();
-            }
 
-            @Override
-            protected String getDescription() {
-                return "Print this help message";
-            }
+                @Override
+                protected String getDescription() {
+                    return "Print this help message";
+                }
 
-            @Override
-            protected String getName() {
-                return "Help";
-            }
-        }, //
-        new AbstractCommand(console) {
+                @Override
+                protected String getName() {
+                    return "Help";
+                }
+            }, //
+            new AbstractCommand(console) {
 
-            @Override
-            protected void execute() {
-                System.out.println("\n  Have a nice day!\n");
-                exit = true;
-            }
+                @Override
+                protected void execute() {
+                    System.out.println("\n  Have a nice day!\n");
+                    exit = true;
+                }
 
-            @Override
-            protected String getDescription() {
-                return "Exit the application";
-            }
+                @Override
+                protected String getDescription() {
+                    return "Exit the application";
+                }
 
-            @Override
-            protected String getName() {
-                return "Exit";
-            }
-        }, //
-        new AbstractCommand(console) {
+                @Override
+                protected String getName() {
+                    return "Exit";
+                }
+            }, //
+            new AbstractCommand(console) {
 
-            @Override
-            protected void execute() {
-                switchConsole();
-            }
+                @Override
+                protected void execute() {
+                    switchConsole();
+                }
 
-            @Override
-            protected String getDescription() {
-                return "Enable/disable ANSI console";
-            }
+                @Override
+                protected String getDescription() {
+                    return "Enable/disable ANSI console";
+                }
 
-            @Override
-            protected String getName() {
-                return "ansi";
-            }
-        } //
+                @Override
+                protected String getName() {
+                    return "ansi";
+                }
+            } //
     };
 
     private static void switchConsole() {
@@ -110,8 +116,7 @@ public final class SecurityTool {
     /**
      * Main method.
      *
-     * @param args
-     *            execution arguments
+     * @param args execution arguments
      */
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
     public static void main(final String[] args) {
