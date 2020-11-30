@@ -47,15 +47,7 @@ public final class FilesystemUtils {
     public static FilenameFilter createFilenameFilterByExtension(final String extension) {
 
         final String lowerExtension = extension.toLowerCase();
-        final FilenameFilter filter = new FilenameFilter() {
-
-            @Override
-            public boolean accept(final File dir, final String name) {
-                return name.toLowerCase().endsWith(lowerExtension);
-            }
-        };
-
-        return filter;
+        return (dir, name) -> name.toLowerCase().endsWith(lowerExtension);
     }
 
     /**
@@ -142,14 +134,15 @@ public final class FilesystemUtils {
 
         final File file = new File(path);
         final File parentFile = file.getParentFile();
-        if (parentFile != null) {
-            parentFile.mkdirs();
+        if (parentFile != null && !parentFile.exists()) {
+            if (!parentFile.mkdirs()) {
+                throw new IOException("Unable to create directory: " + parentFile);
+            }
         }
 
         try (OutputStream fos = Files.newOutputStream(Paths.get(path))) {
             fos.write(data);
             fos.flush();
-            fos.close();
         }
     }
 
