@@ -47,7 +47,7 @@ final class DecryptCommand extends AbstractCommand {
             getConsole().info("[INFO] Running decrypt process ...");
             final byte[] plainMessage = RsaUtils.decryptBase64(encryptedData.getBytes(StandardCharsets.UTF_8), key);
 
-            getConsole().info("[INFO] Secret message: %s", new String(plainMessage));
+            getConsole().info("[INFO] Secret message: %s", new String(plainMessage, StandardCharsets.UTF_8));
 
         } catch (final DattackSecurityException e) {
             getConsole().error(e.getMessage());
