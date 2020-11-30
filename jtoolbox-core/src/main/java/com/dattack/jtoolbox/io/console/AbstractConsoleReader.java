@@ -16,41 +16,14 @@
 package com.dattack.jtoolbox.io.console;
 
 /**
+ * An abstract reader to read data from the console.
+ *
  * @author cvarela
  * @since 0.1
  */
 public abstract class AbstractConsoleReader<T> {
 
     private final Console console;
-
-    /**
-     * Prints a String. If the argument is null, then prints none.
-     *
-     * @param style
-     *            the ANSI style to use
-     * @param text
-     *            the <code>String</code> to be printed
-     */
-    protected void print(final AnsiStyle style, final String text) {
-        if (text != null) {
-            console.printAndReset(style, text);
-        }
-    }
-
-    /**
-     * Prints a String and then terminate the line. This method behaves as though it invokes print(String) and then
-     * println().
-     *
-     * @param style
-     *            the ANSI style to use
-     * @param text
-     *            the <code>String</code> to be printed
-     */
-    protected void println(final AnsiStyle style, final String text) {
-        if (text != null) {
-            console.printlnAndReset(style, text);
-        }
-    }
 
     AbstractConsoleReader(final Console console) {
         this.console = console;
@@ -63,6 +36,31 @@ public abstract class AbstractConsoleReader<T> {
      */
     protected Console getConsole() {
         return console;
+    }
+
+    /**
+     * Prints a String. If the argument is null, then prints none.
+     *
+     * @param style the ANSI style to use
+     * @param text  the <code>String</code> to be printed
+     */
+    protected void print(final AnsiStyle style, final String text) {
+        if (text != null) {
+            console.printAndReset(style, text);
+        }
+    }
+
+    /**
+     * Prints a String and then terminate the line. This method behaves as though it invokes print(String) and then
+     * println().
+     *
+     * @param style the ANSI style to use
+     * @param text  the <code>String</code> to be printed
+     */
+    protected void println(final AnsiStyle style, final String text) {
+        if (text != null) {
+            console.printlnAndReset(style, text);
+        }
     }
 
     protected abstract T read();

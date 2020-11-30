@@ -15,17 +15,17 @@
  */
 package com.dattack.jtoolbox.security.tool;
 
+import com.dattack.jtoolbox.io.FilesystemUtils;
+import com.dattack.jtoolbox.io.console.Console;
+import com.dattack.jtoolbox.security.DattackSecurityException;
+import com.dattack.jtoolbox.security.RsaUtils;
 import java.io.File;
 import java.io.IOException;
 import java.security.KeyPair;
 
-import com.dattack.jtoolbox.io.FilesystemUtils;
-import com.dattack.jtoolbox.io.console.AnsiConsole;
-import com.dattack.jtoolbox.io.console.Console;
-import com.dattack.jtoolbox.security.DattackSecurityException;
-import com.dattack.jtoolbox.security.RsaUtils;
-
 /**
+ * A command to generate a new key pair (public & private).
+ *
  * @author cvarela
  * @since 0.2
  */

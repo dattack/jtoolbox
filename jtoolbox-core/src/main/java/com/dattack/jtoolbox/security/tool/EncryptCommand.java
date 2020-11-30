@@ -15,15 +15,16 @@
  */
 package com.dattack.jtoolbox.security.tool;
 
-import java.security.PublicKey;
-import java.util.Arrays;
-
-import com.dattack.jtoolbox.io.console.AnsiConsole;
 import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
+import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
+import java.util.Arrays;
 
 /**
+ * A command that encrypts a plain message using the key provided.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -55,7 +56,7 @@ final class EncryptCommand extends AbstractCommand {
             getConsole().info("[INFO] Running encrypt process ...");
             final byte[] encryptedSecret = RsaUtils.encryptBase64(secret, key);
 
-            getConsole().info("[INFO] Encrypted data: %s", new String(encryptedSecret));
+            getConsole().info("[INFO] Encrypted data: %s", new String(encryptedSecret, StandardCharsets.UTF_8));
 
         } catch (final DattackSecurityException e) {
             getConsole().error(e.getMessage());

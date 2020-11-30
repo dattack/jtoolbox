@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Utility class that defines the ANSI escape sequences to color the console output.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -91,6 +93,9 @@ public class AnsiStyle {
         }
     }
 
+    /**
+     * Constructor.
+     */
     public AnsiStyle() {
         list = new ArrayList<>();
         // check OS

@@ -20,7 +20,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Basic datasource implementation.
+ * A basic implementation of the standard JDBC DataSource interface that returns a new Connection from every
+ * getConnection call.
  *
  * @author cvarela
  * @since 0.1
@@ -33,6 +34,14 @@ public final class SimpleDataSource extends AbstractDataSource {
     private final String driver;
     private volatile boolean ensureDriverLoadedNeeded;
 
+    /**
+     * Create a new SimpleDataSource with the given standard Driver parameters.
+     *
+     * @param driver the JDBC Driver object
+     * @param url the JDBC URL to use for accessing the DriverManager
+     * @param username - the JDBC username to use for accessing the DriverManager
+     * @param password - the JDBC password to use for accessing the DriverManager
+     */
     public SimpleDataSource(final String driver, final String url, final String username, final String password) {
         this.driver = driver;
         this.url = url;

@@ -15,8 +15,6 @@
  */
 package com.dattack.jtoolbox.io.console;
 
-import java.lang.annotation.Inherited;
-
 /**
  * A {@link Console} implementation that avoids all ANSI codes.
  * This class is not synchronized.

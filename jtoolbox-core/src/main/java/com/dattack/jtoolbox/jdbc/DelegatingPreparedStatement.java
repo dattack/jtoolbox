@@ -39,6 +39,9 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 /**
+ * A base delegating implementation of {@link PreparedStatement} interface. All of the methods from this class are
+ * delegated to the provided object.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -484,7 +487,7 @@ public class DelegatingPreparedStatement implements PreparedStatement {
 
     @Override
     public void setObject(final int parameterIndex, final Object value, final int targetSqlType,
-            final int scaleOrLength) throws SQLException {
+                          final int scaleOrLength) throws SQLException {
         delegate.setObject(parameterIndex, value, targetSqlType, scaleOrLength);
     }
 

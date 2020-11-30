@@ -15,14 +15,15 @@
  */
 package com.dattack.jtoolbox.security.tool;
 
-import java.security.PrivateKey;
-
-import com.dattack.jtoolbox.io.console.AnsiConsole;
 import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.security.DattackSecurityException;
 import com.dattack.jtoolbox.security.RsaUtils;
+import java.nio.charset.StandardCharsets;
+import java.security.PrivateKey;
 
 /**
+ * A command that decrypts an encrypted message using the key provided.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -44,7 +45,7 @@ final class DecryptCommand extends AbstractCommand {
             final String encryptedData = getConsole().stringReader().setPrompt("> Encrypted data: ").read().trim();
 
             getConsole().info("[INFO] Running decrypt process ...");
-            final byte[] plainMessage = RsaUtils.decryptBase64(encryptedData.getBytes(), key);
+            final byte[] plainMessage = RsaUtils.decryptBase64(encryptedData.getBytes(StandardCharsets.UTF_8), key);
 
             getConsole().info("[INFO] Secret message: %s", new String(plainMessage));
 

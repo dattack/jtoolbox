@@ -17,7 +17,6 @@ package com.dattack.jtoolbox.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -28,6 +27,7 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class JNDIDataSource extends AbstractDataSource {
 
     private final String jndiName;

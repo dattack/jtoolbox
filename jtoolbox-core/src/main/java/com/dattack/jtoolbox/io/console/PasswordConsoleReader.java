@@ -15,11 +15,13 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * A password reader that does not display the characters entered in the console.
+ *
  * @author cvarela
  * @since 0.1
  */
@@ -45,7 +47,7 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
                     return new byte[0];
                 }
             } else {
-                return result.getBytes();
+                return result.getBytes(StandardCharsets.UTF_8);
             }
         }
     }
@@ -59,7 +61,7 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
         }
 
         // no console available (IDE)
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in))) {
+        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
             print(style, prompt);
             return scanner.nextLine();
         }

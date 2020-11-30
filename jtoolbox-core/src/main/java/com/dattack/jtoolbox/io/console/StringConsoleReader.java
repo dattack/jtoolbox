@@ -15,12 +15,14 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * A String reader from console.
+ *
  * @author cvarela
  * @since 0.1
  */
@@ -52,7 +54,7 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     }
 
     private String readString() {
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in))) {
+        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
             print(style, prompt);
             return scanner.nextLine();
         }

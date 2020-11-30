@@ -1,9 +1,12 @@
 /*
  * Copyright (c) 2016, The Dattack team (http://www.dattack.com)
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,15 +47,7 @@ public final class FilesystemUtils {
     public static FilenameFilter createFilenameFilterByExtension(final String extension) {
 
         final String lowerExtension = extension.toLowerCase();
-        final FilenameFilter filter = new FilenameFilter() {
-
-            @Override
-            public boolean accept(final File dir, final String name) {
-                return name.toLowerCase().endsWith(lowerExtension);
-            }
-        };
-
-        return filter;
+        return (dir, name) -> name.toLowerCase().endsWith(lowerExtension);
     }
 
     /**
@@ -139,14 +134,15 @@ public final class FilesystemUtils {
 
         final File file = new File(path);
         final File parentFile = file.getParentFile();
-        if (parentFile != null) {
-            parentFile.mkdirs();
+        if (parentFile != null && !parentFile.exists()) {
+            if (!parentFile.mkdirs()) {
+                throw new IOException("Unable to create directory: " + parentFile);
+            }
         }
 
         try (OutputStream fos = Files.newOutputStream(Paths.get(path))) {
             fos.write(data);
             fos.flush();
-            fos.close();
         }
     }
 

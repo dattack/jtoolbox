@@ -12,13 +12,13 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/DECORATION/1.6.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 https://maven.apache.org/xsd/decoration-1.8.0.xsd"
+         name="jToolbox">
 
 	<bannerLeft>
 		<name>dattack Team</name>
-		<src>http://dattack.com/static/img/logo.png</src>
+		<src>https://dattack.com/img/logo.png</src>
 		<href>http://www.dattack.com</href>
 	</bannerLeft>
 
@@ -26,7 +26,7 @@
 	<publishDate position="right"/>
 
 	<poweredBy>
-		<logo name="dattack" href="http://www.dattack.com" img="http://dattack.com/static/img/logo.png"/>
+		<logo name="dattack" href="http://www.dattack.com" img="https://dattack.com/img/logo.png"/>
 	</poweredBy>
 
 	<skin>

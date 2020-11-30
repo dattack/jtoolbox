@@ -18,7 +18,6 @@ package com.dattack.jtoolbox.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -45,21 +44,17 @@ public final class TimeUtils {
 
     private static List<String> computeIso8601List() {
 
-        final String[] patterns = { "yyyy-MM-dd'T'HH:mm", //
+        final String[] patterns = {
+            "yyyy-MM-dd'T'HH:mm", //
             "yyyy-MM-dd'T'HH:mm:ss", //
             "yyyy-MM-dd'T'HH:mm:ss.S", //
             "yyyy-MM-dd HH:mm", //
             "yyyy-MM-dd HH:mm:ss", //
-            "yyyy-MM-dd HH:mm:ss.S" };
+            "yyyy-MM-dd HH:mm:ss.S" //
+        };
 
         final List<String> patternList = Arrays.asList(patterns);
-        Collections.sort(patternList, new Comparator<String>() {
-
-            @Override
-            public int compare(final String obj1, final String obj2) {
-                return Integer.compare(obj1.length(), obj2.length());
-            }
-        });
+        patternList.sort(Comparator.comparingInt(String::length));
         return patternList;
     }
 
@@ -74,8 +69,7 @@ public final class TimeUtils {
      * </p>
      * <b>This method is null-safe.</b>
      *
-     * @param txt
-     *            the date to parse
+     * @param txt the date to parse
      * @return the parsed date or null if no parse patterns match
      */
     public static Date parseDate(final String txt) {
@@ -102,8 +96,7 @@ public final class TimeUtils {
     /**
      * Computes the number of milliseconds represented by the specified span expression.
      *
-     * @param text
-     *            the span expression
+     * @param text the span expression
      * @return the number of milliseconds
      */
     private static Long parseTimeSpanExpression(final String text) {
@@ -116,29 +109,29 @@ public final class TimeUtils {
                 value = value * 10 + Character.digit(charAt, 10);
             } else {
                 switch (charAt) {
-                case 'w':
-                case 'W':
-                    timeInMillis += value * MILLIS_PER_WEEK;
-                    break;
-                case 'd':
-                case 'D':
-                    timeInMillis += value * MILLIS_PER_DAY;
-                    break;
-                case 'h':
-                case 'H':
-                    timeInMillis += value * MILLIS_PER_HOUR;
-                    break;
-                case 'm':
-                case 'M':
-                    timeInMillis += value * MILLIS_PER_MINUTE;
-                    break;
-                case 's':
-                case 'S':
-                    timeInMillis += value * MILLIS_PER_SECOND;
-                    break;
-                default:
-                    throw new IllegalArgumentException(String.format("Unknown time unit: '%s'", charAt));
-                    // ignore value
+                    case 'w':
+                    case 'W':
+                        timeInMillis += value * MILLIS_PER_WEEK;
+                        break;
+                    case 'd':
+                    case 'D':
+                        timeInMillis += value * MILLIS_PER_DAY;
+                        break;
+                    case 'h':
+                    case 'H':
+                        timeInMillis += value * MILLIS_PER_HOUR;
+                        break;
+                    case 'm':
+                    case 'M':
+                        timeInMillis += value * MILLIS_PER_MINUTE;
+                        break;
+                    case 's':
+                    case 'S':
+                        timeInMillis += value * MILLIS_PER_SECOND;
+                        break;
+                    default:
+                        throw new IllegalArgumentException(String.format("Unknown time unit: '%s'", charAt));
+                        // ignore value
                 }
                 value = 0;
             }
@@ -169,8 +162,7 @@ public final class TimeUtils {
      * Example: <code>2h30m = 2 hours + 30 minutes = 2 * 60 * 60 * 1000 + 30 * 60 * 1000 = 9.000.000 milliseconds</code>
      * </p>
      *
-     * @param text
-     *            the span expression
+     * @param text the span expression
      * @return the number of milliseconds
      */
     public static Long parseTimeSpanMillis(final String text) {

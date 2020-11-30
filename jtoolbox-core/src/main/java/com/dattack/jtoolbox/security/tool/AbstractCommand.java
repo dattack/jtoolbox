@@ -15,10 +15,12 @@
  */
 package com.dattack.jtoolbox.security.tool;
 
-import com.dattack.jtoolbox.io.console.AnsiConsole;
 import com.dattack.jtoolbox.io.console.Console;
 
 /**
+ * Abstract class that defines the methods that must implement the commands that can be executed from
+ * {@link SecurityTool}.
+ *
  * @author cvarela
  * @since 0.2
  */
@@ -27,7 +29,7 @@ abstract class AbstractCommand {
     protected static final String DEFAULT_PRIVATE_KEY_FILENAME = "dattack_rsa";
     protected static final String DEFAULT_PUBLIC_KEY_FILENAME = "dattack_rsa.pub";
 
-    private Console console;
+    private final Console console;
 
     protected AbstractCommand(Console console) {
         this.console = console;

@@ -15,11 +15,13 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import com.dattack.jtoolbox.io.UnclosableInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-import com.dattack.jtoolbox.io.UnclosableInputStream;
-
 /**
+ * An integer reader from Console.
+ *
  * @author cvarela
  * @since 0.1
  */
@@ -60,7 +62,7 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
     private int readInt() {
 
         while (true) {
-            try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in))) {
+            try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
                 print(style, prompt);
 
                 final String userInput = scanner.nextLine();

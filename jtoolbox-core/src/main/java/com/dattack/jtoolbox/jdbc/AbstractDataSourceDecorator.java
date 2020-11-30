@@ -20,10 +20,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
 
 /**
+ * Implementation of the decorator pattern on a DataSource object. All operations are delegated to the decorated object.
+ *
  * @author cvarela
  * @since 0.1
  */
