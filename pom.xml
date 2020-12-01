@@ -45,7 +45,7 @@
     </modules>
     <scm>
         <connection>scm:git:https://github.com/dattack/jtoolbox.git</connection>
-        <developerConnection>scm:git:git+ssh://git@github.com/dattack/jtoolbox.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/dattack/jtoolbox.git</developerConnection>
         <tag>v0.3</tag>
         <url>http://github.com/dattack/jtoolbox</url>
     </scm>
