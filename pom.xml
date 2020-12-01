@@ -4,10 +4,10 @@
     <parent>
         <groupId>com.dattack</groupId>
         <artifactId>parent</artifactId>
-        <version>3-SNAPSHOT</version>
+        <version>3</version>
     </parent>
     <artifactId>jtoolbox</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.3</version>
     <packaging>pom</packaging>
     <name>jtoolbox</name>
     <description>A set of utility classes that simplify the programming of Java code that can be used
@@ -45,8 +45,8 @@
     </modules>
     <scm>
         <connection>scm:git:https://github.com/dattack/jtoolbox.git</connection>
-        <developerConnection>scm:git:git+ssh://git@github.com/dattack/jtoolbox.git</developerConnection>
-        <tag>HEAD</tag>
+        <developerConnection>scm:git:https://github.com/dattack/jtoolbox.git</developerConnection>
+        <tag>v0.3</tag>
         <url>http://github.com/dattack/jtoolbox</url>
     </scm>
     <issueManagement>
