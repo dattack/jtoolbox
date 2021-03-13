@@ -40,7 +40,9 @@ import javax.sql.DataSource;
  *
  * @author cvarela
  * @since 0.1
+ * @deprecated
  */
+@Deprecated
 public final class DataSourceClasspathDecorator extends AbstractDataSourceDecorator {
 
     private static final Logger LOGGER = Logger.getLogger(DataSourceClasspathDecorator.class.getName());
