@@ -27,29 +27,51 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.1
  */
-@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+@SuppressWarnings("checkstyle:abbreviationAsWordInName")
 public final class JNDIDataSource extends AbstractDataSource {
 
     private final String jndiName;
+    private volatile DataSource dataSource;
 
     public JNDIDataSource(final String jndiName) {
         this.jndiName = jndiName;
     }
 
-    @Override
-    public Connection getConnection() throws SQLException {
-
+    private void initializeDataSource() throws SQLException {
         try {
             final InitialContext context = new InitialContext();
-            final DataSource dataSource = (DataSource) context.lookup(jndiName);
-            if (dataSource == null) {
+            Object obj = context.lookup(jndiName);
+            if (obj == null) {
                 throw new SQLException("Unknown JNDI resource '" + jndiName + "'");
             }
-            return dataSource.getConnection();
+
+            if (obj instanceof DataSource) {
+                this.dataSource = (DataSource) obj;
+            } else {
+                throw new SQLException(String.format("Unable to get a Connection (JNDI-name: %s, Class: %s)", jndiName,
+                        obj.getClass()));
+            }
+
         } catch (final NamingException e) {
             throw new SQLException(
                     String.format("Unable to get a connection from JNDI name '%s': %s", jndiName, e.getMessage()), e);
         }
+    }
+
+    private DataSource getDataSource() throws SQLException {
+        if (dataSource == null) {
+            synchronized (this) {
+                if (dataSource == null) {
+                    initializeDataSource();
+                }
+            }
+        }
+        return dataSource;
+    }
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        return getDataSource().getConnection();
     }
 
     @Override
