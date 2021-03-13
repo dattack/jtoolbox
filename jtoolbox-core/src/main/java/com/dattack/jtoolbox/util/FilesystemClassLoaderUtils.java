@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,8 +26,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A class loader to load classes and resources from a set of local filesystem paths.
@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  */
 public final class FilesystemClassLoaderUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(FilesystemClassLoaderUtils.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(FilesystemClassLoaderUtils.class);
 
     private static void configureClasspathFromUrls(final List<URL> urlList) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -59,10 +59,10 @@ public final class FilesystemClassLoaderUtils {
             final List<URL> urlList = new ArrayList<>(jars.length);
             for (final File jar : jars) {
                 try {
-                    LOGGER.log(Level.INFO, "Scanning JAR: {0}", jar);
+                    LOGGER.info("Scanning JAR: {}", jar);
                     urlList.add(jar.toURI().toURL());
                 } catch (final MalformedURLException e) {
-                    LOGGER.log(Level.WARNING, e.getMessage());
+                    LOGGER.warn(e.getMessage());
                 }
             }
 
@@ -75,11 +75,11 @@ public final class FilesystemClassLoaderUtils {
 
         final List<URL> urlList = new ArrayList<>();
         try {
-            LOGGER.log(Level.INFO, "Scanning JAR: {0}", jar);
+            LOGGER.info("Scanning JAR: {}", jar);
             urlList.add(jar.toURI().toURL());
             configureClasspathFromUrls(urlList);
         } catch (final MalformedURLException e) {
-            LOGGER.log(Level.WARNING, e.getMessage());
+            LOGGER.warn(e.getMessage());
         }
     }
 
@@ -100,10 +100,10 @@ public final class FilesystemClassLoaderUtils {
                     }
                 } catch (final NoSuchMethodException | SecurityException | IllegalAccessException
                         | IllegalArgumentException | InvocationTargetException e) {
-                    LOGGER.log(Level.WARNING, e.getMessage());
+                    LOGGER.warn(e.getMessage());
                 }
             } else {
-                LOGGER.log(Level.FINER, "Missing directory/file: ''{0}''", path);
+                LOGGER.trace("Missing directory/file: ''{}''", path);
             }
         }
     }

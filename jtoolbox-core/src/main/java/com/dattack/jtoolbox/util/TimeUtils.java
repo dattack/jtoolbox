@@ -15,14 +15,14 @@
  */
 package com.dattack.jtoolbox.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A suite of utilities surrounding the use of the {@link java.util.Calendar} and {@link java.util.Date} object.
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  */
 public final class TimeUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(TimeUtils.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtils.class);
 
     private static final long MILLIS_PER_SECOND = 1000;
     private static final long MILLIS_PER_MINUTE = 60 * MILLIS_PER_SECOND;
@@ -86,7 +86,7 @@ public final class TimeUtils {
                     parser.applyPattern(pattern);
                     return parser.parse(txt);
                 } catch (final ParseException e) {
-                    LOGGER.log(Level.FINE, e.getMessage());
+                    LOGGER.debug(e.getMessage());
                 }
             }
         }

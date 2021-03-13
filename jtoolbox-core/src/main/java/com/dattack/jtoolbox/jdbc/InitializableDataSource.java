@@ -16,12 +16,12 @@
 package com.dattack.jtoolbox.jdbc;
 
 import com.dattack.jtoolbox.util.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 
 /**
@@ -33,7 +33,7 @@ import javax.sql.DataSource;
  */
 public final class InitializableDataSource extends AbstractDataSourceDecorator {
 
-    private static final Logger LOGGER = Logger.getLogger(InitializableDataSource.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(InitializableDataSource.class);
 
     private final List<String> onConnectStatements;
 
@@ -62,7 +62,7 @@ public final class InitializableDataSource extends AbstractDataSourceDecorator {
             for (String sqlStatement : onConnectStatements) {
                 try (Statement stmt = connection.createStatement()) {
                     try {
-                        LOGGER.log(Level.FINEST, "Running statement: {0}", sqlStatement);
+                        LOGGER.debug("Running statement: {}", sqlStatement);
                         stmt.executeUpdate(sqlStatement);
                     } catch (SQLException e) {
                         throw new SQLException(String.format("Error executing initialization statement '%s': %s",
