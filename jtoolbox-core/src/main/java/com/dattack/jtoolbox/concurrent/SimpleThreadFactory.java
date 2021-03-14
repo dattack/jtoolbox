@@ -15,7 +15,9 @@
  */
 package com.dattack.jtoolbox.concurrent;
 
+import com.dattack.jtoolbox.util.StringUtils;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Objects;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -27,27 +29,31 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("PMD.LongVariable")
 public final class SimpleThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
 
-    private final Boolean daemon;
-    private final Integer priority;
-    private final ThreadGroup threadGroup;
-    private final String threadNamePrefix;
-    private final AtomicLong threadNumber = new AtomicLong(1);
-    private final UncaughtExceptionHandler uncaughtExceptionHandler;
+    private final transient Boolean daemon;
+    private final transient Integer priority;
+    private final transient ThreadGroup threadGroup;
+    private final transient String threadNamePrefix;
+    private final transient AtomicLong threadNumber = new AtomicLong(1);
+    private final transient UncaughtExceptionHandler uncaughtExceptionHandler;
 
+    /**
+     * The Builder pattern implementation.
+     */
     public static class ThreadFactoryBuilder {
 
-        private Boolean daemon;
-        private Integer priority;
-        private ThreadGroup threadGroup;
-        private String threadNamePrefix;
-        private UncaughtExceptionHandler uncaughtExceptionHandler;
+        private transient Boolean daemon;
+        private transient Integer priority;
+        private transient ThreadGroup threadGroup;
+        private transient String threadNamePrefix;
+        private transient UncaughtExceptionHandler uncaughtExceptionHandler;
 
+        @SuppressWarnings("PMD.AccessorClassGeneration")
         public ThreadFactory build() {
-
             return new SimpleThreadFactory(this);
         }
 
@@ -94,11 +100,8 @@ public final class SimpleThreadFactory implements ThreadFactory {
          * @return this builder object
          */
         public ThreadFactoryBuilder withThreadNamePrefix(final String value) {
-            if (value != null) {
+            if (StringUtils.isNotBlank(value)) {
                 this.threadNamePrefix = value.trim();
-                if (this.threadNamePrefix.length() <= 0) {
-                    this.threadNamePrefix = null;
-                }
             }
             return this;
         }
@@ -111,7 +114,6 @@ public final class SimpleThreadFactory implements ThreadFactory {
          * @return this builder object
          */
         public ThreadFactoryBuilder withUncaughtExceptionHandler(final UncaughtExceptionHandler value) {
-
             this.uncaughtExceptionHandler = value;
             return this;
         }
@@ -124,7 +126,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
     private SimpleThreadFactory(final ThreadFactoryBuilder builder) {
         this.daemon = builder.daemon;
         this.threadGroup = builder.threadGroup;
-        if (builder.threadNamePrefix == null) {
+        if (Objects.isNull(builder.threadNamePrefix)) {
             this.threadNamePrefix = getDefaultThreadNamePrefix();
         } else {
             this.threadNamePrefix = builder.threadNamePrefix;
@@ -143,11 +145,11 @@ public final class SimpleThreadFactory implements ThreadFactory {
         final Thread thread = new Thread(threadGroup, target, generateThreadName(), 0);
         thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
 
-        if (daemon != null) {
+        if (Objects.nonNull(daemon)) {
             thread.setDaemon(daemon);
         }
 
-        if (priority != null) {
+        if (Objects.nonNull(priority)) {
             thread.setPriority(priority);
         }
 

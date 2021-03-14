@@ -31,14 +31,15 @@ import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
  * @author cvarela
  * @since 0.2
  */
+@SuppressWarnings({"PMD.LongVariable", "PMD.SystemPrintln"})
 public class AnsiConsole implements Console {
 
     private static final AnsiStyle DEFAULT_ERROR_STYLE = new AnsiStyle().foreground(Color.RED);
     private static final AnsiStyle DEFAULT_INFO_STYLE = new AnsiStyle().foreground(Color.CYAN);
     private static final AnsiStyle RESET_STYLE = new AnsiStyle().add(EscapeCode.RESET);
 
-    private final AnsiStyle errorStyle;
-    private final AnsiStyle infoStyle;
+    private final transient AnsiStyle errorStyle;
+    private final transient AnsiStyle infoStyle;
 
     private static void print(final AnsiStyle style) {
         if (style != null) {
@@ -46,6 +47,7 @@ public class AnsiConsole implements Console {
         }
     }
 
+    @Override
     public void print(final AnsiStyle style, final String text, final Object... args) {
         print(style);
         System.out.format(text, args);
@@ -58,17 +60,20 @@ public class AnsiConsole implements Console {
      * @param text  a format string
      * @param args  arguments referenced by the format specifiers in the format string
      */
+    @Override
     public void printAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style);
         System.out.format(text, args);
         System.out.print(RESET_STYLE.toAnsiEscapeCodes());
     }
 
+    @Override
     public void println(final AnsiStyle style, final String text, final Object... args) {
         print(style, text, args);
         System.out.println();
     }
 
+    @Override
     public void printlnAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style, text, args);
         System.out.println(RESET_STYLE.toAnsiEscapeCodes());
@@ -83,22 +88,27 @@ public class AnsiConsole implements Console {
         this.infoStyle = infoStyle;
     }
 
+    @Override
     public void error(final String text, final Object... args) {
         println(errorStyle, text, args);
     }
 
+    @Override
     public void info(final String text, final Object... args) {
         println(infoStyle, text, args);
     }
 
+    @Override
     public IntConsoleReader intReader() {
         return new IntConsoleReader(this);
     }
 
+    @Override
     public PasswordConsoleReader passwordReader() {
         return new PasswordConsoleReader(this);
     }
 
+    @Override
     public StringConsoleReader stringReader() {
         return new StringConsoleReader(this);
     }

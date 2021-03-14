@@ -16,6 +16,7 @@
 package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
+import com.dattack.jtoolbox.util.NumberUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -27,13 +28,13 @@ import java.util.Scanner;
  */
 public class IntConsoleReader extends AbstractConsoleReader<Integer> {
 
-    private String prompt;
-    private Integer defaultValue;
-    private Integer minValue;
-    private Integer maxValue;
-    private AnsiStyle style;
+    private transient String prompt;
+    private transient Integer defaultValue;
+    private transient Integer minValue;
+    private transient Integer maxValue;
+    private transient AnsiStyle style;
 
-    IntConsoleReader(final Console console) {
+    /* default */ IntConsoleReader(final Console console) {
         super(console);
     }
 
@@ -60,21 +61,16 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
 
     @SuppressWarnings("PMD.EmptyCatchBlock")
     private int readInt() {
-
-        while (true) {
-            try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+            while (true) {
                 print(style, prompt);
 
                 final String userInput = scanner.nextLine();
 
-                if (!"".equals(userInput.trim())) {
-                    try {
-                        return Integer.parseInt(userInput);
-                    } catch (@SuppressWarnings("unused") final NumberFormatException nfe) {
-                        // ignore
-                    }
-                } else if (defaultValue != null) {
-                    return defaultValue;
+                try {
+                    return NumberUtils.parseInt(userInput, defaultValue);
+                } catch (@SuppressWarnings("unused") final NumberFormatException nfe) {
+                    // ignore
                 }
 
                 if (scanner.hasNextLine()) {
@@ -84,27 +80,27 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
         }
     }
 
-    public IntConsoleReader setDefaultValue(final int value) {
+    public IntConsoleReader withDefaultValue(final int value) {
         this.defaultValue = value;
         return this;
     }
 
-    public IntConsoleReader setMaxValue(final int value) {
+    public IntConsoleReader withMaxValue(final int value) {
         this.maxValue = value;
         return this;
     }
 
-    public IntConsoleReader setMinValue(final int value) {
+    public IntConsoleReader withMinValue(final int value) {
         this.minValue = value;
         return this;
     }
 
-    public IntConsoleReader setPrompt(final String value) {
+    public IntConsoleReader withPrompt(final String value) {
         this.prompt = value;
         return this;
     }
 
-    public IntConsoleReader setStyle(final AnsiStyle ansiStyle) {
+    public IntConsoleReader withStyle(final AnsiStyle ansiStyle) {
         this.style = ansiStyle;
         return this;
     }

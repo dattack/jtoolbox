@@ -29,12 +29,12 @@ import javax.sql.DataSource;
  */
 public abstract class AbstractDataSource implements DataSource {
 
-    private int loginTimeout;
-    private PrintWriter logWriter;
+    private transient int loginTimeout;
+    private transient PrintWriter logWriter;
 
     public AbstractDataSource() {
         this.loginTimeout = 0; // zero means that the timeout is the default system timeout
-        this.logWriter = null; // When a DataSource object is created, the log writer is initially null
+        // When a DataSource object is created, the log writer is initially null
     }
 
     @Override

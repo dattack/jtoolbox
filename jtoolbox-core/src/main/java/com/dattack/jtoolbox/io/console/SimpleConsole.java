@@ -24,38 +24,47 @@ package com.dattack.jtoolbox.io.console;
  */
 public class SimpleConsole implements Console {
 
+    @Override
     public void print(final AnsiStyle style, final String text, final Object... args) {
         System.out.format(text, args);
     }
 
+    @Override
     public void printAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style, text, args);
     }
 
+    @Override
     public void println(final AnsiStyle style, final String text, final Object... args) {
         print(style, text + "%n", args);
     }
 
+    @Override
     public void printlnAndReset(final AnsiStyle style, final String text, final Object... args) {
         println(style, text, args);
     }
 
+    @Override
     public void error(final String text, final Object... args) {
         System.out.format(text + "%n", args);
     }
 
+    @Override
     public void info(final String text, final Object... args) {
         println(null, text, args);
     }
 
+    @Override
     public IntConsoleReader intReader() {
         return new IntConsoleReader(this);
     }
 
+    @Override
     public PasswordConsoleReader passwordReader() {
         return new PasswordConsoleReader(this);
     }
 
+    @Override
     public StringConsoleReader stringReader() {
         return new StringConsoleReader(this);
     }

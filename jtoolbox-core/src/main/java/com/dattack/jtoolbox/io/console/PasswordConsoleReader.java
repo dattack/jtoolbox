@@ -16,7 +16,9 @@
 package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
+import com.dattack.jtoolbox.util.StringUtils;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -27,11 +29,13 @@ import java.util.Scanner;
  */
 public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
 
-    private String prompt;
-    private boolean mandatory;
-    private AnsiStyle style;
+    private static final byte[] EMPTY = new byte[0];
 
-    PasswordConsoleReader(final Console console) {
+    private transient String prompt;
+    private transient boolean mandatory;
+    private transient AnsiStyle style;
+
+    /* default */ PasswordConsoleReader(final Console console) {
         super(console);
         this.mandatory = true;
     }
@@ -39,15 +43,20 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
     @Override
     public byte[] read() {
         while (true) {
-            final String result = readString();
-            if (result == null || result.trim().isEmpty()) {
+            final String userInput = readString();
+            byte[] result = null;
+            if (StringUtils.isBlank(userInput)) {
                 if (mandatory) {
                     getConsole().error("Enter a valid text");
                 } else {
-                    return new byte[0];
+                    result = EMPTY;
                 }
             } else {
-                return result.getBytes(StandardCharsets.UTF_8);
+                result = userInput.getBytes(StandardCharsets.UTF_8);
+            }
+
+            if (Objects.nonNull(result)) {
+                return result;
             }
         }
     }
@@ -56,28 +65,30 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
 
         final java.io.Console ioConsole = System.console();
 
-        if (ioConsole != null) {
-            return new String(ioConsole.readPassword(prompt));
+        String result;
+        if (Objects.nonNull(ioConsole)) {
+            result = new String(ioConsole.readPassword(prompt));
+        } else {
+            // no console available (IDE)
+            try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+                print(style, prompt);
+                result = scanner.nextLine();
+            }
         }
-
-        // no console available (IDE)
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
-            print(style, prompt);
-            return scanner.nextLine();
-        }
+        return result;
     }
 
-    public PasswordConsoleReader setMandatory(final boolean value) {
+    public PasswordConsoleReader withMandatory(final boolean value) {
         this.mandatory = value;
         return this;
     }
 
-    public PasswordConsoleReader setPrompt(final String value) {
+    public PasswordConsoleReader withPrompt(final String value) {
         this.prompt = value;
         return this;
     }
 
-    public PasswordConsoleReader setStyle(final AnsiStyle ansiStyle) {
+    public PasswordConsoleReader withStyle(final AnsiStyle ansiStyle) {
         this.style = ansiStyle;
         return this;
     }

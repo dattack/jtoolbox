@@ -31,11 +31,12 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.4
  */
+@SuppressWarnings("PMD.LongVariable")
 public final class InitializableDataSource extends AbstractDataSourceDecorator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializableDataSource.class);
 
-    private final List<String> onConnectStatements;
+    private final transient List<String> onConnectStatements;
 
     public InitializableDataSource(final DataSource inner, final List<String> onConnectStatements) {
         super(inner);
@@ -44,27 +45,28 @@ public final class InitializableDataSource extends AbstractDataSourceDecorator {
 
     @Override
     public Connection getConnection() throws SQLException {
-        Connection connection = super.getConnection();
+        final Connection connection = super.getConnection();
         initialize(connection);
         return connection;
     }
 
     @Override
     public Connection getConnection(final String username, final String pwd) throws SQLException {
-        Connection connection = super.getConnection(username, pwd);
+        final Connection connection = super.getConnection(username, pwd);
         initialize(connection);
         return connection;
     }
 
-    private void initialize(Connection connection) throws SQLException {
+    @SuppressWarnings("PMD.ExceptionAsFlowControl")
+    private void initialize(final Connection connection) throws SQLException {
 
         if (CollectionUtils.isNotEmpty(onConnectStatements)) {
-            for (String sqlStatement : onConnectStatements) {
-                try (Statement stmt = connection.createStatement()) {
+            for (final String sqlStatement : onConnectStatements) {
+                try (final Statement stmt = connection.createStatement()) { //NOPMD
                     try {
                         LOGGER.debug("Running statement: {}", sqlStatement);
                         stmt.executeUpdate(sqlStatement);
-                    } catch (SQLException e) {
+                    } catch (final SQLException e) {
                         throw new SQLException(String.format("Error executing initialization statement '%s': %s",
                                 sqlStatement, e.getMessage()), e);
                     }

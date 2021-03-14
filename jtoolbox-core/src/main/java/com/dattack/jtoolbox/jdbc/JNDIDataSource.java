@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -27,21 +28,22 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.1
  */
-@SuppressWarnings("checkstyle:abbreviationAsWordInName")
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class JNDIDataSource extends AbstractDataSource {
 
-    private final String jndiName;
-    private volatile DataSource dataSource;
+    private final transient String jndiName;
+    private transient volatile DataSource dataSource;
 
     public JNDIDataSource(final String jndiName) {
+        super();
         this.jndiName = jndiName;
     }
 
     private void initializeDataSource() throws SQLException {
         try {
             final InitialContext context = new InitialContext();
-            Object obj = context.lookup(jndiName);
-            if (obj == null) {
+            final Object obj = context.lookup(jndiName);
+            if (Objects.isNull(obj)) {
                 throw new SQLException("Unknown JNDI resource '" + jndiName + "'");
             }
 
@@ -59,9 +61,9 @@ public final class JNDIDataSource extends AbstractDataSource {
     }
 
     private DataSource getDataSource() throws SQLException {
-        if (dataSource == null) {
+        if (Objects.isNull(dataSource)) {
             synchronized (this) {
-                if (dataSource == null) {
+                if (Objects.isNull(dataSource)) {
                     initializeDataSource();
                 }
             }

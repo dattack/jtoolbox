@@ -37,6 +37,10 @@ public final class FilesystemClassLoaderUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FilesystemClassLoaderUtils.class);
 
+    private FilesystemClassLoaderUtils() {
+        // utility class
+    }
+
     private static void configureClasspathFromUrls(final List<URL> urlList) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
@@ -88,7 +92,7 @@ public final class FilesystemClassLoaderUtils {
      *
      * @param paths the set of paths to be explored
      */
-    public static synchronized void ensureClassLoaded(Set<File> paths) {
+    public static void ensureClassLoaded(final Set<File> paths) {
 
         for (final File path : paths) {
             if (path.exists()) {

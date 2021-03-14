@@ -15,11 +15,13 @@
  */
 package com.dattack.jtoolbox.commons.email;
 
+import com.dattack.jtoolbox.util.StringUtils;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.mail.internet.InternetAddress;
 
 /**
@@ -28,29 +30,21 @@ import javax.mail.internet.InternetAddress;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class HtmlEmailBuilder {
 
-    private String hostname;
-    private int port;
-    private String username;
-    private String password;
-    private Boolean sslOnConnect;
-    private Boolean startTlsEnabled;
-    private String from;
-    private String subject;
-    private String message;
-    private final List<InternetAddress> toList;
-    private final List<InternetAddress> ccList;
-    private final List<InternetAddress> bccList;
-
-    private static String trim(final String value) {
-
-        String text = value;
-        if (text != null) {
-            text = text.trim();
-        }
-        return text;
-    }
+    private transient String hostname;
+    private transient int port;
+    private transient String username;
+    private transient String password;
+    private transient Boolean sslOnConnect;
+    private transient Boolean startTlsEnabled;
+    private transient String from;
+    private transient String subject;
+    private transient String message;
+    private final transient List<InternetAddress> toList;
+    private final transient List<InternetAddress> ccList;
+    private final transient List<InternetAddress> bccList;
 
     /**
      * Default constructor.
@@ -68,13 +62,14 @@ public class HtmlEmailBuilder {
      * @throws EmailException
      *             if an error occurs while creating the email
      */
+    @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.NPathComplexity"})
     public HtmlEmail build() throws EmailException {
 
-        if (hostname == null || hostname.isEmpty()) {
+        if (StringUtils.isBlank(hostname)) {
             throw new EmailException(String.format("Invalid SMTP server (hostname: '%s')", hostname));
         }
 
-        if (from == null || from.isEmpty()) {
+        if (StringUtils.isBlank(from)) {
             throw new EmailException(String.format("Invalid email address (FROM: '%s'", from));
         }
 
@@ -83,7 +78,7 @@ public class HtmlEmailBuilder {
         email.setFrom(from);
         email.setSubject(subject);
 
-        if (message != null && !message.isEmpty()) {
+        if (StringUtils.isNotBlank(message)) {
             email.setMsg(message);
         }
 
@@ -91,15 +86,15 @@ public class HtmlEmailBuilder {
             email.setSmtpPort(port);
         }
 
-        if (username != null && !username.isEmpty()) {
+        if (StringUtils.isNotBlank(username)) {
             email.setAuthenticator(new DefaultAuthenticator(username, password));
         }
 
-        if (sslOnConnect != null) {
+        if (Objects.nonNull(sslOnConnect)) {
             email.setSSLOnConnect(sslOnConnect);
         }
 
-        if (startTlsEnabled != null) {
+        if (Objects.nonNull(startTlsEnabled)) {
             email.setStartTLSEnabled(startTlsEnabled);
         }
 
@@ -128,22 +123,22 @@ public class HtmlEmailBuilder {
     }
 
     public HtmlEmailBuilder withFrom(final String value) {
-        this.from = trim(value);
+        this.from = StringUtils.trim(value);
         return this;
     }
 
     public HtmlEmailBuilder withHostName(final String value) {
-        this.hostname = trim(value);
+        this.hostname = StringUtils.trim(value);
         return this;
     }
 
     public HtmlEmailBuilder withMessage(final String value) {
-        this.message = trim(value);
+        this.message = StringUtils.trim(value);
         return this;
     }
 
     public HtmlEmailBuilder withPassword(final String value) {
-        this.password = trim(value);
+        this.password = StringUtils.trim(value);
         return this;
     }
 
@@ -165,7 +160,7 @@ public class HtmlEmailBuilder {
     }
 
     public HtmlEmailBuilder withSubject(final String value) {
-        this.subject = trim(value);
+        this.subject = StringUtils.trim(value);
         return this;
     }
 
@@ -175,7 +170,7 @@ public class HtmlEmailBuilder {
     }
 
     public HtmlEmailBuilder withUsername(final String value) {
-        this.username = trim(value);
+        this.username = StringUtils.trim(value);
         return this;
     }
 }

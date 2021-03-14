@@ -25,7 +25,7 @@ public abstract class AbstractConsoleReader<T> {
 
     private final Console console;
 
-    AbstractConsoleReader(final Console console) {
+    /* default */ AbstractConsoleReader(final Console console) {
         this.console = console;
     }
 

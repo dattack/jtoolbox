@@ -30,6 +30,7 @@ import java.util.List;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("PMD.LongVariable")
 public final class TimeUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtils.class);
@@ -73,24 +74,26 @@ public final class TimeUtils {
      * @return the parsed date or null if no parse patterns match
      */
     public static Date parseDate(final String txt) {
+        return StringUtils.isBlank(txt) ? null : parseNotNullDate(txt);
+    }
 
-        if (txt == null || txt.length() == 0) {
-            return null;
-        }
+    private static Date parseNotNullDate(final String txt) {
 
         final SimpleDateFormat parser = new SimpleDateFormat();
 
+        Date result = null;
         for (final String pattern : ISO_8601_PATTERN_LIST) {
             if (txt.length() <= pattern.length()) {
                 try {
                     parser.applyPattern(pattern);
-                    return parser.parse(txt);
+                    result = parser.parse(txt);
+                    break;
                 } catch (final ParseException e) {
                     LOGGER.debug(e.getMessage());
                 }
             }
         }
-        return null;
+        return result;
     }
 
     /**
@@ -99,6 +102,7 @@ public final class TimeUtils {
      * @param text the span expression
      * @return the number of milliseconds
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     private static Long parseTimeSpanExpression(final String text) {
 
         long timeInMillis = 0;

@@ -36,7 +36,7 @@ public final class CollectionUtils {
      * @return true if empty or null
      */
     public static boolean isEmpty(final Collection<?> collection) {
-        return collection == null || collection.isEmpty();
+        return Objects.isNull(collection) || collection.isEmpty();
     }
 
     /**

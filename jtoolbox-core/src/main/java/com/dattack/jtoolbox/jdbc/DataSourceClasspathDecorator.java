@@ -40,15 +40,16 @@ import javax.sql.DataSource;
  *
  * @author cvarela
  * @since 0.1
- * @deprecated
+ * @deprecated Use {@link com.dattack.jtoolbox.util.FilesystemClassLoaderUtils}
  */
 @Deprecated
+@SuppressWarnings("PMD")
 public final class DataSourceClasspathDecorator extends AbstractDataSourceDecorator {
 
     private static final Logger LOGGER = Logger.getLogger(DataSourceClasspathDecorator.class.getName());
 
-    private final Set<File> extraClasspath;
-    private volatile boolean initialized;
+    private final transient Set<File> extraClasspath;
+    private transient volatile boolean initialized;
 
     private static void configureClasspathFromUrls(final List<URL> urlList) throws NoSuchMethodException,
             SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
