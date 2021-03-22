@@ -15,7 +15,7 @@
  */
 package com.dattack.jtoolbox.concurrent;
 
-import com.dattack.jtoolbox.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Objects;
 import java.util.concurrent.ThreadFactory;

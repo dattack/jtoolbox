@@ -22,7 +22,9 @@ import java.util.Objects;
  *
  * @author cvarela
  * @since 0.4
+ * @deprecated Use {@link org.apache.commons.lang.StringUtils}
  */
+@Deprecated
 public final class StringUtils {
 
     /**

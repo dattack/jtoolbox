@@ -16,7 +16,7 @@
 package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
-import com.dattack.jtoolbox.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Pattern;

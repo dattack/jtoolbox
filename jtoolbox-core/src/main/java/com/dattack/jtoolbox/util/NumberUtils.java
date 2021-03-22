@@ -20,7 +20,9 @@ package com.dattack.jtoolbox.util;
  *
  * @author cvarela
  * @since 0.4
+ * @deprecated Use {@link org.apache.commons.lang.math.NumberUtils}
  */
+@Deprecated
 public final class NumberUtils {
 
     /**

@@ -79,7 +79,7 @@
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
         <commons-email.version>1.5</commons-email.version>
-        <junit.version>4.13.1</junit.version>
+        <commons-lang.version>2.6</commons-lang.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
@@ -90,6 +90,11 @@
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
                 <version>${commons-configuration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

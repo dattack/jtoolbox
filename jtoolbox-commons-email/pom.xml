@@ -25,9 +25,8 @@
     <description>Utility classes that extends Apache commons-email.</description>
     <dependencies>
         <dependency>
-            <groupId>com.dattack</groupId>
-            <artifactId>jtoolbox-core</artifactId>
-            <version>${parent.version}</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

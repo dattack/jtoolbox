@@ -16,7 +16,7 @@
 package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
-import com.dattack.jtoolbox.util.NumberUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -49,9 +49,9 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
         while (true) {
             final Integer result = readInt();
 
-            if (minValue != null && result < minValue) {
+            if (Objects.nonNull(minValue) && result < minValue) {
                 getConsole().error("Value must be greater than %d", minValue);
-            } else if (maxValue != null && result > maxValue) {
+            } else if (Objects.nonNull(maxValue) && result > maxValue) {
                 getConsole().error("Value must be less than %d", maxValue);
             } else {
                 return result;
@@ -68,7 +68,7 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
                 final String userInput = scanner.nextLine();
 
                 try {
-                    return NumberUtils.parseInt(userInput, defaultValue);
+                    return NumberUtils.toInt(userInput, defaultValue);
                 } catch (@SuppressWarnings("unused") final NumberFormatException nfe) {
                     // ignore
                 }
