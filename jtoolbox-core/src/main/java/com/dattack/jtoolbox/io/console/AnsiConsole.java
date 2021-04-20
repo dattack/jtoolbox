@@ -17,6 +17,8 @@ package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
 import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 /**
  * <p>
@@ -40,17 +42,31 @@ public class AnsiConsole implements Console {
 
     private final transient AnsiStyle errorStyle;
     private final transient AnsiStyle infoStyle;
+    private final transient InputStream inputStream;
+    private final transient PrintStream printStream;
 
-    private static void print(final AnsiStyle style) {
+    public AnsiConsole() {
+        this(System.in, System.out, DEFAULT_ERROR_STYLE, DEFAULT_INFO_STYLE);
+    }
+
+    public AnsiConsole(final InputStream inputStream, final PrintStream printStream, final AnsiStyle errorStyle,
+                       final AnsiStyle infoStyle) {
+        this.inputStream = inputStream;
+        this.printStream = printStream;
+        this.errorStyle = errorStyle;
+        this.infoStyle = infoStyle;
+    }
+
+    private void print(final AnsiStyle style) {
         if (style != null) {
-            System.out.print(style.toAnsiEscapeCodes());
+            printStream.print(style.toAnsiEscapeCodes());
         }
     }
 
     @Override
     public void print(final AnsiStyle style, final String text, final Object... args) {
         print(style);
-        System.out.format(text, args);
+        printStream.format(text, args);
     }
 
     /**
@@ -63,29 +79,20 @@ public class AnsiConsole implements Console {
     @Override
     public void printAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style);
-        System.out.format(text, args);
-        System.out.print(RESET_STYLE.toAnsiEscapeCodes());
+        printStream.format(text, args);
+        printStream.print(RESET_STYLE.toAnsiEscapeCodes());
     }
 
     @Override
     public void println(final AnsiStyle style, final String text, final Object... args) {
         print(style, text, args);
-        System.out.println();
+        printStream.println();
     }
 
     @Override
     public void printlnAndReset(final AnsiStyle style, final String text, final Object... args) {
         print(style, text, args);
-        System.out.println(RESET_STYLE.toAnsiEscapeCodes());
-    }
-
-    public AnsiConsole() {
-        this(DEFAULT_ERROR_STYLE, DEFAULT_INFO_STYLE);
-    }
-
-    public AnsiConsole(final AnsiStyle errorStyle, final AnsiStyle infoStyle) {
-        this.errorStyle = errorStyle;
-        this.infoStyle = infoStyle;
+        printStream.println(RESET_STYLE.toAnsiEscapeCodes());
     }
 
     @Override
@@ -100,16 +107,16 @@ public class AnsiConsole implements Console {
 
     @Override
     public IntConsoleReader intReader() {
-        return new IntConsoleReader(this);
+        return new IntConsoleReader(this, inputStream);
     }
 
     @Override
     public PasswordConsoleReader passwordReader() {
-        return new PasswordConsoleReader(this);
+        return new PasswordConsoleReader(this, inputStream);
     }
 
     @Override
     public StringConsoleReader stringReader() {
-        return new StringConsoleReader(this);
+        return new StringConsoleReader(this, inputStream);
     }
 }

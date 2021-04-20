@@ -15,6 +15,9 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import java.io.InputStream;
+import java.io.PrintStream;
+
 /**
  * A {@link Console} implementation that avoids all ANSI codes.
  * This class is not synchronized.
@@ -24,9 +27,21 @@ package com.dattack.jtoolbox.io.console;
  */
 public class SimpleConsole implements Console {
 
+    private final transient InputStream inputStream;
+    private final transient PrintStream printStream;
+
+    public SimpleConsole() {
+        this(System.in, System.out);
+    }
+
+    public SimpleConsole(final InputStream inputStream, final PrintStream printStream) {
+        this.inputStream = inputStream;
+        this.printStream = printStream;
+    }
+
     @Override
     public void print(final AnsiStyle style, final String text, final Object... args) {
-        System.out.format(text, args);
+        printStream.format(text, args);
     }
 
     @Override
@@ -46,7 +61,7 @@ public class SimpleConsole implements Console {
 
     @Override
     public void error(final String text, final Object... args) {
-        System.out.format(text + "%n", args);
+        printStream.format(text + "%n", args);
     }
 
     @Override
@@ -56,16 +71,16 @@ public class SimpleConsole implements Console {
 
     @Override
     public IntConsoleReader intReader() {
-        return new IntConsoleReader(this);
+        return new IntConsoleReader(this, inputStream);
     }
 
     @Override
     public PasswordConsoleReader passwordReader() {
-        return new PasswordConsoleReader(this);
+        return new PasswordConsoleReader(this, inputStream);
     }
 
     @Override
     public StringConsoleReader stringReader() {
-        return new StringConsoleReader(this);
+        return new StringConsoleReader(this, inputStream);
     }
 }

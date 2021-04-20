@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
 import org.apache.commons.lang.StringUtils;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -34,8 +35,8 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     private transient String regex;
     private transient AnsiStyle style;
 
-    /* default */ StringConsoleReader(final Console console) {
-        super(console);
+    /* default */ StringConsoleReader(final Console console, final InputStream inputStream) {
+        super(console, inputStream);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     }
 
     private String readString() {
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+        try (final Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), StandardCharsets.UTF_8.name())) {
             print(style, prompt);
             return scanner.nextLine();
         }

@@ -17,7 +17,9 @@ package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
 import org.apache.commons.lang.math.NumberUtils;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -34,8 +36,8 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
     private transient Integer maxValue;
     private transient AnsiStyle style;
 
-    /* default */ IntConsoleReader(final Console console) {
-        super(console);
+    /* default */ IntConsoleReader(final Console console, final InputStream inputStream) {
+        super(console, inputStream);
     }
 
     /**
@@ -61,7 +63,7 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
 
     @SuppressWarnings("PMD.EmptyCatchBlock")
     private int readInt() {
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+        try (final Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), StandardCharsets.UTF_8.name())) {
             while (true) {
                 print(style, prompt);
 

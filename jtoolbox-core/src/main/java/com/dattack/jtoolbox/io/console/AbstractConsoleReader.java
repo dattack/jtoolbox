@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.io.console;
 
+import java.io.InputStream;
+
 /**
  * An abstract reader to read data from the console.
  *
@@ -24,9 +26,11 @@ package com.dattack.jtoolbox.io.console;
 public abstract class AbstractConsoleReader<T> {
 
     private final Console console;
+    private final InputStream inputStream;
 
-    /* default */ AbstractConsoleReader(final Console console) {
+    /* default */ AbstractConsoleReader(final Console console, final InputStream inputStream) {
         this.console = console;
+        this.inputStream = inputStream;
     }
 
     /**
@@ -37,6 +41,13 @@ public abstract class AbstractConsoleReader<T> {
     protected Console getConsole() {
         return console;
     }
+
+    /**
+     * Returns the input stream.
+     *
+     * @return the input stream.
+     */
+    protected InputStream getInputStream() { return inputStream; }
 
     /**
      * Prints a String. If the argument is null, then prints none.

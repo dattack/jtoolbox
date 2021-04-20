@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
 import org.apache.commons.lang.StringUtils;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
@@ -35,8 +36,8 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
     private transient boolean mandatory;
     private transient AnsiStyle style;
 
-    /* default */ PasswordConsoleReader(final Console console) {
-        super(console);
+    /* default */ PasswordConsoleReader(final Console console, final InputStream inputStream) {
+        super(console, inputStream);
         this.mandatory = true;
     }
 
@@ -65,12 +66,12 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
 
         final java.io.Console ioConsole = System.console();
 
-        String result;
+        final String result;
         if (Objects.nonNull(ioConsole)) {
             result = new String(ioConsole.readPassword(prompt));
         } else {
             // no console available (IDE)
-            try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+            try (final Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), StandardCharsets.UTF_8.name())) {
                 print(style, prompt);
                 result = scanner.nextLine();
             }
