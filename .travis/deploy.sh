@@ -11,6 +11,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-if [ "$TRAVIS_BRANCH" = 'master' ] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
+if [[ "$TRAVIS_BRANCH" = 'master' || "$TRAVIS_BRANCH" = 'develop' ]] && [ "$TRAVIS_PULL_REQUEST" == 'false' ]; then
     mvn deploy -P sign,build-extras --settings .travis/settings.xml
 fi
