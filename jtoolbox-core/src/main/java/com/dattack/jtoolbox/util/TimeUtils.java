@@ -15,14 +15,15 @@
  */
 package com.dattack.jtoolbox.util;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A suite of utilities surrounding the use of the {@link java.util.Calendar} and {@link java.util.Date} object.
@@ -30,9 +31,10 @@ import java.util.logging.Logger;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings("PMD.LongVariable")
 public final class TimeUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(TimeUtils.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtils.class);
 
     private static final long MILLIS_PER_SECOND = 1000;
     private static final long MILLIS_PER_MINUTE = 60 * MILLIS_PER_SECOND;
@@ -73,24 +75,26 @@ public final class TimeUtils {
      * @return the parsed date or null if no parse patterns match
      */
     public static Date parseDate(final String txt) {
+        return StringUtils.isBlank(txt) ? null : parseNotNullDate(txt);
+    }
 
-        if (txt == null || txt.length() == 0) {
-            return null;
-        }
+    private static Date parseNotNullDate(final String txt) {
 
         final SimpleDateFormat parser = new SimpleDateFormat();
 
+        Date result = null;
         for (final String pattern : ISO_8601_PATTERN_LIST) {
             if (txt.length() <= pattern.length()) {
                 try {
                     parser.applyPattern(pattern);
-                    return parser.parse(txt);
+                    result = parser.parse(txt);
+                    break;
                 } catch (final ParseException e) {
-                    LOGGER.log(Level.FINE, e.getMessage());
+                    LOGGER.debug(e.getMessage());
                 }
             }
         }
-        return null;
+        return result;
     }
 
     /**
@@ -99,6 +103,7 @@ public final class TimeUtils {
      * @param text the span expression
      * @return the number of milliseconds
      */
+    @SuppressWarnings("PMD.CyclomaticComplexity")
     private static Long parseTimeSpanExpression(final String text) {
 
         long timeInMillis = 0;

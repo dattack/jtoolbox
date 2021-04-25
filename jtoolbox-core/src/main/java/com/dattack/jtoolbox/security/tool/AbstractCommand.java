@@ -24,6 +24,7 @@ import com.dattack.jtoolbox.io.console.Console;
  * @author cvarela
  * @since 0.2
  */
+@SuppressWarnings("PMD.LongVariable")
 abstract class AbstractCommand {
 
     protected static final String DEFAULT_PRIVATE_KEY_FILENAME = "dattack_rsa";
@@ -31,7 +32,7 @@ abstract class AbstractCommand {
 
     private final Console console;
 
-    protected AbstractCommand(Console console) {
+    protected AbstractCommand(final Console console) {
         this.console = console;
     }
 
@@ -40,7 +41,7 @@ abstract class AbstractCommand {
     }
 
     private String getKeyPath(final String defaultValue, final String prompt) {
-        return getConsole().stringReader().setPrompt(prompt).setDefaultValue(defaultValue).read();
+        return getConsole().stringReader().withPrompt(prompt).withDefaultValue(defaultValue).read();
     }
 
     protected String getPrivateKeyPath(final String defaultValue) {

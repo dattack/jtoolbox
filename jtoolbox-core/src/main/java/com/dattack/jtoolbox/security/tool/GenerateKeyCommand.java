@@ -44,9 +44,9 @@ class GenerateKeyCommand extends AbstractCommand {
         try {
             // key size
             final int keySize = getConsole().intReader() //
-                    .setPrompt(String.format("> Key size (default %d): ", DEFAULT_RSA_SIZE)) //
-                    .setDefaultValue(DEFAULT_RSA_SIZE) //
-                    .setMinValue(RSA_MIN_SIZE) //
+                    .withPrompt(String.format("> Key size (default %d): ", DEFAULT_RSA_SIZE)) //
+                    .withDefaultValue(DEFAULT_RSA_SIZE) //
+                    .withMinValue(RSA_MIN_SIZE) //
                     .read();
 
             // private key path

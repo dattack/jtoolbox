@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
@@ -30,26 +31,49 @@ import javax.sql.DataSource;
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class JNDIDataSource extends AbstractDataSource {
 
-    private final String jndiName;
+    private final transient String jndiName;
+    private transient volatile DataSource dataSource;
 
     public JNDIDataSource(final String jndiName) {
+        super();
         this.jndiName = jndiName;
     }
 
-    @Override
-    public Connection getConnection() throws SQLException {
-
+    private void initializeDataSource() throws SQLException {
         try {
             final InitialContext context = new InitialContext();
-            final DataSource dataSource = (DataSource) context.lookup(jndiName);
-            if (dataSource == null) {
+            final Object obj = context.lookup(jndiName);
+            if (Objects.isNull(obj)) {
                 throw new SQLException("Unknown JNDI resource '" + jndiName + "'");
             }
-            return dataSource.getConnection();
+
+            if (obj instanceof DataSource) {
+                this.dataSource = (DataSource) obj;
+            } else {
+                throw new SQLException(String.format("Unable to get a Connection (JNDI-name: %s, Class: %s)", jndiName,
+                        obj.getClass()));
+            }
+
         } catch (final NamingException e) {
             throw new SQLException(
                     String.format("Unable to get a connection from JNDI name '%s': %s", jndiName, e.getMessage()), e);
         }
+    }
+
+    private DataSource getDataSource() throws SQLException {
+        if (Objects.isNull(dataSource)) {
+            synchronized (this) {
+                if (Objects.isNull(dataSource)) {
+                    initializeDataSource();
+                }
+            }
+        }
+        return dataSource;
+    }
+
+    @Override
+    public Connection getConnection() throws SQLException {
+        return getDataSource().getConnection();
     }
 
     @Override

@@ -24,6 +24,7 @@ import java.util.List;
  * @author cvarela
  * @since 0.2
  */
+@SuppressWarnings("PMD.LongVariable")
 public class AnsiStyle {
 
     private static final int FG_CODE = 30; // Set text color (foreground)
@@ -35,8 +36,8 @@ public class AnsiStyle {
     private static final char ESCAPE_CHAR_SEPARATOR = ';';
     private static final char ESCAPE_CHAR_END = 'm';
 
-    private final List<Integer> list;
-    private final boolean isAnsiCompatible;
+    private final transient List<Integer> list;
+    private final transient boolean isAnsiCompatible;
 
     public enum Color {
         BLACK(0), //
@@ -148,6 +149,8 @@ public class AnsiStyle {
      * @return the ANSI escape code sequence or <code>""</code> when it's not an ANSI compatible console.
      */
     public String toAnsiEscapeCodes() {
+
+        String ansiCode = "";
         if (!list.isEmpty()) {
             final StringBuilder builder = new StringBuilder();
             builder.append(ESCAPE_CHAR).append(ESCAPE_CHAR_START);
@@ -158,8 +161,8 @@ public class AnsiStyle {
                 builder.append(list.get(i));
             }
             builder.append(ESCAPE_CHAR_END);
-            return builder.toString();
+            ansiCode = builder.toString();
         }
-        return "";
+        return ansiCode;
     }
 }

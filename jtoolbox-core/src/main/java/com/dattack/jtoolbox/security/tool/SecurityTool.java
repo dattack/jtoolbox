@@ -21,6 +21,8 @@ import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
 import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
 import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.io.console.SimpleConsole;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * A security tool that allows the generation of security keys and the execution of encryption and decryption of text
@@ -30,6 +32,7 @@ import com.dattack.jtoolbox.io.console.SimpleConsole;
  * @author cvarela
  * @since 0.2
  */
+@SuppressWarnings("PMD.SystemPrintln")
 public final class SecurityTool {
 
     private static Console console = new SimpleConsole();
@@ -46,8 +49,8 @@ public final class SecurityTool {
                 @Override
                 protected void execute() {
                     System.out.println("\n  Available commands:\n");
-                    for (final AbstractCommand command : COMMANDS) {
-                        System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(),
+                    for (final AbstractCommand command : COMMANDS) { //NOPMD
+                        System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(Locale.getDefault()),
                                 command.getDescription());
                     }
                     System.out.println();
@@ -68,7 +71,7 @@ public final class SecurityTool {
                 @Override
                 protected void execute() {
                     System.out.println("\n  Have a nice day!\n");
-                    exit = true;
+                    exit = true; //NOPMD
                 }
 
                 @Override
@@ -85,7 +88,7 @@ public final class SecurityTool {
 
                 @Override
                 protected void execute() {
-                    switchConsole();
+                    switchConsole(); //NOPMD
                 }
 
                 @Override
@@ -132,16 +135,16 @@ public final class SecurityTool {
             try {
 
                 final String commandName = console.stringReader() //
-                        .setPrompt("[SecurityTool]$ ") //
-                        .setStyle(greenStyle) //
+                        .withPrompt("[SecurityTool]$ ") //
+                        .withStyle(greenStyle) //
                         .read();
 
-                if (commandName == null) {
+                if (Objects.isNull(commandName)) {
                     continue;
                 }
 
-                AbstractCommand command = lookupCommand(commandName);
-                if (command == null) {
+                final AbstractCommand command = lookupCommand(commandName);
+                if (Objects.isNull(command)) {
                     console.error("%s: command not found", commandName);
                 } else {
                     command.execute();
@@ -153,12 +156,15 @@ public final class SecurityTool {
     }
 
     private static AbstractCommand lookupCommand(final String commandName) {
+
+        AbstractCommand result = null;
         for (final AbstractCommand command : COMMANDS) {
             if (command.getName().equalsIgnoreCase(commandName)) {
-                return command;
+                result = command;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
     private SecurityTool() {

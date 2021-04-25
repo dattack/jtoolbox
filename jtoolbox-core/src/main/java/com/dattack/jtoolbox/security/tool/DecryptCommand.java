@@ -42,7 +42,7 @@ final class DecryptCommand extends AbstractCommand {
             getConsole().info("[INFO] Loading private key: %s", privateKeyPath);
             final PrivateKey key = RsaUtils.loadPrivateKey(privateKeyPath);
 
-            final String encryptedData = getConsole().stringReader().setPrompt("> Encrypted data: ").read().trim();
+            final String encryptedData = getConsole().stringReader().withPrompt("> Encrypted data: ").read().trim();
 
             getConsole().info("[INFO] Running decrypt process ...");
             final byte[] plainMessage = RsaUtils.decryptBase64(encryptedData.getBytes(StandardCharsets.UTF_8), key);

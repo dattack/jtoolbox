@@ -21,6 +21,7 @@ import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.PropertyConverter;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.apache.commons.lang.ObjectUtils;
+import java.util.Objects;
 
 /**
  * Provides utility methods for manage to <code>Configuration</code> instances.
@@ -52,7 +53,6 @@ public final class ConfigurationUtil {
      * @return the interpolated value
      */
     public static String interpolate(final Object value, final AbstractConfiguration configuration) {
-
         return interpolate(ObjectUtils.toString(value), configuration);
     }
 
@@ -68,11 +68,13 @@ public final class ConfigurationUtil {
      */
     public static String interpolate(final String value, final AbstractConfiguration configuration) {
 
-        if (value == null || configuration == null) {
-            return value;
+        String result;
+        if (Objects.isNull(value) || Objects.isNull(configuration)) {
+            result = value;
+        } else {
+            result = PropertyConverter.interpolate(value, configuration).toString();
         }
-
-        return PropertyConverter.interpolate(value, configuration).toString();
+        return result;
     }
 
     private ConfigurationUtil() {

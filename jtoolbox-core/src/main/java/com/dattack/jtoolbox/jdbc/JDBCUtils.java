@@ -15,12 +15,12 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A collection of useful method to simplify working with JDBC.
@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class JDBCUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(JDBCUtils.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JDBCUtils.class);
 
     /**
      * Close a <code>Connection</code> ignoring <code>null</code> values and exceptions.
@@ -44,7 +44,7 @@ public final class JDBCUtils {
             try {
                 connection.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, "Unable to close the Connection object", e.getMessage());
+                LOGGER.warn("Unable to close the Connection object: {}", e.getMessage());
             }
         }
     }
@@ -60,7 +60,7 @@ public final class JDBCUtils {
             try {
                 resultSet.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, "Unable to close the ResultSet object", e.getMessage());
+                LOGGER.warn("Unable to close the ResultSet object: {}", e.getMessage());
             }
         }
     }
@@ -76,7 +76,7 @@ public final class JDBCUtils {
             try {
                 stmt.close();
             } catch (final SQLException e) {
-                LOGGER.log(Level.WARNING, "Unable to close the Statement object", e.getMessage());
+                LOGGER.warn("Unable to close the Statement object: {}", e.getMessage());
             }
         }
     }

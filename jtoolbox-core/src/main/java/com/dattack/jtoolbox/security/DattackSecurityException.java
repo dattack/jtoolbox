@@ -15,7 +15,7 @@
  */
 package com.dattack.jtoolbox.security;
 
-import com.dattack.jtoolbox.exceptions.DattackNestableException;
+import org.apache.commons.lang.exception.NestableException;
 
 /**
  * A marker exception launched when there is a problem related to security management.
@@ -23,7 +23,7 @@ import com.dattack.jtoolbox.exceptions.DattackNestableException;
  * @author cvarela
  * @since 0.2
  */
-public class DattackSecurityException extends DattackNestableException {
+public class DattackSecurityException extends NestableException {
 
     private static final long serialVersionUID = -2035018806388891255L;
 
