@@ -80,7 +80,7 @@
         <commons-configuration.version>1.10</commons-configuration.version>
         <commons-email.version>1.5</commons-email.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <junit-extensions.version>0.1-SNAPSHOT</junit-extensions.version>
+        <junit-extensions.version>0.1</junit-extensions.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
@@ -121,7 +121,7 @@
             <dependency>
                 <groupId>com.dattack</groupId>
                 <artifactId>junit-extensions</artifactId>
-                <version>0.1</version>
+                <version>${junit-extensions.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
