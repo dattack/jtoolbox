@@ -27,8 +27,8 @@ import com.dattack.jtoolbox.io.console.Console;
 @SuppressWarnings("PMD.LongVariable")
 abstract class AbstractCommand {
 
-    protected static final String DEFAULT_PRIVATE_KEY_FILENAME = "dattack_rsa";
-    protected static final String DEFAULT_PUBLIC_KEY_FILENAME = "dattack_rsa.pub";
+    protected static final String DEFAULT_PRIVATE_KEY_FILENAME = "id_rsa";
+    protected static final String DEFAULT_PUBLIC_KEY_FILENAME = "id_rsa.pub";
 
     private final Console console;
 
