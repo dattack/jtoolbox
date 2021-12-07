@@ -81,7 +81,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <junit-extensions.version>0.1</junit-extensions.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <slf4j.version>1.7.30</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
     </properties>
 
     <dependencyManagement>
