@@ -40,16 +40,20 @@ public final class SecurityTool {
     private static boolean exit;
 
     @SuppressWarnings("checkstyle:Indentation")
-    private static final AbstractCommand[] COMMANDS = { //
-            new GenerateKeyCommand(console), //
-            new EncryptCommand(console), //
-            new DecryptCommand(console), //
+    /* package */ static final AbstractCommand[] COMMANDS = {
+            // generate keys command
+            new GenerateKeyCommand(console),
+            // encrypt command
+            new EncryptCommand(console),
+            // decrypt command
+            new DecryptCommand(console),
+            // help command
             new AbstractCommand(console) {
 
                 @Override
                 protected void execute() {
                     System.out.println("\n  Available commands:\n");
-                    for (final AbstractCommand command : COMMANDS) { //NOPMD
+                    for (AbstractCommand command : COMMANDS) {
                         System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(Locale.getDefault()),
                                 command.getDescription());
                     }
@@ -65,13 +69,14 @@ public final class SecurityTool {
                 protected String getName() {
                     return "Help";
                 }
-            }, //
+            },
+            // exit command
             new AbstractCommand(console) {
 
                 @Override
                 protected void execute() {
                     System.out.println("\n  Have a nice day!\n");
-                    exit = true; //NOPMD
+                    exit = true; // NOPMD
                 }
 
                 @Override
@@ -88,7 +93,7 @@ public final class SecurityTool {
 
                 @Override
                 protected void execute() {
-                    switchConsole(); //NOPMD
+                    switchConsole();
                 }
 
                 @Override
@@ -103,17 +108,13 @@ public final class SecurityTool {
             } //
     };
 
-    private static void switchConsole() {
+    /* package */ static void switchConsole() {
 
         if (console instanceof AnsiConsole) {
             console = new SimpleConsole();
         } else {
             console = new AnsiConsole();
         }
-    }
-
-    static {
-        exit = false;
     }
 
     /**
@@ -133,7 +134,6 @@ public final class SecurityTool {
         while (!exit) {
 
             try {
-
                 final String commandName = console.stringReader() //
                         .withPrompt("[SecurityTool]$ ") //
                         .withStyle(greenStyle) //

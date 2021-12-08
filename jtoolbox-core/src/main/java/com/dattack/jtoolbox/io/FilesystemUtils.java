@@ -57,12 +57,11 @@ public final class FilesystemUtils {
      * @param file
      *            he file to retrieve the extension of.
      * @return the extension of the file or an empty string if none exists.
+     * @throws NullPointerException when file is null
      */
     public static String getFileExtension(final File file) {
 
-        if (Objects.isNull(file)) {
-            throw new IllegalArgumentException("Unable to get the file extension from 'null'");
-        }
+        Objects.requireNonNull(file, "Unable to get the file extension from 'null'");
 
         final String fileName = file.getName();
         final int lastIndexOfDot = fileName.lastIndexOf('.');
@@ -79,12 +78,11 @@ public final class FilesystemUtils {
      * @param path
      *            the name of the file to locate
      * @return the <code>File</code>
+     * @throws NullPointerException when path is null
      */
     public static File locateFile(final String path) {
 
-        if (Objects.isNull(path)) {
-            throw new IllegalArgumentException("Unable to locate the file 'null'");
-        }
+        Objects.requireNonNull(path, "Unable to locate the file 'null'");
 
         final URL url = Thread.currentThread().getContextClassLoader().getResource(path);
         File file;

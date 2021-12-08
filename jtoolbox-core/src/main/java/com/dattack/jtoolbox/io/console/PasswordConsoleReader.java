@@ -71,7 +71,8 @@ public class PasswordConsoleReader extends AbstractConsoleReader<byte[]> {
             result = new String(ioConsole.readPassword(prompt));
         } else {
             // no console available (IDE)
-            try (final Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), StandardCharsets.UTF_8.name())) {
+            try (Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), //
+                    StandardCharsets.UTF_8.name())) {
                 print(style, prompt);
                 result = scanner.nextLine();
             }

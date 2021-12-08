@@ -59,6 +59,7 @@ public final class StringUtils {
 
     /**
      * Removes all leading and trailing space from the string argument.
+     *
      * @param value the String to be trimmed, may be null
      * @return the trimmed String or null if the argument is null.
      */

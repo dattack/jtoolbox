@@ -68,6 +68,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
          * @param value
          *            the new priority
          * @return this builder object
+         * @throws IllegalArgumentException if 'value' is not a valid priority value
          */
         public ThreadFactoryBuilder withPriority(final int value) {
 

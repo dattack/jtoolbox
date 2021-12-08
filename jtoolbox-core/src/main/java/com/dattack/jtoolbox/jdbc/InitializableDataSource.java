@@ -18,6 +18,7 @@ package com.dattack.jtoolbox.jdbc;
 import com.dattack.jtoolbox.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,21 +58,24 @@ public final class InitializableDataSource extends AbstractDataSourceDecorator {
         return connection;
     }
 
-    @SuppressWarnings("PMD.ExceptionAsFlowControl")
     private void initialize(final Connection connection) throws SQLException {
 
         if (CollectionUtils.isNotEmpty(onConnectStatements)) {
             for (final String sqlStatement : onConnectStatements) {
-                try (final Statement stmt = connection.createStatement()) { //NOPMD
-                    try {
-                        LOGGER.debug("Running statement: {}", sqlStatement);
-                        stmt.executeUpdate(sqlStatement);
-                    } catch (final SQLException e) {
-                        throw new SQLException(String.format("Error executing initialization statement '%s': %s",
-                                sqlStatement, e.getMessage()), e);
-                    }
+                try (Statement stmt = connection.createStatement()) {
+                    execute(stmt, sqlStatement);
                 }
             }
+        }
+    }
+
+    private void execute(final Statement stmt, final String sql) throws SQLException {
+        try {
+            LOGGER.debug("Running statement: {}", sql);
+            stmt.executeUpdate(sql);
+        } catch (final SQLException e) {
+            throw new SQLException(String.format("Error executing initialization statement '%s': %s",
+                    sql, e.getMessage()), e);
         }
     }
 }

@@ -56,7 +56,8 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     }
 
     private String readString() {
-        try (final Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), StandardCharsets.UTF_8.name())) {
+        try (Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), //
+                StandardCharsets.UTF_8.name())) {
             print(style, prompt);
             return scanner.nextLine();
         }
