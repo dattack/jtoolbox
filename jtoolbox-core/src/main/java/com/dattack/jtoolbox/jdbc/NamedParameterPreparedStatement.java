@@ -33,13 +33,7 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.sql.SQLXML;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * Useful class to prepare and execute a SQL with parameter-name instead of parameter-index. The parameter-name is
@@ -49,8 +43,8 @@ import java.util.Map;
  * @since 0.2
  */
 @SuppressWarnings({"PMD.LongVariable", "PMD.ExcessivePublicCount", "PMD.AccessorMethodGeneration", //
-        "PMD.CyclomaticComplexity", "checkstyle:AbbreviationAsWordInName"})
-public class NamedParameterPreparedStatement extends DelegatingPreparedStatement {
+    "PMD.CyclomaticComplexity", "checkstyle:AbbreviationAsWordInName"})
+public final class NamedParameterPreparedStatement extends DelegatingPreparedStatement {
 
     private final transient PreparedStatementConfig preparedStatementConfig;
 
@@ -922,131 +916,6 @@ public class NamedParameterPreparedStatement extends DelegatingPreparedStatement
             throws SQLException {
         for (final Integer i : preparedStatementConfig.getParameterIndexes(parameterName)) {
             getDelegate().setUnicodeStream(i, value, length);
-        }
-    }
-
-    /**
-     * Internal representation of a PreparedStatement.
-     */
-    private static final class PreparedStatementConfig {
-
-        private transient String compiledSql;
-        private final transient Map<String, List<Integer>> parameterName2IndexMap;
-        private transient int parameterIndex;
-
-        private PreparedStatementConfig() {
-            this.parameterIndex = 1;
-            this.parameterName2IndexMap = new HashMap<>();
-        }
-
-        private void addParameter(final String parameterName) {
-
-            final String normalizedName = normalizeParameterName(parameterName);
-            final List<Integer> list = parameterName2IndexMap.computeIfAbsent(normalizedName, k -> new ArrayList<>());
-            list.add(parameterIndex++);
-        }
-
-        private static String normalizeParameterName(final String parameterName) {
-            return parameterName.toLowerCase(Locale.getDefault());
-        }
-
-        private void setCompiledSql(final String compiledSql) {
-            this.compiledSql = compiledSql;
-        }
-
-        private String getCompiledSql() {
-            return compiledSql;
-        }
-
-        private Collection<Integer> getParameterIndexes(final String parameterName) {
-
-            final String normalizedName = normalizeParameterName(parameterName);
-            final List<Integer> indexes = parameterName2IndexMap.get(normalizedName);
-
-            if (indexes.isEmpty()) {
-                throw new IllegalArgumentException(String.format("Parameter not found: '%s'", normalizedName));
-            }
-            return indexes;
-        }
-
-        private boolean hasNamedParameter(final String parameterName) {
-            return parameterName2IndexMap.containsKey(normalizeParameterName(parameterName));
-        }
-
-        private boolean hasNamedParameters() {
-            return !parameterName2IndexMap.isEmpty();
-        }
-
-
-        /**
-         * Parse the query string containing named parameters and result a parse result, which holds the parsed sql
-         * (named
-         * parameters replaced by standard '?' parameters and an ordered list of the named parameters.
-         *
-         * @param query Query containing named parameters
-         * @return ParseResult
-         */
-        @SuppressWarnings({"PMD.CyclomaticComplexity", "PMD.AvoidLiteralsInIfCondition"})
-        private static PreparedStatementConfig parse(final String query) {
-
-            final int length = query.length();
-            boolean inSingleQuote = false;
-            boolean inDoubleQuote = false;
-            boolean inSingleLineComment = false;
-            boolean inMultiLineComment = false;
-
-            final StringBuilder compiledSql = new StringBuilder(length);
-            final PreparedStatementConfig preparedStatementConfig = new PreparedStatementConfig();
-
-            int index = 0;
-            while (index < length) {
-                char currentChar = query.charAt(index);
-                if (inSingleQuote) {
-                    if (currentChar == '\'') {
-                        inSingleQuote = false; // '...'
-                    }
-                } else if (inDoubleQuote) {
-                    if (currentChar == '"') {
-                        inDoubleQuote = false; // "..."
-                    }
-                } else if (inMultiLineComment) {
-                    if (currentChar == '*' && index < length - 1 && query.charAt(index + 1) == '/') {
-                        inMultiLineComment = false; // */
-                    }
-                } else if (inSingleLineComment) {
-                    if (currentChar == '\n') {
-                        inSingleLineComment = false;
-                    }
-                } else {
-                    if (currentChar == '\'') { // '...
-                        inSingleQuote = true;
-                    } else if (currentChar == '"') {
-                        inDoubleQuote = true;
-                    } else if (currentChar == '/' && index < length - 1 && query.charAt(index + 1) == '*') { // /*
-                        inMultiLineComment = true;
-                    } else if (currentChar == '-' && index < length - 1 && query.charAt(index + 1) == '-') { // --
-                        inSingleLineComment = true;
-                    } else if (currentChar == ':' //
-                            && index + 1 < length //
-                            && Character.isJavaIdentifierStart(query.charAt(index + 1))) {
-                        int skipCharacters = index + 2;
-                        while (skipCharacters < length
-                                && Character.isJavaIdentifierPart(query.charAt(skipCharacters))) {
-                            skipCharacters++;
-                        }
-                        final String name = query.substring(index + 1, skipCharacters);
-                        preparedStatementConfig.addParameter(name);
-                        currentChar = '?';
-                        index += name.length();
-                    }
-                }
-                compiledSql.append(currentChar);
-                index++;
-            }
-
-            preparedStatementConfig.setCompiledSql(compiledSql.toString());
-
-            return preparedStatementConfig;
         }
     }
 }

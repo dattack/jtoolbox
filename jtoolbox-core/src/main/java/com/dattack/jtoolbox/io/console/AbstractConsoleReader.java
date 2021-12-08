@@ -47,7 +47,9 @@ public abstract class AbstractConsoleReader<T> {
      *
      * @return the input stream.
      */
-    protected InputStream getInputStream() { return inputStream; }
+    protected InputStream getInputStream() {
+        return inputStream;
+    }
 
     /**
      * Prints a String. If the argument is null, then prints none.
