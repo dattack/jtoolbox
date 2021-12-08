@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -46,8 +47,8 @@ public final class FilesystemUtils {
      */
     public static FilenameFilter createFilenameFilterByExtension(final String extension) {
 
-        final String lowerExtension = extension.toLowerCase();
-        return (dir, name) -> name.toLowerCase().endsWith(lowerExtension);
+        final String lowerExtension = extension.toLowerCase(Locale.getDefault());
+        return (dir, name) -> name.toLowerCase(Locale.getDefault()).endsWith(lowerExtension);
     }
 
     /**
@@ -56,19 +57,19 @@ public final class FilesystemUtils {
      * @param file
      *            he file to retrieve the extension of.
      * @return the extension of the file or an empty string if none exists.
+     * @throws NullPointerException when file is null
      */
     public static String getFileExtension(final File file) {
 
-        if (file == null) {
-            throw new IllegalArgumentException("Unable to get the file extension from 'null'");
-        }
+        Objects.requireNonNull(file, "Unable to get the file extension from 'null'");
 
         final String fileName = file.getName();
         final int lastIndexOfDot = fileName.lastIndexOf('.');
+        String extension = "";
         if (lastIndexOfDot > 0) {
-            return fileName.substring(lastIndexOfDot + 1);
+            extension = fileName.substring(lastIndexOfDot + 1);
         }
-        return "";
+        return extension;
     }
 
     /**
@@ -77,25 +78,27 @@ public final class FilesystemUtils {
      * @param path
      *            the name of the file to locate
      * @return the <code>File</code>
+     * @throws NullPointerException when path is null
      */
     public static File locateFile(final String path) {
 
-        if (path == null) {
-            throw new IllegalArgumentException("Unable to locate the file 'null'");
-        }
+        Objects.requireNonNull(path, "Unable to locate the file 'null'");
 
-        final URL url = FilesystemUtils.class.getClassLoader().getResource(path);
-        if (url != null) {
+        final URL url = Thread.currentThread().getContextClassLoader().getResource(path);
+        File file;
+        if (Objects.isNull(url)) {
+            file = new File(path);
+        } else {
             try {
                 final URI uri = new URI(url.toExternalForm());
-                return new File(uri);
+                file = new File(uri);
             } catch (@SuppressWarnings("unused") final URISyntaxException e) {
                 // URI syntax error? we have a valid URL
-                return new File(path);
+                file = new File(path);
             }
         }
 
-        return new File(path);
+        return file;
     }
 
     /**
@@ -134,10 +137,8 @@ public final class FilesystemUtils {
 
         final File file = new File(path);
         final File parentFile = file.getParentFile();
-        if (parentFile != null && !parentFile.exists()) {
-            if (!parentFile.mkdirs()) {
-                throw new IOException("Unable to create directory: " + parentFile);
-            }
+        if (parentFile != null && !parentFile.exists() && !parentFile.mkdirs()) {
+            throw new IOException("Unable to create directory: " + parentFile);
         }
 
         try (OutputStream fos = Files.newOutputStream(Paths.get(path))) {

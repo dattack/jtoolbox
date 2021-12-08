@@ -18,6 +18,7 @@ package com.dattack.jtoolbox.jdbc;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * A basic implementation of the standard JDBC DataSource interface that returns a new Connection from every
@@ -28,11 +29,13 @@ import java.sql.SQLException;
  */
 public final class SimpleDataSource extends AbstractDataSource {
 
-    private final String username;
-    private final String password;
-    private final String url;
-    private final String driver;
-    private volatile boolean ensureDriverLoadedNeeded;
+    private final transient String username;
+    private final transient String password;
+    private final transient String url;
+    private final transient String driver;
+
+    @SuppressWarnings("PMD.LongVariable")
+    private transient volatile boolean ensureDriverLoadedNeeded;
 
     /**
      * Create a new SimpleDataSource with the given standard Driver parameters.
@@ -43,6 +46,7 @@ public final class SimpleDataSource extends AbstractDataSource {
      * @param password - the JDBC password to use for accessing the DriverManager
      */
     public SimpleDataSource(final String driver, final String url, final String username, final String password) {
+        super();
         this.driver = driver;
         this.url = url;
         this.username = username;
@@ -50,25 +54,25 @@ public final class SimpleDataSource extends AbstractDataSource {
         ensureDriverLoadedNeeded = true;
     }
 
-    private synchronized void ensureDriverLoaded() throws SQLException {
+    private void ensureDriverLoaded() throws SQLException {
 
-        if (!ensureDriverLoadedNeeded) {
-            return;
-        }
-
-        try {
-            Class.forName(driver).newInstance();
-            ensureDriverLoadedNeeded = false;
-        } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            throw new SQLException("Unable to load the driver class: " + driver, e);
+        if (ensureDriverLoadedNeeded) {
+            synchronized (this) {
+                if (ensureDriverLoadedNeeded) {
+                    try {
+                        Class.forName(driver);
+                        ensureDriverLoadedNeeded = false;
+                    } catch (final ClassNotFoundException e) {
+                        throw new SQLException("Unable to load the driver class: " + driver, e);
+                    }
+                }
+            }
         }
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        if (ensureDriverLoadedNeeded) {
-            ensureDriverLoaded();
-        }
+        ensureDriverLoaded();
         return this.getConnection(username, password);
     }
 
@@ -79,10 +83,12 @@ public final class SimpleDataSource extends AbstractDataSource {
             ensureDriverLoaded();
         }
 
-        if (user == null || pass == null) {
-            return DriverManager.getConnection(url);
+        final Connection connection;
+        if (Objects.isNull(user) || Objects.isNull(pass)) {
+            connection = DriverManager.getConnection(url);
+        } else {
+            connection = DriverManager.getConnection(url, user, pass);
         }
-
-        return DriverManager.getConnection(url, user, pass);
+        return connection;
     }
 }

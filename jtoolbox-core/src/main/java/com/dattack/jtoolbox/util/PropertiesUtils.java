@@ -16,10 +16,13 @@
 package com.dattack.jtoolbox.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -41,8 +44,21 @@ public final class PropertiesUtils {
      *             if an I/O error occurs
      */
     public static Properties loadProperties(final File file) throws IOException {
+        return loadProperties(file.getCanonicalPath());
+    }
 
-        try (FileInputStream fin = new FileInputStream(file)) {
+    /**
+     * Reads a {@link Properties} from the input path.
+     *
+     * @param path
+     *            the path to load
+     * @return the Properties object
+     * @throws IOException
+     *             if an I/O error occurs
+     */
+    public static Properties loadProperties(final String path) throws IOException {
+
+        try (InputStream fin = Files.newInputStream(Paths.get(path))) {
             final Properties properties = new Properties();
             properties.load(fin);
             return properties;
@@ -56,18 +72,20 @@ public final class PropertiesUtils {
      * @param properties the object to be converted
      * @return a map that will contain the same keys and values that exist in the Properties object.
      */
-    public static Map<String, String> toMap(Properties properties) {
+    public static Map<String, String> toMap(final Properties properties) {
 
-        if (properties == null) {
-            return new HashMap<>();
+        Map<String, String> result;
+        if (Objects.isNull(properties)) {
+            result = new HashMap<>();
+        } else {
+            result = properties.entrySet().stream().collect(
+                    Collectors.toMap(
+                            e -> e.getKey().toString(),
+                            e -> e.getValue().toString()
+                    )
+            );
         }
-
-        return properties.entrySet().stream().collect(
-                Collectors.toMap(
-                        e -> e.getKey().toString(),
-                        e -> e.getValue().toString()
-                )
-        );
+        return result;
     }
 
     private PropertiesUtils() {

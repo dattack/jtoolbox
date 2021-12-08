@@ -45,9 +45,10 @@ import java.util.Calendar;
  * @author cvarela
  * @since 0.2
  */
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessivePublicCount", "PMD.CyclomaticComplexity"})
 public class DelegatingPreparedStatement implements PreparedStatement {
 
-    private final PreparedStatement delegate;
+    private final transient PreparedStatement delegate;
 
     public DelegatingPreparedStatement(final PreparedStatement delegate) {
         this.delegate = delegate;

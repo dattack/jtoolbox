@@ -45,8 +45,9 @@ final class EncryptCommand extends AbstractCommand {
 
             byte[] secret = null;
             while (true) {
-                secret = getConsole().passwordReader().setPrompt("> Secret message: ").read();
-                final byte[] retypeSecret = getConsole().passwordReader().setPrompt("> Retype secret message: ").read();
+                secret = getConsole().passwordReader().withPrompt("> Secret message: ").read();
+                final byte[] retypeSecret =
+                        getConsole().passwordReader().withPrompt("> Retype secret message: ").read();
                 if (Arrays.equals(secret, retypeSecret)) {
                     break;
                 }

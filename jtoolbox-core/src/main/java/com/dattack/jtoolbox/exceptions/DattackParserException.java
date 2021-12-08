@@ -15,13 +15,15 @@
  */
 package com.dattack.jtoolbox.exceptions;
 
+import org.apache.commons.lang.exception.NestableException;
+
 /**
  * Exception thrown when it is not possible to parse a data.
  *
  * @author cvarela
  * @since 0.1
  */
-public class DattackParserException extends DattackNestableException {
+public class DattackParserException extends NestableException {
 
     private static final long serialVersionUID = 4118277771421918250L;
 

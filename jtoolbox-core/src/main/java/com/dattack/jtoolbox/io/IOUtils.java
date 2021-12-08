@@ -15,9 +15,10 @@
  */
 package com.dattack.jtoolbox.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * A collection of useful method to simplify the I/O operations.
@@ -28,7 +29,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public final class IOUtils {
 
-    private static final Logger LOGGER = Logger.getLogger(IOUtils.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(IOUtils.class);
 
     /**
      * Closes a {@link Closeable} unconditionally.
@@ -42,7 +43,7 @@ public final class IOUtils {
             try {
                 obj.close();
             } catch (final IOException e) {
-                LOGGER.finest(e.getMessage());
+                LOGGER.debug(e.getMessage());
             }
         }
     }

@@ -20,7 +20,9 @@ package com.dattack.jtoolbox.exceptions;
  *
  * @author cvarela
  * @since 0.1
+ * @deprecated Use {@link org.apache.commons.lang.exception.NestableException}
  */
+@Deprecated
 public class DattackNestableException extends Exception {
 
     private static final long serialVersionUID = 8305544418991155317L;

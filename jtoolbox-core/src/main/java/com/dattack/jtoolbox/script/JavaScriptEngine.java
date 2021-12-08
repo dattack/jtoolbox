@@ -28,6 +28,7 @@ import javax.script.ScriptException;
  * @author cvarela
  * @since 0.1
  */
+@SuppressWarnings({"PMD.ClassNamingConventions", "PMD.LongVariable"})
 public final class JavaScriptEngine {
 
     private static final String JAVA_SCRIPT_ENGINE_NAME = "js";
@@ -97,7 +98,7 @@ public final class JavaScriptEngine {
     public static boolean evalBoolean(final String script, final Map<Object, Object> params) throws ScriptException {
 
         final Object obj = eval(script, params);
-        if (obj == null) {
+        if (Objects.isNull(obj)) {
             throw new ScriptException("Unable to cast script result from 'null' to boolean");
         }
 
@@ -136,11 +137,8 @@ public final class JavaScriptEngine {
     public static Number evalNumber(final String script, final Map<Object, Object> params) throws ScriptException {
 
         final Object obj = eval(script, params);
-        if (obj == null) {
-            return null;
-        }
 
-        if (obj instanceof Number) {
+        if (Objects.isNull(obj) || obj instanceof Number) {
             return (Number) obj;
         }
 

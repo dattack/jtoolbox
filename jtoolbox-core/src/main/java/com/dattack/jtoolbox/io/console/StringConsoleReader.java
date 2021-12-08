@@ -16,6 +16,8 @@
 package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.UnclosableInputStream;
+import org.apache.commons.lang.StringUtils;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -28,24 +30,24 @@ import java.util.regex.Pattern;
  */
 public class StringConsoleReader extends AbstractConsoleReader<String> {
 
-    private String prompt;
-    private String defaultValue;
-    private String regex;
-    private AnsiStyle style;
+    private transient String prompt;
+    private transient String defaultValue;
+    private transient String regex;
+    private transient AnsiStyle style;
 
-    StringConsoleReader(final Console console) {
-        super(console);
+    /* default */ StringConsoleReader(final Console console, final InputStream inputStream) {
+        super(console, inputStream);
     }
 
     @Override
     public String read() {
         while (true) {
             String result = readString();
-            if (result == null || result.trim().isEmpty()) {
+            if (StringUtils.isBlank(result)) {
                 result = defaultValue;
             }
 
-            if (regex != null && !regex.trim().isEmpty() && !Pattern.compile(regex).matcher(result).matches()) {
+            if (StringUtils.isNotBlank(regex) && !Pattern.compile(regex).matcher(result).matches()) {
                 getConsole().error("The input not matches the regular expression: %s", regex);
             } else {
                 return result;
@@ -54,28 +56,29 @@ public class StringConsoleReader extends AbstractConsoleReader<String> {
     }
 
     private String readString() {
-        try (Scanner scanner = new Scanner(new UnclosableInputStream(System.in), StandardCharsets.UTF_8.name())) {
+        try (Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), //
+                StandardCharsets.UTF_8.name())) {
             print(style, prompt);
             return scanner.nextLine();
         }
     }
 
-    public StringConsoleReader setDefaultValue(final String value) {
+    public StringConsoleReader withDefaultValue(final String value) {
         this.defaultValue = value;
         return this;
     }
 
-    public StringConsoleReader setPrompt(final String value) {
+    public StringConsoleReader withPrompt(final String value) {
         this.prompt = value;
         return this;
     }
 
-    public StringConsoleReader setRegex(final String value) {
+    public StringConsoleReader withRegex(final String value) {
         this.regex = value;
         return this;
     }
 
-    public StringConsoleReader setStyle(final AnsiStyle ansiStyle) {
+    public StringConsoleReader withStyle(final AnsiStyle ansiStyle) {
         this.style = ansiStyle;
         return this;
     }

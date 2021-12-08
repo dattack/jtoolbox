@@ -1,31 +1,43 @@
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
 language: java
 jdk:
-- oraclejdk8
-dist: trusty
-sudo: false
-after_success:
-- bash <(curl -s https://codecov.io/bash)
+- openjdk8
+dist: bionic
 notifications:
   email:
     recipients:
     - dev@dattack.com
     on_success: always
     on_failure: always
-env:
-  global:
-  - secure: aYMnYN6Up/PXG0ioSRkNNgSnQs4awvP5HEp3Qn0p3TWvfJyAbJKc2RRLPpEwWVGyC5zG9VYHG49gnuDwuF/P+KfTeRxIpPKk0tjtBKIDt6tkqTjuknYw6M2O6ZqWHg6GXfBL9wmlJ4pdqfs4bQ+oCJkGSNexA4r4NatBigd1OilnIEjNK2XsOSjIimigTxCg6vxZ2Q7v539YG+AKW82M8kxU1Wop6G4x6gboqjkkPvE7SVSUT3rfvWpsERV7XR7DJWiGuSca4CVAr0jisguFJ50QMBK9/tcJhSgrNVmUVlNX2sNXOsonzK3UAOY+57+m/iAJ7myPRUPCxkg1oMQsI25dpQM6lvYRH3wfHG5+PjL0Fc5dhu6RsDQZEWqcLIYjc6VBTaStOH9hMALAkDgYZry34m6S57a+enTW4FxctKZdkH0gk7v0uwGI6j2xu7wiUOs0YvzF45B5LkgF/HiL8moAveqkzdP86k9jaZ8X1tIN/LouSPbszW6k02SA0DPgPYlaopfmg4T/kWrV/iCmbBwmKdQNOv2EullfRWFoe/RXZVhjubLw6mHFjPbqjGE/u/OXDQc2fw+oQ6MOm6Bya4xthU61G+W90ay9qeQLH6crq7ekmPY8qZsUBxMoTH1TOW7wOfs8wdrVXAoDtmzc/QKAjCGvgunar+sikGpltSs=
-  - secure: Unei9V4J5YPLAwQULDuEvZNdYkXk5FrlYsCYo+0rnFL7wyTvVqtfKWS9CgyHr3lo5dtyt7oHi6JcNboOnLsILjMm+s5M+5WtNxVNxvj5pb2vPN4RKhmXBg9zdhABfTQ0THFXv2V0BCkJnAv8FAcMk0ZjnLPyn3tYOiaD073JvWzCl5HZ9memBovd/4O9O48AHjp07HfhJIewC/3vbogeKBeJE40SBPvrpF1bTeYCWvHxXzNtzJmV9uBij26zZ67o8thaCPXtI3oRbV22ntF7SC4EsUL2qAnKFGlKlk05kjT2ToCQ4fZqf+Zvut3en2bwVgjN6HPHZGTZVxK8GLi6yMBYmD48BpGTuJKZVOheDDVfMN31qINrB5kdMn2s7JdO1xGDZiBGdg2G+eUJJRq8ji/c78EPTVX9akJH8w+a51FcZC2brYhqLRGDSqbnnMF94rQ6UyXrCpn5jLz+XUQNxwiWT4U268FhDeKiTHmFYUVAjXiwtFV6NIrhicVlpzNQFelZ+EzCDsaWZgRlftyLYb/x9YnB4PgY/Tn4Se6VCcT9aU+jWniz43k2IDiUBXR41USdWtd2P0rtb2osIOEBp957CxonHEku6RJofKyUI3Qs/ebCCQwq5R+t7J6z96TlPcXVdRZ4j7nfxg1yL+NpdULeamPmmD9FcpEi0s+y8B4=
-  - secure: LwRonbQ4/C8fREdu9wgJ0YqFg+nX9ZFKAU+K2h1FuICEVJFEuUjOD2cMk6UMWWn8YdHmmQwJRzfpucgfZQIe0eAdtIwC4f93VAmj0VyJM1fyn6WRwoZ26kQusZhdmwDsY+oNK0a0gKW9g4SSpcNFckWErf/xP6z3rUkzIDH41WhAjQqUL3uUCaVIX3Yobuiy8uVKi/PRIHtdBIHow5wRfiQghOLFn7a9O2eIbaOONmejbg1JrXc8vJRdn07amOJB7bJRoVgFGUtcKaoC/HwlDGTw+4SuJ/nhxA+MYLlRlFwb53vbC4ITzhM8uF4V+psFLY417yPMdvp+2COu5pWyeDurap22KOuQyeWYf7iWcW88M7O35qMe5WHLTM4aVf5NTq1IiJYsrY/cW7w0h7+i3vZAdUKF6l0XLcgQL6tVgaQYTaBvyIVdAdy/2pGlpJePIHCJMJTDdvLNMsBB0kV3oWuYgANXRqcQX/P835ot6IzXSnO5ugaa/N3c5bVdlKSNgY7aF/+V7QBP7b5sKdNJD82Api8WTPAT8KRtut8FckQixiZXLRTNSg/Nx3nFS87+g8jSe9uZtxbAo0QQq/sYlh9eYA+6vyvxjh/K2GtRFt54AG8gda3JWAxOTD5QsT18eMZjiP7J2tFldMkU9rpeIjZsffvFLsFTY9I0cxRHj34=
-  - secure: IwViuTr/jUli1PNUFPdvm8F92dKFjj07jdosDAjfebgyz4S9HTYwMz8oTwKaMFzeus7HZq9kggaGDw8bx8hFFKZsS6d9pwy/IdwntT9POiKllXCLKWp4M+K2aKy29khBv7rEHm7fjpjONOYIA1dq9Y3AdMxLAhaCdnq5UiLk4wK3+ZntiHok2C3C/BnCzary77yecJlGBysNLry4BlqRWuDA2CwQeFRgrNkVzi4NGdmpMaHZQ6RRVKpb/6EVjfphgI58A8ekBURJ4ZWV5S0hBG6W9V2wRruzQ7beKkEJCNQHeBvKsWN92jAQrkDDLLyUVCM5pYT9z4A7Gq9zD72NeuuQX9knfE8uXnhbxwhyOdZ1N6dX0FTgeyDRcrstem2AMtVso3GLWUZmiwAc0MC2hWqBb+NvsBLNy1w+tJYU245idmTvznGG9q15rj81YKttUgNDqwK23NCMm4k45BZnV1J3tp9/OQp4xCTD+MTxG0rronnSiByJKSv6ZqSyr5rh4sy200GqnmZDEAfJxX+DnWUezwC1GCE/Ckq9YONkXJuZPDQ7cOthPm1/ocn3PJuqXwqT8Y2B6no+ubcaaciavNGJ4IAIuWbNI4qn3HYrKHQdPT3R80GfTk+iBCulvpv3k3LN/VRDKRnT35LfgesZMF+FBAi4IKt78Q9Qac0kDIM=
-
-install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-script: mvn test -P !build-extras -B
-
 cache:
   directories:
-    - ~/.m2/repository
-
-after_success:
-  - ./.travis/before-deploy.sh
-  - ./.travis/deploy.sh
+  - "~/.m2/repository"
+env:
+  global:
+  - secure: FwnzZg5mivGRhCBEiquh+c3yoEVV4lm1+zaqIOzUGG4N1lbMR6NfCm+3TZpmQKFjtoSk2ZwGKS5BuSH6gLQR+RPWCvPCD9FPx13EL07AS4CRGq7sNCwn7HNeMS/BMThGjtJV9BaLzKn+ONLi3BakBJZQXz+d+S8PsJCDONU4EF37ah8FoXs+xmHYm+AWVU49XemyVDBbBsc6yNrP77nMd8oVvEucSQ+CY8Nwmm0iZlvjOc8fbpF11/85f9Kp11eozWK/lHvqYvLeTwYbr9ViTz8lUh8UT5c1AbE1OQM1UkBVBCpKezpIufpcwrj3hnGeolXvujrn1VAu4MSiR6Wg4YfZ7X9g0Hp2nVXvTDEfTYETAlE2JPP75z2IZ8oIhCOabWsts2Z32UHq0hxedzNm27o9kUTglubZ7CvjpuyzhF+fnVAbzpA6TTL5J+ECvWTDVgmDP95OGbxIcAvA+KQrF8LvLz9ieqvSYLjjSYZvog1ntqYLiuZ9Brijmdr1MmH4215BUJMXAlSOs5tQHedW57pizQoZZ++DbcXnOt0exAfIYvBkEL760yn3EgUb4yAWgA2Hl/IuIhXxZKOsXoHjp123tBkx+JJHVLbXmEio9WIzqMimjSYIlrHIu92OpU2wHtzTsBz9GJhKH6/QvhxUNOBbg9e01iYuolOFjfnma1c=
+  - secure: lEF8OKxFfAHRrQ14y3J+z1Nd2bJ08e4IOXyc5PxLD3DKqrBnVPDhIMfXkruTUr0Gfzv2Fay6JXOqTscxXTN4MJ0cS1EurtYEt7kNkB9aqZzj963WdQFdbL4sE/JfUwUvJ4L4y69VjwD0UCxWwo+Y1RYyqexPwpc2FMddBA7fcAM+N5yGdNpPUHiqho7GCcvv+US0Q7thP9zODH8oh4MxG3HqlYdNwD4XZHfwNVUrtX2Th+4P8DWL/5VeCNjF0tUIVXrl7K05DlOXmOFNBTwspxmWpnCacveKw6IxR11eOhZfYsGVIrpWLBCMxl0hqocITzc4KGXAwu6jA6zitrk99mu/6qW7InHoQWfHdLaBcoe2BZCGEmKojCeP9iUdq92iN6j9Q7tK+murLL02pfQdbQSNloNMwG1KC9UsFcrATl9f+1ANAuYQs1XmXegmDseZcygdw14zN861DqsVbZO21IAW/x3nrJjZZJ+ZlNn11Qp3O3pxZ2f3fWHfmF4ZrBoli41i62iSTAhMUDi44v9+vG5OldpYgetABtkmoUyUN8ryARi/xPUbXxlQ+WgDI8vdG9Cbv8zoA22KP8unMnGhFfkMymYMooLhPVKLX2s3wp5A4AC8tCgDOjUT3zL4izv3paDHQ4zYu8+LfAkcNUPLMDe17OKw9eVhiyhTJtKBe4M=
+  - secure: IQ7+3rYHejQda5/mSOT9LXOpa9FnKsTrkHUBAs4LPMgUpvClois9diVJVGFl7JpE4a3eLTia/umvlMZfplYXxrk2quxRSPmuUqo3feGwA2yntGth9rPkZVYIL+gZvr2vxQ08kDNEyat3/2WW/Vrj55kjCGjkUYdfa7hOp63dNEaKcrO9v3YaI+BkXyJnPMI9nrKmTTDxHqjGdT4TlYDryq9+BpmRxWoA0iMiE7BJ60js0hQMUCWbmUD0YO+Rw6+SGczD+bvHedVNpAms5RCee2EHpk3TclOJnoU1RRwvPZjLXXbPmJgck6QUmm/6LZEzunO3vMYWKK7Wt+VREoC6pz0kjlwR/Q3fjCLWdKqUJu/TdjaZSh7iN4BsKn9+8xq+frg8oA4JkS1STxtXD0lNMt4HNBG0U3sL4DLt+6mcROuNif2B7I+HVKb7jxT7v0cEVFkAAUoiCfPFhLPoHTB8cSXb6+xblZl1xzaY7HvKnmDPfoMmJSkX+4UQawmnMk+p6dNU3ALnpLlqLTKY8oFa1COftq+xxkLAXNctNs88cecMmfJJl8Y3K31MeYZvJLTjQs+fqmCox1spt3KMY8FkevQp+kG7M4oC6diydddPYB5CGIkh0Jcm2zibHSHpiUgqqJmjuUC8EJhsa1NPIoxBXlHel2BKHdFnJdCsiHgBW7g=
+  - secure: S4UCQefPrRre37mT5JLUhMmS+8/5ce3xj+DB2KPSW/i6VpLibxct6YxZ79HgtwWm2XQPXBaYS9/webZshSlcJpXshsCkEaLOYKSDOA5GtFY2glQI4P+zkDFA7QyFrUSkHadjn47sjHpNuhZAo7UaRXHSvjuR3/kGM+WnUhGnfnsu4LD4RA2esZAbYxzPVOClgYo7e7aLcOPy2okVlzWxqxltgrBLPa2sf5pv+2Gky/rNj8IOATfGU6mN727h9vl7pQrzdIUnL3+L8NzT3JovCjspJEvySmhjFdEzvS23Re+Vj+L4pJ1RDHc+uUR8YnRf4oPYK5ZYwUXxF8snkmG4u5j80l+4pfJOUwVXIYoF7dtlZxAcxjUxSdl5YNPrtl2SshuY/irP4AhuxExJBaCONS+FJx0lmzHfPx+U32DjYCz1agfAPP9X1RIU9cZWMeMropufv/8hb6WcS5CjnADfkaNjkyGX+6PWaMm/aYVD8aFDSS10kkJDJE+/jVOI/lXitSP7azZPQexCP1kBWE3jdHBIYDbTHJxXVbgu4ER/02brrMsCOec5MfpeEtS7i+dlBhVYQG48uX2HPSUqFsMJ4V0/rY9WZje9prxzA5AhX9ke+8aV+dzaCNCg+W9AyJIX+l3/U3JUQCCaJZ9qcWSIsnDQOgjdYuQJ1LPwq7TToUQ=
+install: mvn -P !build-extras install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn -P !build-extras test -B
+before_install:
+- openssl aes-256-cbc -K $encrypted_711e5bbf5b76_key -iv $encrypted_711e5bbf5b76_iv
+  -in .travis/codesigning.asc.enc -out .travis/codesigning.asc -d
+- gpg --batch --fast-import .travis/codesigning.asc
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: mvn -P sign,build-extras -s .travis/settings.xml deploy -DskipTests
+  on:
+    all_branches: true
+    condition: "$TRAVIS_BRANCH =~ ^(master|develop)$"

@@ -30,7 +30,7 @@ import javax.sql.DataSource;
  */
 public abstract class AbstractDataSourceDecorator implements DataSource {
 
-    private final DataSource inner;
+    private final transient DataSource inner;
 
     public AbstractDataSourceDecorator(final DataSource inner) {
         this.inner = inner;
