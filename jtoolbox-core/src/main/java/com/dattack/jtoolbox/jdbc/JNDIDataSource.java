@@ -39,7 +39,7 @@ public final class JNDIDataSource extends AbstractDataSource {
         this.jndiName = jndiName;
     }
 
-    private void initializeDataSource() throws SQLException {
+    private void lookup() throws SQLException {
         try {
             final InitialContext context = new InitialContext();
             final Object obj = context.lookup(jndiName);
@@ -64,7 +64,7 @@ public final class JNDIDataSource extends AbstractDataSource {
         if (Objects.isNull(dataSource)) {
             synchronized (this) {
                 if (Objects.isNull(dataSource)) {
-                    initializeDataSource();
+                    lookup();
                 }
             }
         }
@@ -77,7 +77,7 @@ public final class JNDIDataSource extends AbstractDataSource {
     }
 
     @Override
-    public Connection getConnection(final String username, final String pwd) throws SQLException {
-        throw new UnsupportedOperationException("Not implemented");
+    public Connection getConnection(final String username, final String password) throws SQLException {
+        return getDataSource().getConnection(username, password);
     }
 }

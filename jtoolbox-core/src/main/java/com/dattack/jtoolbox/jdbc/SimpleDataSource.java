@@ -72,16 +72,13 @@ public final class SimpleDataSource extends AbstractDataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
-        ensureDriverLoaded();
-        return this.getConnection(username, password);
+        return getConnection(username, password);
     }
 
     @Override
     public Connection getConnection(final String user, final String pass) throws SQLException {
 
-        if (ensureDriverLoadedNeeded) {
-            ensureDriverLoaded();
-        }
+        ensureDriverLoaded();
 
         final Connection connection;
         if (Objects.isNull(user) || Objects.isNull(pass)) {

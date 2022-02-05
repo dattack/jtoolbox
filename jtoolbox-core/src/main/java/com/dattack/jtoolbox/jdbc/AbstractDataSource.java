@@ -38,12 +38,12 @@ public abstract class AbstractDataSource implements DataSource {
     }
 
     @Override
-    public int getLoginTimeout() throws SQLException {
+    public int getLoginTimeout() {
         return loginTimeout;
     }
 
     @Override
-    public PrintWriter getLogWriter() throws SQLException {
+    public PrintWriter getLogWriter() {
         return logWriter;
     }
 
@@ -53,17 +53,17 @@ public abstract class AbstractDataSource implements DataSource {
     }
 
     @Override
-    public boolean isWrapperFor(final Class<?> iface) throws SQLException {
+    public boolean isWrapperFor(final Class<?> iface) {
         return false;
     }
 
     @Override
-    public void setLoginTimeout(final int loginTimeout) throws SQLException {
+    public void setLoginTimeout(final int loginTimeout) {
         this.loginTimeout = loginTimeout;
     }
 
     @Override
-    public void setLogWriter(final PrintWriter logWriter) throws SQLException {
+    public void setLogWriter(final PrintWriter logWriter) {
         this.logWriter = logWriter;
     }
 
