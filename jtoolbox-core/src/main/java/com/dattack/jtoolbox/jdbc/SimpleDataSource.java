@@ -34,7 +34,6 @@ public final class SimpleDataSource extends AbstractDataSource {
     private final transient String url;
     private final transient String driver;
 
-    @SuppressWarnings("PMD.LongVariable")
     private transient volatile boolean ensureDriverLoadedNeeded;
 
     /**
@@ -76,6 +75,7 @@ public final class SimpleDataSource extends AbstractDataSource {
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection(final String user, final String pass) throws SQLException {
 
         ensureDriverLoaded();

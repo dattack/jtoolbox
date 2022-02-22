@@ -92,7 +92,7 @@ public final class FilesystemUtils {
             try {
                 final URI uri = new URI(url.toExternalForm());
                 file = new File(uri);
-            } catch (@SuppressWarnings("unused") final URISyntaxException e) {
+            } catch (final URISyntaxException e) {
                 // URI syntax error? we have a valid URL
                 file = new File(path);
             }

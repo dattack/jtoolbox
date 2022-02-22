@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class MultiStopWatch {
 
-    private transient final List<Event> events;
+    private final transient List<Event> events;
     private transient long startTimeInNanos;
     private transient long lastStopTimeInNanos;
     private transient int activeEvents;

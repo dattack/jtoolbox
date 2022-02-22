@@ -37,13 +37,12 @@ public final class IOUtils {
      * @param obj
      *            the object to close, may be null
      */
-    @SuppressWarnings("PMD.EmptyCatchBlock")
     public static void closeQuietly(final Closeable obj) {
         if (obj != null) {
             try {
                 obj.close();
             } catch (final IOException e) {
-                LOGGER.debug(e.getMessage());
+                LOGGER.debug("Error closing object {}: {}", obj, e.getMessage());
             }
         }
     }

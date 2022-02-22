@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author cvarela
  * @since 0.6
  */
+@SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
 /* default */ class MultiStopWatchTest {
 
     private static final String EVENT_1 = "event-1";

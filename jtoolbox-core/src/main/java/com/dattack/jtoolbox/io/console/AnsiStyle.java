@@ -24,7 +24,6 @@ import java.util.List;
  * @author cvarela
  * @since 0.2
  */
-@SuppressWarnings("PMD.LongVariable")
 public class AnsiStyle {
 
     private static final int FG_CODE = 30; // Set text color (foreground)

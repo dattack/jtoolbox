@@ -32,7 +32,6 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.4
  */
-@SuppressWarnings("PMD.LongVariable")
 public final class InitializableDataSource extends AbstractDataSourceDecorator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializableDataSource.class);
@@ -45,6 +44,7 @@ public final class InitializableDataSource extends AbstractDataSourceDecorator {
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection() throws SQLException {
         final Connection connection = super.getConnection();
         initialize(connection);
@@ -52,6 +52,7 @@ public final class InitializableDataSource extends AbstractDataSourceDecorator {
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection(final String username, final String pwd) throws SQLException {
         final Connection connection = super.getConnection(username, pwd);
         initialize(connection);

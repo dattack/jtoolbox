@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.io.console;
 
 import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
 import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
+
 import java.io.InputStream;
 import java.io.PrintStream;
 
@@ -33,7 +34,6 @@ import java.io.PrintStream;
  * @author cvarela
  * @since 0.2
  */
-@SuppressWarnings({"PMD.LongVariable", "PMD.SystemPrintln"})
 public class AnsiConsole implements Console {
 
     private static final AnsiStyle DEFAULT_ERROR_STYLE = new AnsiStyle().foreground(Color.RED);

@@ -18,6 +18,7 @@ package com.dattack.jtoolbox.util;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -31,7 +32,6 @@ import java.util.List;
  * @author cvarela
  * @since 0.1
  */
-@SuppressWarnings("PMD.LongVariable")
 public final class TimeUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TimeUtils.class);
@@ -176,7 +176,7 @@ public final class TimeUtils {
         if (text != null) {
             try {
                 result = Long.valueOf(text);
-            } catch (@SuppressWarnings("unused") final NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 result = parseTimeSpanExpression(text);
             }
         }
