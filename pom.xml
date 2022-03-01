@@ -67,7 +67,7 @@
     </issueManagement>
     <ciManagement>
         <system>Travis CI</system>
-        <url>https://travis-ci.org/dattack/jtoolbox</url>
+        <url>https://app.travis-ci.com/github/dattack/jtoolbox</url>
     </ciManagement>
     <distributionManagement>
         <site>
