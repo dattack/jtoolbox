@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import com.dattack.jtoolbox.jdbc.internal.ProxyConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -86,6 +88,6 @@ public final class SimpleDataSource extends AbstractDataSource {
         } else {
             connection = DriverManager.getConnection(url, user, pass);
         }
-        return connection;
+        return ProxyConnectionFactory.build(connection);
     }
 }

@@ -17,6 +17,7 @@ package com.dattack.jtoolbox.jdbc;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

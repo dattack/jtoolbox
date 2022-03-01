@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import com.dattack.jtoolbox.jdbc.internal.ProxyConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -73,11 +75,11 @@ public final class JNDIDataSource extends AbstractDataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
-        return getDataSource().getConnection();
+        return ProxyConnectionFactory.build(getDataSource().getConnection());
     }
 
     @Override
     public Connection getConnection(final String username, final String password) throws SQLException {
-        return getDataSource().getConnection(username, password);
+        return ProxyConnectionFactory.build(getDataSource().getConnection(username, password));
     }
 }
