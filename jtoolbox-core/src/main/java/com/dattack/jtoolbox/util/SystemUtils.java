@@ -50,7 +50,7 @@ public final class SystemUtils {
             if (Objects.isNull(hostname)) {
                 try {
                     hostname =  InetAddress.getLocalHost().getHostName();
-                } catch (UnknownHostException e) { // NOPMD
+                } catch (UnknownHostException e) { //NOPMD - suppressed EmptyCatchBlock - nothing to do
                     // ignore
                 }
             }

@@ -28,7 +28,7 @@ import javax.script.ScriptException;
  * @author cvarela
  * @since 0.1
  */
-@SuppressWarnings({"PMD.ClassNamingConventions", "PMD.LongVariable"})
+@SuppressWarnings("PMD.ClassNamingConventions")
 public final class JavaScriptEngine {
 
     private static final String JAVA_SCRIPT_ENGINE_NAME = "js";

@@ -21,6 +21,7 @@ import com.dattack.jtoolbox.io.console.AnsiStyle.Color;
 import com.dattack.jtoolbox.io.console.AnsiStyle.EscapeCode;
 import com.dattack.jtoolbox.io.console.Console;
 import com.dattack.jtoolbox.io.console.SimpleConsole;
+
 import java.util.Locale;
 import java.util.Objects;
 
@@ -32,89 +33,28 @@ import java.util.Objects;
  * @author cvarela
  * @since 0.2
  */
-@SuppressWarnings("PMD.SystemPrintln")
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.ClassNamingConventions"})
 public final class SecurityTool {
 
     private static Console console = new SimpleConsole();
 
     private static boolean exit;
 
-    @SuppressWarnings("checkstyle:Indentation")
-    /* package */ static final AbstractCommand[] COMMANDS = {
-            // generate keys command
-            new GenerateKeyCommand(console),
-            // encrypt command
-            new EncryptCommand(console),
-            // decrypt command
-            new DecryptCommand(console),
-            // help command
-            new AbstractCommand(console) {
+    private SecurityTool() {
+        // Main class
+    }
 
-                @Override
-                protected void execute() {
-                    System.out.println("\n  Available commands:\n");
-                    for (AbstractCommand command : COMMANDS) {
-                        System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(Locale.getDefault()),
-                                command.getDescription());
-                    }
-                    System.out.println();
-                }
-
-                @Override
-                protected String getDescription() {
-                    return "Print this help message";
-                }
-
-                @Override
-                protected String getName() {
-                    return "Help";
-                }
-            },
-            // exit command
-            new AbstractCommand(console) {
-
-                @Override
-                protected void execute() {
-                    System.out.println("\n  Have a nice day!\n");
-                    exit = true; // NOPMD
-                }
-
-                @Override
-                protected String getDescription() {
-                    return "Exit the application";
-                }
-
-                @Override
-                protected String getName() {
-                    return "Exit";
-                }
-            }, //
-            new AbstractCommand(console) {
-
-                @Override
-                protected void execute() {
-                    switchConsole();
-                }
-
-                @Override
-                protected String getDescription() {
-                    return "Enable/disable ANSI console";
-                }
-
-                @Override
-                protected String getName() {
-                    return "ansi";
-                }
-            } //
-    };
-
-    /* package */ static void switchConsole() {
+    /* default */ static void switchConsole() {
 
         if (console instanceof AnsiConsole) {
             console = new SimpleConsole();
         } else {
             console = new AnsiConsole();
         }
+    }
+
+    /* default */ static void stop() {
+        SecurityTool.exit = true;
     }
 
     /**
@@ -135,9 +75,9 @@ public final class SecurityTool {
 
             try {
                 final String commandName = console.stringReader() //
-                        .withPrompt("[SecurityTool]$ ") //
-                        .withStyle(greenStyle) //
-                        .read();
+                    .withPrompt("[SecurityTool]$ ") //
+                    .withStyle(greenStyle) //
+                    .read();
 
                 if (Objects.isNull(commandName)) {
                     continue;
@@ -167,7 +107,74 @@ public final class SecurityTool {
         return result;
     }
 
-    private SecurityTool() {
-        // Main class
-    }
+    /* package */ static final AbstractCommand[] COMMANDS = {
+        // generate keys command
+        new GenerateKeyCommand(console),
+
+        // encrypt command
+        new EncryptCommand(console),
+
+        // decrypt command
+        new DecryptCommand(console),
+
+        // help command
+        new AbstractCommand(console) {
+
+            @Override
+            protected void execute() {
+                System.out.println("\n  Available commands:\n");
+                for (AbstractCommand command : COMMANDS) {
+                    System.out.format("    - %-12s: %s%n", command.getName().toLowerCase(Locale.getDefault()),
+                                      command.getDescription());
+                }
+                System.out.println();
+            }
+
+            @Override
+            protected String getDescription() {
+                return "Print this help message";
+            }
+
+            @Override
+            protected String getName() {
+                return "Help";
+            }
+        },
+        // exit command
+        new AbstractCommand(console) {
+
+            @Override
+            protected void execute() {
+                System.out.println("\n  Have a nice day!\n");
+                stop();
+            }
+
+            @Override
+            protected String getDescription() {
+                return "Exit the application";
+            }
+
+            @Override
+            protected String getName() {
+                return "Exit";
+            }
+        }, //
+        new AbstractCommand(console) {
+
+            @Override
+            protected void execute() {
+                switchConsole();
+            }
+
+            @Override
+            protected String getDescription() {
+                return "Enable/disable ANSI console";
+            }
+
+            @Override
+            protected String getName() {
+                return "ansi";
+            }
+        } //
+    };
 }

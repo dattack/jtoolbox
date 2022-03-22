@@ -17,12 +17,12 @@
     <parent>
         <groupId>com.dattack</groupId>
         <artifactId>jtoolbox</artifactId>
-        <version>0.5</version>
+        <version>0.6</version>
     </parent>
     <artifactId>jtoolbox-core</artifactId>
     <packaging>jar</packaging>
     <name>jtoolbox-core</name>
-    <description>Utility classes that only depends on JDK</description>
+    <description>Utility classes used by Dattack's projects</description>
 
     <dependencies>
         <dependency>

@@ -15,7 +15,9 @@
  */
 package com.dattack.jtoolbox.concurrent;
 
+import com.dattack.jtoolbox.util.function.FunctionHelper;
 import org.apache.commons.lang.StringUtils;
+
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Objects;
 import java.util.concurrent.ThreadFactory;
@@ -29,7 +31,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author cvarela
  * @since 0.1
  */
-@SuppressWarnings("PMD.LongVariable")
 public final class SimpleThreadFactory implements ThreadFactory {
 
     private static final AtomicInteger POOL_NUMBER = new AtomicInteger(1);
@@ -40,6 +41,37 @@ public final class SimpleThreadFactory implements ThreadFactory {
     private final transient String threadNamePrefix;
     private final transient AtomicLong threadNumber = new AtomicLong(1);
     private final transient UncaughtExceptionHandler uncaughtExceptionHandler;
+
+    /* default */ SimpleThreadFactory(final ThreadFactoryBuilder builder) {
+        this.daemon = builder.daemon;
+        this.threadGroup = builder.threadGroup;
+        if (Objects.isNull(builder.threadNamePrefix)) {
+            this.threadNamePrefix = getDefaultThreadNamePrefix();
+        } else {
+            this.threadNamePrefix = builder.threadNamePrefix;
+        }
+        this.priority = builder.priority;
+        this.uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
+    }
+
+    private static String getDefaultThreadNamePrefix() {
+        return String.format("pool-%d-thread", POOL_NUMBER.getAndIncrement());
+    }
+
+    @Override
+    public Thread newThread(final Runnable target) {
+
+        final Thread thread = new Thread(threadGroup, target, generateThreadName(), 0);
+        thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+
+        FunctionHelper.executeIfNotNull(daemon, thread::setDaemon);
+
+        if (Objects.nonNull(priority)) {
+            thread.setPriority(priority);
+        }
+
+        return thread;
+    }
 
     /**
      * The Builder pattern implementation.
@@ -52,7 +84,6 @@ public final class SimpleThreadFactory implements ThreadFactory {
         private transient String threadNamePrefix;
         private transient UncaughtExceptionHandler uncaughtExceptionHandler;
 
-        @SuppressWarnings("PMD.AccessorClassGeneration")
         public ThreadFactory build() {
             return new SimpleThreadFactory(this);
         }
@@ -65,16 +96,16 @@ public final class SimpleThreadFactory implements ThreadFactory {
         /**
          * Sets the priority for new threads.
          *
-         * @param value
-         *            the new priority
+         * @param value the new priority
          * @return this builder object
          * @throws IllegalArgumentException if 'value' is not a valid priority value
          */
         public ThreadFactoryBuilder withPriority(final int value) {
 
             if (value < Thread.MIN_PRIORITY || value > Thread.MAX_PRIORITY) {
-                throw new IllegalArgumentException(String.format("Thread priority (%s) must be in range [%s..%s]",
-                        value, Thread.MIN_PRIORITY, Thread.MAX_PRIORITY));
+                throw new IllegalArgumentException(
+                    String.format("Thread priority (%s) must be in range [%s..%s]", value, Thread.MIN_PRIORITY,
+                                  Thread.MAX_PRIORITY));
             }
 
             this.priority = value;
@@ -84,8 +115,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
         /**
          * Sets the ThreadGroup to use when a new Thread is instantiate.
          *
-         * @param value
-         *            the thread group
+         * @param value the thread group
          * @return this builder object
          */
         public ThreadFactoryBuilder withThreadGroup(final ThreadGroup value) {
@@ -96,8 +126,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
         /**
          * Sets the prefix to use as name of the threads.
          *
-         * @param value
-         *            the prefix value
+         * @param value the prefix value
          * @return this builder object
          */
         public ThreadFactoryBuilder withThreadNamePrefix(final String value) {
@@ -110,8 +139,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
         /**
          * Sets the handler for uncaught exceptions.
          *
-         * @param value
-         *            the handler
+         * @param value the handler
          * @return this builder object
          */
         public ThreadFactoryBuilder withUncaughtExceptionHandler(final UncaughtExceptionHandler value) {
@@ -120,40 +148,7 @@ public final class SimpleThreadFactory implements ThreadFactory {
         }
     }
 
-    private static String getDefaultThreadNamePrefix() {
-        return String.format("pool-%d-thread", POOL_NUMBER.getAndIncrement());
-    }
-
-    private SimpleThreadFactory(final ThreadFactoryBuilder builder) {
-        this.daemon = builder.daemon;
-        this.threadGroup = builder.threadGroup;
-        if (Objects.isNull(builder.threadNamePrefix)) {
-            this.threadNamePrefix = getDefaultThreadNamePrefix();
-        } else {
-            this.threadNamePrefix = builder.threadNamePrefix;
-        }
-        this.priority = builder.priority;
-        this.uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
-    }
-
     private String generateThreadName() {
         return String.format("%s-%d", threadNamePrefix, threadNumber.getAndIncrement());
-    }
-
-    @Override
-    public Thread newThread(final Runnable target) {
-
-        final Thread thread = new Thread(threadGroup, target, generateThreadName(), 0);
-        thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
-
-        if (Objects.nonNull(daemon)) {
-            thread.setDaemon(daemon);
-        }
-
-        if (Objects.nonNull(priority)) {
-            thread.setPriority(priority);
-        }
-
-        return thread;
     }
 }

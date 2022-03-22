@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import com.dattack.jtoolbox.jdbc.internal.ProxyConnectionFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -34,7 +36,6 @@ public final class SimpleDataSource extends AbstractDataSource {
     private final transient String url;
     private final transient String driver;
 
-    @SuppressWarnings("PMD.LongVariable")
     private transient volatile boolean ensureDriverLoadedNeeded;
 
     /**
@@ -72,16 +73,14 @@ public final class SimpleDataSource extends AbstractDataSource {
 
     @Override
     public Connection getConnection() throws SQLException {
-        ensureDriverLoaded();
-        return this.getConnection(username, password);
+        return getConnection(username, password);
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection(final String user, final String pass) throws SQLException {
 
-        if (ensureDriverLoadedNeeded) {
-            ensureDriverLoaded();
-        }
+        ensureDriverLoaded();
 
         final Connection connection;
         if (Objects.isNull(user) || Objects.isNull(pass)) {
@@ -89,6 +88,6 @@ public final class SimpleDataSource extends AbstractDataSource {
         } else {
             connection = DriverManager.getConnection(url, user, pass);
         }
-        return connection;
+        return ProxyConnectionFactory.build(connection);
     }
 }

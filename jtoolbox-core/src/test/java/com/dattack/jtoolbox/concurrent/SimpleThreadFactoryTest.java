@@ -23,10 +23,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author cvarela
  * @since 0.1
  */
-public class SimpleThreadFactoryTest {
+@SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
+class SimpleThreadFactoryTest {
 
     @Test
-    public void testMaxPriorityDaemonThread() {
+    /* package */ void testMaxPriorityDaemonThread() {
 
         final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
             @Override
@@ -54,7 +55,7 @@ public class SimpleThreadFactoryTest {
     }
 
     @Test
-    public void testMinPriorityNonDaemonThread() {
+    /* package */ void testMinPriorityNonDaemonThread() {
 
         final Thread.UncaughtExceptionHandler exceptionHandler = new Thread.UncaughtExceptionHandler() {
             @Override

@@ -15,6 +15,8 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import com.dattack.jtoolbox.jdbc.internal.ProxyConnectionFactory;
+
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,56 +30,73 @@ import javax.sql.DataSource;
  * @author cvarela
  * @since 0.1
  */
-public abstract class AbstractDataSourceDecorator implements DataSource {
+public abstract class AbstractDataSourceDecorator implements DataSource, JdbcObjectProxy<DataSource> {
 
-    private final transient DataSource inner;
+    private final transient DataSource delegate;
 
-    public AbstractDataSourceDecorator(final DataSource inner) {
-        this.inner = inner;
+    public AbstractDataSourceDecorator(final DataSource delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public DataSource getDelegate() {
+        return delegate;
     }
 
     @Override
     public Connection getConnection() throws SQLException {
-        return inner.getConnection();
+        return ProxyConnectionFactory.build(getDelegate().getConnection());
     }
 
     @Override
     public Connection getConnection(final String username, final String password) throws SQLException {
-        return inner.getConnection(username, password);
+        return ProxyConnectionFactory.build(getDelegate().getConnection(username, password));
     }
 
     @Override
     public int getLoginTimeout() throws SQLException {
-        return inner.getLoginTimeout();
+        return getDelegate().getLoginTimeout();
     }
 
     @Override
     public PrintWriter getLogWriter() throws SQLException {
-        return inner.getLogWriter();
+        return getDelegate().getLogWriter();
     }
 
     @Override
     public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-        return inner.getParentLogger();
+        return getDelegate().getParentLogger();
     }
 
     @Override
     public boolean isWrapperFor(final Class<?> iface) throws SQLException {
-        return inner.isWrapperFor(iface);
+        if (iface.isAssignableFrom(getClass())) {
+            return true;
+        }
+        if (iface.isAssignableFrom(getDelegate().getClass())) {
+            return true;
+        }
+        return getDelegate().isWrapperFor(iface);
     }
 
     @Override
     public void setLoginTimeout(final int seconds) throws SQLException {
-        inner.setLoginTimeout(seconds);
+        getDelegate().setLoginTimeout(seconds);
     }
 
     @Override
     public void setLogWriter(final PrintWriter out) throws SQLException {
-        inner.setLogWriter(out);
+        getDelegate().setLogWriter(out);
     }
 
     @Override
     public <T> T unwrap(final Class<T> iface) throws SQLException {
-        return inner.unwrap(iface);
+        if (iface.isAssignableFrom(getClass())) {
+            return iface.cast(this);
+        }
+        if (iface.isAssignableFrom(getDelegate().getClass())) {
+            return iface.cast(getDelegate());
+        }
+        return getDelegate().unwrap(iface);
     }
 }

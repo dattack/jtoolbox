@@ -63,7 +63,7 @@ public final class FilesystemClassLoaderUtils {
             final List<URL> urlList = new ArrayList<>(jars.length);
             for (final File jar : jars) {
                 try {
-                    LOGGER.info("Scanning JAR: {}", jar);
+                    LOGGER.trace("Scanning JAR: {}", jar);
                     urlList.add(jar.toURI().toURL());
                 } catch (final MalformedURLException e) {
                     LOGGER.warn(e.getMessage());
@@ -79,7 +79,7 @@ public final class FilesystemClassLoaderUtils {
 
         final List<URL> urlList = new ArrayList<>();
         try {
-            LOGGER.info("Scanning JAR: {}", jar);
+            LOGGER.trace("Scanning JAR: {}", jar);
             urlList.add(jar.toURI().toURL());
             configureClasspathFromUrls(urlList);
         } catch (final MalformedURLException e) {

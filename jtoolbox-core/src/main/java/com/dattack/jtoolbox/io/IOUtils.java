@@ -15,10 +15,18 @@
  */
 package com.dattack.jtoolbox.io;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.Closeable;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A collection of useful method to simplify the I/O operations.
@@ -37,14 +45,36 @@ public final class IOUtils {
      * @param obj
      *            the object to close, may be null
      */
-    @SuppressWarnings("PMD.EmptyCatchBlock")
     public static void closeQuietly(final Closeable obj) {
         if (obj != null) {
             try {
                 obj.close();
             } catch (final IOException e) {
-                LOGGER.debug(e.getMessage());
+                LOGGER.debug("Error closing object {}: {}", obj, e.getMessage());
             }
+        }
+    }
+
+    /**
+     * Scans the specified directory and returns the files and directories whose name contains the specified pattern.
+     * This method is case-insensitive and null-safe.
+     *
+     * @param dir the directory to scan
+     * @param pattern the pattern to find
+     * @return the files and directories whose name contains the specified pattern
+     * @throws IOException if an I/O error occurs when reading the directory
+     */
+    public static Set<Path> listFiles(Path dir, String pattern) throws IOException {
+
+        if (dir == null || !Files.isDirectory(dir)) {
+            return Collections.emptySet();
+        }
+
+        try (Stream<Path> stream = Files.list(dir)) {
+            return stream //
+                    .filter(path -> StringUtils.isEmpty(pattern) //
+                            || StringUtils.containsIgnoreCase(path.getFileName().toString(), pattern)) //
+                    .collect(Collectors.toSet());
         }
     }
 

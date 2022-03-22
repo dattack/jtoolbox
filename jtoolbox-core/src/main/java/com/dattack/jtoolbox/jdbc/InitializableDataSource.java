@@ -15,6 +15,7 @@
  */
 package com.dattack.jtoolbox.jdbc;
 
+import com.dattack.jtoolbox.jdbc.internal.ProxyConnectionFactory;
 import com.dattack.jtoolbox.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,36 +27,37 @@ import java.util.List;
 import javax.sql.DataSource;
 
 /**
- * Implementation of a <code>DataSource</code> decorator that allows to execute initialization scripts when obtaining
+ * Implementation of a {@link DataSource} decorator that allows to execute initialization scripts when obtaining
  * a connection from the decorated datasource.
  *
  * @author cvarela
  * @since 0.4
  */
-@SuppressWarnings("PMD.LongVariable")
 public final class InitializableDataSource extends AbstractDataSourceDecorator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitializableDataSource.class);
 
     private final transient List<String> onConnectStatements;
 
-    public InitializableDataSource(final DataSource inner, final List<String> onConnectStatements) {
-        super(inner);
+    public InitializableDataSource(final DataSource delegate, final List<String> onConnectStatements) {
+        super(delegate);
         this.onConnectStatements = onConnectStatements;
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection() throws SQLException {
         final Connection connection = super.getConnection();
         initialize(connection);
-        return connection;
+        return ProxyConnectionFactory.build(connection);
     }
 
     @Override
+    @SuppressWarnings("PMD.CloseResource")
     public Connection getConnection(final String username, final String pwd) throws SQLException {
         final Connection connection = super.getConnection(username, pwd);
         initialize(connection);
-        return connection;
+        return ProxyConnectionFactory.build(connection);
     }
 
     private void initialize(final Connection connection) throws SQLException {

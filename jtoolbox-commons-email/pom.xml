@@ -17,7 +17,7 @@
     <parent>
         <groupId>com.dattack</groupId>
         <artifactId>jtoolbox</artifactId>
-        <version>0.5</version>
+        <version>0.6</version>
     </parent>
     <artifactId>jtoolbox-commons-email</artifactId>
     <packaging>jar</packaging>
@@ -25,12 +25,18 @@
     <description>Utility classes that extends Apache commons-email.</description>
     <dependencies>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>com.dattack</groupId>
+            <artifactId>jtoolbox-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.dattack</groupId>
+            <artifactId>junit-extensions</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
