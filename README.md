@@ -1,13 +1,9 @@
-# jToolbox
-
-[![Travis Badge](https://api.travis-ci.com/dattack/jtoolbox.svg?branch=develop)](https://travis-ci.com/dattack/jtoolbox/builds)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ebbfe656384f4f1993ec46fffd1d8aa3)](https://www.codacy.com/app/dattack/jtoolbox)
-[![Codeship Badge](https://codeship.com/projects/f73609f0-6fe2-0134-dcfd-3acc74581569/status?branch=develop)](https://app.codeship.com/projects/178133)
-[![CircleCI](https://circleci.com/gh/dattack/jtoolbox.svg?style=svg)](https://circleci.com/gh/dattack/jtoolbox)
-[![codecov](https://codecov.io/gh/dattack/jtoolbox/branch/develop/graph/badge.svg)](https://codecov.io/gh/dattack/jtoolbox)
+[![Build](https://github.com/dattack/jtoolbox/actions/workflows/maven-deploy.yml/badge.svg?branch=dev)](https://github. com/dattack/jtoolbox/actions)
 [![license](https://img.shields.io/:license-Apache-blue.svg?style=plastic-square)](LICENSE.md)
 [![Maven Central](https://img.shields.io/maven-central/v/com.dattack/jtoolbox.svg?label=Maven%20Central)](https://search.maven.org/artifact/com.dattack/jtoolbox)
 [![javadoc](https://javadoc.io/badge2/com.dattack/jtoolbox/javadoc.svg)](https://javadoc.io/doc/com.dattack/jtoolbox)
+
+# jToolbox
 
 jToolbox is a set of utility classes that simplify the programming of Java code. These
 classes can be used by many projects instead of solving tedious problems over and over
@@ -19,25 +15,25 @@ again. jToolbox consists of the following modules:
 
 ## Where can I get the latest release?
 
-You can pull it from the central Maven repositories:
+You can pull it from the Central Maven repositories:
 
 ```xml
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-core</artifactId>
-    <version>0.3</version>
+    <version>0.7-SNAPSHOT</version>
   </dependency>
   
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-commons-configuration</artifactId>
-    <version>0.3</version>
+    <version>0.7-SNAPSHOT</version>
   </dependency>
   
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-commons-email</artifactId>
-    <version>0.3</version>
+    <version>0.7-SNAPSHOT</version>
   </dependency>
 ```
 

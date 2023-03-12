@@ -17,7 +17,7 @@
     <parent>
         <groupId>com.dattack</groupId>
         <artifactId>parent</artifactId>
-        <version>7</version>
+        <version>8-SNAPSHOT</version>
     </parent>
     <artifactId>jtoolbox</artifactId>
     <version>0.7-SNAPSHOT</version>
@@ -34,7 +34,7 @@
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -66,20 +66,14 @@
         <url>https://github.com/dattack/jtoolbox/issues</url>
     </issueManagement>
     <ciManagement>
-        <system>Travis CI</system>
-        <url>https://app.travis-ci.com/github/dattack/jtoolbox</url>
+        <system>GitHub</system>
+        <url>https://github.com/dattack/jtoolbox/actions</url>
     </ciManagement>
-    <distributionManagement>
-        <site>
-            <id>github</id>
-            <url>gitsite:git@https://github.com/dattack/jtoolbox.git</url>
-        </site>
-    </distributionManagement>
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
         <commons-email.version>1.5</commons-email.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <junit-extensions.version>0.1</junit-extensions.version>
+        <junit-extensions.version>0.2-SNAPSHOT</junit-extensions.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j.version>1.7.36</slf4j.version>
     </properties>
@@ -125,4 +119,26 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>ossrh-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>ossrh-releases</id>
+            <url>https://oss.sonatype.org/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 </project>
