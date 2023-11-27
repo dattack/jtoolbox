@@ -17,10 +17,6 @@
     xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
 
 	<body>
-		<links>
-			<item name="www.dattack.com" href="http://www.dattack.com/" />
-		</links>
-
         <menu ref="parent" />
 		<menu ref="reports" />
 	</body>
