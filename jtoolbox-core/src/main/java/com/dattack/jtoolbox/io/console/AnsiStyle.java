@@ -49,14 +49,14 @@ public class AnsiStyle {
         WHITE(7), //
         DEFAULT(9);
 
-        private final int value;
+        private final int internalValue;
 
         Color(final int index) {
-            this.value = index;
+            this.internalValue = index;
         }
 
         public int value() {
-            return value;
+            return internalValue;
         }
     }
 
@@ -75,21 +75,21 @@ public class AnsiStyle {
         // OFF flags
         UNDERLINE_DOUBLE(21), // Bold: off or Underline: Double
         INTENSITY_BOLD_OFF(22), // Normal color or intensity
-        ITALIC_OFF(23), // Not italic, not Fraktur
+        ITALIC_OFF(23), // Not italic
         UNDERLINE_OFF(24), // Underline: None
         BLINK_OFF(25), // Blink: off
         REVERSE_VIDEO_OFF(27), // Image: Positive
         CONCEAL_OFF(28), // conceal off
         CROSSED_OUT_OFF(29); // Not crossed out
 
-        private final int value;
+        private final int internalValue;
 
         EscapeCode(final int value) {
-            this.value = value;
+            this.internalValue = value;
         }
 
         public int value() {
-            return value;
+            return internalValue;
         }
     }
 
