@@ -127,14 +127,16 @@ public final class RsaUtils {
     }
 
     private static byte[] execEncryptionOperation(final byte[] input, final int encryptMode, final Key key)
-            throws DattackSecurityException {
+            throws DattackSecurityException
+    {
 
         try {
             final Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(encryptMode, key);
             return cipher.doFinal(input);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
-                | BadPaddingException e) {
+                | BadPaddingException e)
+        {
             throw new DattackSecurityException(e);
         }
     }

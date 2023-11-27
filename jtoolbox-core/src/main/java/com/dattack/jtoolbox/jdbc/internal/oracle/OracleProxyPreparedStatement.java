@@ -28,14 +28,16 @@ import java.sql.SQLException;
  * @since 0.6
  */
 public class OracleProxyPreparedStatement<P extends PreparedStatement> extends OracleProxyStatement<P>
-        implements ProxyPreparedStatement<P> {
+        implements ProxyPreparedStatement<P>
+{
 
     protected OracleProxyPreparedStatement(final OracleProxyConnection connection, final P delegate) {
         super(connection, delegate);
     }
 
     public static <P extends PreparedStatement> OracleProxyPreparedStatement<P> build(
-            final OracleProxyConnection connection, final P delegate) {
+            final OracleProxyConnection connection, final P delegate)
+    {
         return new OracleProxyPreparedStatement<>(connection, delegate);
     }
 

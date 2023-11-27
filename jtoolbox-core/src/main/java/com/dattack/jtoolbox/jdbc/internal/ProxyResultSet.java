@@ -943,7 +943,8 @@ public interface ProxyResultSet extends ResultSet, JdbcObjectProxy<ResultSet> {
 
     @Override
     default void updateObject(String columnLabel, Object x, SQLType targetSqlType,
-            int scaleOrLength) throws SQLException {
+            int scaleOrLength) throws SQLException
+    {
         getDelegate().updateObject(columnLabel, x, targetSqlType, scaleOrLength);
     }
 

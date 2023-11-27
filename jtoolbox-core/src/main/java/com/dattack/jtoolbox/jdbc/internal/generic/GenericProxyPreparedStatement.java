@@ -29,14 +29,16 @@ import java.sql.SQLException;
  * @since 0.6
  */
 public class GenericProxyPreparedStatement<P extends PreparedStatement> extends GenericProxyStatement<P>
-        implements ProxyPreparedStatement<P> {
+        implements ProxyPreparedStatement<P>
+{
 
     protected GenericProxyPreparedStatement(final GenericProxyConnection connection, final P delegate) {
         super(connection, delegate);
     }
 
     public static <P extends PreparedStatement> GenericProxyPreparedStatement<P> build(
-            final GenericProxyConnection connection, final P delegate) {
+            final GenericProxyConnection connection, final P delegate)
+    {
         return new GenericProxyPreparedStatement<>(connection, delegate);
     }
 

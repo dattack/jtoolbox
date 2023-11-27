@@ -50,7 +50,8 @@ public class AnsiConsole implements Console {
     }
 
     public AnsiConsole(final InputStream inputStream, final PrintStream printStream, final AnsiStyle errorStyle,
-                       final AnsiStyle infoStyle) {
+                       final AnsiStyle infoStyle)
+    {
         this.inputStream = inputStream;
         this.printStream = printStream;
         this.errorStyle = errorStyle;

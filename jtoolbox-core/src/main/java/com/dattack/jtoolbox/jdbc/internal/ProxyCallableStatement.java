@@ -594,7 +594,8 @@ public interface ProxyCallableStatement extends CallableStatement, ProxyPrepared
 
     @Override
     default void setObject(String parameterName, Object x, SQLType targetSqlType,
-            int scaleOrLength) throws SQLException {
+            int scaleOrLength) throws SQLException
+    {
         getDelegate().setObject(parameterName, x, targetSqlType, scaleOrLength);
     }
 

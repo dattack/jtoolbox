@@ -73,7 +73,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setAsciiStream(final String parameterName, final InputStream value,
-            final int length) throws SQLException {
+            final int length) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setAsciiStream(i, value, length);
         }
@@ -81,7 +82,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setAsciiStream(final String parameterName, final InputStream value,
-            final long length) throws SQLException {
+            final long length) throws SQLException
+    {
         for (final Integer index : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setAsciiStream(index, value, length);
         }
@@ -96,7 +98,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setBinaryStream(final String parameterName, final InputStream value,
-            final int length) throws SQLException {
+            final int length) throws SQLException
+    {
 
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setBinaryStream(i, value, length);
@@ -105,7 +108,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setBinaryStream(final String parameterName, final InputStream value,
-            final long length) throws SQLException {
+            final long length) throws SQLException
+    {
         for (final Integer index : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setBinaryStream(index, value, length);
         }
@@ -162,7 +166,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setCharacterStream(final String parameterName, final Reader value,
-            final int length) throws SQLException {
+            final int length) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setCharacterStream(i, value, length);
         }
@@ -170,7 +175,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setCharacterStream(final String parameterName, final Reader value,
-            final long length) throws SQLException {
+            final long length) throws SQLException
+    {
         for (final Integer index : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setCharacterStream(index, value, length);
         }
@@ -256,7 +262,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setNCharacterStream(final String parameterName, final Reader value,
-            final long length) throws SQLException {
+            final long length) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setNCharacterStream(i, value, length);
         }
@@ -320,7 +327,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setObject(final String parameterName, final Object value,
-            final int targetSqlType) throws SQLException {
+            final int targetSqlType) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setObject(i, value, targetSqlType);
         }
@@ -328,7 +336,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setObject(final String parameterName, final Object value, final int targetSqlType,
-            final int scaleOrLength) throws SQLException {
+            final int scaleOrLength) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setObject(i, value, targetSqlType, scaleOrLength);
         }
@@ -392,7 +401,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
 
     @Override
     default void setTimestamp(final String parameterName, final Timestamp value,
-            final Calendar cal) throws SQLException {
+            final Calendar cal) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setTimestamp(i, value, cal);
         }
@@ -408,7 +418,8 @@ public interface ProxyNamedPreparedStatement extends NamedPreparedStatement, Pro
     @Deprecated
     @Override
     default void setUnicodeStream(final String parameterName, final InputStream value,
-            final int length) throws SQLException {
+            final int length) throws SQLException
+    {
         for (final Integer i : getNamedPreparedStatementConfig().getParameterIndexes(parameterName)) {
             getDelegate().setUnicodeStream(i, value, length);
         }

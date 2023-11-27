@@ -135,11 +135,11 @@ public class MultiStopWatch {
         private transient long elapsedTimeInNanos;
         private transient boolean active;
 
-        public Event(String name) {
+        Event(String name) {
             this(name, System.nanoTime());
         }
 
-        public Event(String name, long startTimeInNanos) {
+        Event(String name, long startTimeInNanos) {
             this.name = name;
             this.elapsedTimeInNanos = 0;
             start(startTimeInNanos);
