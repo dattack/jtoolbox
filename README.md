@@ -21,19 +21,19 @@ You can pull it from the Central Maven repositories:
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-core</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
   </dependency>
   
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-commons-configuration</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
   </dependency>
   
   <dependency>
     <groupId>com.dattack</groupId>
     <artifactId>jtoolbox-commons-email</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
   </dependency>
 ```
 

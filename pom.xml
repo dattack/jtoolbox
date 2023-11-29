@@ -20,7 +20,7 @@
         <version>8.1</version>
     </parent>
     <artifactId>jtoolbox</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
     <packaging>pom</packaging>
     <name>jtoolbox</name>
     <description>A set of utility classes that simplify the programming of Java code that can be used
