@@ -16,6 +16,7 @@ on:
     branches:
       - main
       - dev
+      - release/*
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -25,12 +26,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '8'
-          distribution: 'adopt'
-          server-id: ossrh # Value of the distributionManagement/repository/id field of the pom.xml
-          server-username: MAVEN_USERNAME # env variable for username in deploy
-          server-password: MAVEN_PASSWORD # env variable for token in deploy
-          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }} # Value of the GPG private key to import
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
+          distribution: 'temurin'
+          server-id: ossrh # ID of the distributionManagement repository in the pom.xml file
+          server-username: MAVEN_USERNAME # Environment variable name for the username for authentication to the Apache Maven repository
+          server-password: MAVEN_PASSWORD # Environment variable name for password or token for authentication to the Apache Maven repository
+          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }} # GPG private key to import
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE # Environment variable name for the GPG private key passphrase. Default is $GPG_PASSPHRASE
       - name: Build with Maven
         run: mvn -B clean package source:jar javadoc:jar install
       - name: Deploy to Maven Central
@@ -38,4 +39,4 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
