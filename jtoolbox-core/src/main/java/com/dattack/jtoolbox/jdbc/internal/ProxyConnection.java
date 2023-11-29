@@ -130,6 +130,11 @@ public interface ProxyConnection extends ExtendedConnection, JdbcObjectProxy<Con
     }
 
     @Override
+    default void setClientInfo(String name, String value) throws SQLClientInfoException {
+        getDelegate().setClientInfo(name, value);
+    }
+
+    @Override
     default int getHoldability() throws SQLException {
         return getDelegate().getHoldability();
     }
@@ -233,11 +238,6 @@ public interface ProxyConnection extends ExtendedConnection, JdbcObjectProxy<Con
     @Override
     default void rollback(Savepoint savepoint) throws SQLException {
         getDelegate().rollback(savepoint);
-    }
-
-    @Override
-    default void setClientInfo(String name, String value) throws SQLClientInfoException {
-        getDelegate().setClientInfo(name, value);
     }
 
     @Override

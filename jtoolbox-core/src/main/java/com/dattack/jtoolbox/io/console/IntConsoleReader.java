@@ -64,7 +64,8 @@ public class IntConsoleReader extends AbstractConsoleReader<Integer> {
 
     private int readInt() {
         try (Scanner scanner = new Scanner(new UnclosableInputStream(getInputStream()), //
-                StandardCharsets.UTF_8.name())) {
+            StandardCharsets.UTF_8.name()))
+        {
             while (true) {
                 print(style, prompt);
 

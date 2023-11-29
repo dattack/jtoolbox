@@ -40,7 +40,8 @@ public class GenericProxyStatement<S extends Statement> implements ProxyStatemen
     }
 
     public static <S extends Statement> GenericProxyStatement<?> build(
-            final GenericProxyConnection connection, final S delegate) {
+            final GenericProxyConnection connection, final S delegate)
+    {
         return new GenericProxyStatement<>(connection, delegate);
     }
 

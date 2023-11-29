@@ -30,14 +30,16 @@ import java.sql.SQLException;
  * @since 0.6
  */
 public class OracleProxyNamedPreparedStatement extends OracleProxyPreparedStatement<PreparedStatement>
-        implements ProxyNamedPreparedStatement {
+        implements ProxyNamedPreparedStatement
+{
 
     private static final int MAX_LENGTH_CLOB_AS_VARCHAR = 4_000;
 
     private final transient NamedPreparedStatementConfig namedPreparedStatementConfig;
 
     protected OracleProxyNamedPreparedStatement(final OracleProxyConnection connection,
-            final PreparedStatement delegate, final NamedPreparedStatementConfig namedPreparedStatementConfig) {
+            final PreparedStatement delegate, final NamedPreparedStatementConfig namedPreparedStatementConfig)
+    {
         super(connection, delegate);
         this.namedPreparedStatementConfig = namedPreparedStatementConfig;
     }
@@ -52,7 +54,8 @@ public class OracleProxyNamedPreparedStatement extends OracleProxyPreparedStatem
      * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     public static OracleProxyNamedPreparedStatement build(final OracleProxyConnection connection,
-            final String sql) throws SQLException {
+            final String sql) throws SQLException
+    {
         final NamedPreparedStatementConfig preparedStatementConfig = NamedPreparedStatementConfig.parse(sql);
         return new OracleProxyNamedPreparedStatement(connection, connection.prepareStatement(
                 preparedStatementConfig.getCompiledSql()), preparedStatementConfig);

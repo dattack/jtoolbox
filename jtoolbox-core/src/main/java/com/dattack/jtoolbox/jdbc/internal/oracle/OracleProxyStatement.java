@@ -39,7 +39,8 @@ public class OracleProxyStatement<S extends Statement> implements ProxyStatement
     }
 
     public static <S extends Statement> OracleProxyStatement<S> build(final OracleProxyConnection connection,
-            final S delegate) {
+            final S delegate)
+    {
         return new OracleProxyStatement<>(connection, delegate);
     }
 

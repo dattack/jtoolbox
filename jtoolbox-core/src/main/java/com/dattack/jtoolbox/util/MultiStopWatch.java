@@ -128,18 +128,29 @@ public class MultiStopWatch {
     /**
      * A timed event.
      */
-    private static class Event {
+    private static final class Event {
 
         private final String name;
         private transient long startTimeInNanos;
         private transient long elapsedTimeInNanos;
         private transient boolean active;
 
-        public Event(String name) {
+        /**
+         * Constructor.
+         *
+         * @param name the name of the event
+         */
+        /* default */ Event(String name) {
             this(name, System.nanoTime());
         }
 
-        public Event(String name, long startTimeInNanos) {
+        /**
+         * Constructor.
+         *
+         * @param name             the name of the event
+         * @param startTimeInNanos the start time in nanoseconds
+         */
+        /* default */ Event(String name, long startTimeInNanos) {
             this.name = name;
             this.elapsedTimeInNanos = 0;
             start(startTimeInNanos);

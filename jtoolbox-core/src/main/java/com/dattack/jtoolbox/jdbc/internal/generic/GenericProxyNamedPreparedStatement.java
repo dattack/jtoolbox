@@ -30,12 +30,14 @@ import java.sql.SQLException;
  * @since 0.6
  */
 public class GenericProxyNamedPreparedStatement extends GenericProxyPreparedStatement<PreparedStatement>
-    implements ProxyNamedPreparedStatement {
+    implements ProxyNamedPreparedStatement
+{
 
     private final transient NamedPreparedStatementConfig namedPreparedStatementConfig;
 
     protected GenericProxyNamedPreparedStatement(final GenericProxyConnection connection,
-        final PreparedStatement delegate, final NamedPreparedStatementConfig namedPreparedStatementConfig) {
+        final PreparedStatement delegate, final NamedPreparedStatementConfig namedPreparedStatementConfig)
+    {
         super(connection, delegate);
         this.namedPreparedStatementConfig = namedPreparedStatementConfig;
     }
@@ -50,7 +52,8 @@ public class GenericProxyNamedPreparedStatement extends GenericProxyPreparedStat
      * @throws SQLException if a database access error occurs or this method is called on a closed connection
      */
     public static GenericProxyNamedPreparedStatement build(final GenericProxyConnection connection,
-        final String sql) throws SQLException {
+        final String sql) throws SQLException
+    {
         final NamedPreparedStatementConfig preparedStatementConfig = NamedPreparedStatementConfig.parse(sql);
         return new GenericProxyNamedPreparedStatement(connection, connection.prepareStatement(
             preparedStatementConfig.getCompiledSql()), preparedStatementConfig);

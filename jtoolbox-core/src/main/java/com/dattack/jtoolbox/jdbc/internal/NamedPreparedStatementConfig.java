@@ -148,10 +148,12 @@ public final class NamedPreparedStatementConfig {
                         inSingleLineComment = true;
                     } else if (currentChar == ':' //
                             && index + 1 < length //
-                            && Character.isJavaIdentifierStart(query.charAt(index + 1))) {
+                            && Character.isJavaIdentifierStart(query.charAt(index + 1)))
+                    {
                         int skipCharacters = index + 2;
                         while (skipCharacters < length && Character.isJavaIdentifierPart(
-                                query.charAt(skipCharacters))) {
+                            query.charAt(skipCharacters)))
+                        {
                             skipCharacters++;
                         }
                         final String name = query.substring(index + 1, skipCharacters);

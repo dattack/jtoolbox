@@ -42,8 +42,8 @@ public final class FilesystemClassLoaderUtils {
     }
 
     private static void configureClasspathFromUrls(final List<URL> urlList) throws NoSuchMethodException,
-            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+    {
         final Class<?> urlClass = URLClassLoader.class;
         final Method method = urlClass.getDeclaredMethod("addURL", URL.class);
         method.setAccessible(true);
@@ -54,8 +54,8 @@ public final class FilesystemClassLoaderUtils {
     }
 
     private static void configureDirectoryClasspath(final File directory) throws NoSuchMethodException,
-            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+            SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+    {
         final File[] jars = directory.listFiles(pathname -> pathname.isFile() && pathname.getAbsolutePath().endsWith(
                 ".jar"));
 
@@ -75,8 +75,8 @@ public final class FilesystemClassLoaderUtils {
     }
 
     private static void configureJarClasspath(final File jar) throws NoSuchMethodException, SecurityException,
-            IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-
+            IllegalAccessException, IllegalArgumentException, InvocationTargetException
+    {
         final List<URL> urlList = new ArrayList<>();
         try {
             LOGGER.trace("Scanning JAR: {}", jar);
@@ -103,7 +103,8 @@ public final class FilesystemClassLoaderUtils {
                         configureJarClasspath(path);
                     }
                 } catch (final NoSuchMethodException | SecurityException | IllegalAccessException
-                        | IllegalArgumentException | InvocationTargetException e) {
+                        | IllegalArgumentException | InvocationTargetException e)
+                {
                     LOGGER.warn(e.getMessage());
                 }
             } else {

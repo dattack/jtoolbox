@@ -27,15 +27,17 @@ import java.sql.CallableStatement;
  * @since 0.6
  */
 public final class GenericProxyCallableStatement extends GenericProxyPreparedStatement<CallableStatement>
-        implements ProxyCallableStatement {
-
+        implements ProxyCallableStatement
+{
     private GenericProxyCallableStatement(final GenericProxyConnection connection,
-            final CallableStatement delegate) {
+            final CallableStatement delegate)
+    {
         super(connection, delegate);
     }
 
     public static GenericProxyCallableStatement build(final GenericProxyConnection connection,
-            final CallableStatement delegate) {
+            final CallableStatement delegate)
+    {
         return new GenericProxyCallableStatement(connection, delegate);
     }
 }

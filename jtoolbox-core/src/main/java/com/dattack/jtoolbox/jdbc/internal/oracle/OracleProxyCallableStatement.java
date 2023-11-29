@@ -26,14 +26,16 @@ import java.sql.CallableStatement;
  * @since 0.6
  */
 public final class OracleProxyCallableStatement extends OracleProxyPreparedStatement<CallableStatement>
-        implements ProxyCallableStatement {
+        implements ProxyCallableStatement
+{
 
     private OracleProxyCallableStatement(final OracleProxyConnection connection, final CallableStatement delegate) {
         super(connection, delegate);
     }
 
     public static OracleProxyCallableStatement build(final OracleProxyConnection connection,
-            final CallableStatement delegate) {
+            final CallableStatement delegate)
+    {
         return new OracleProxyCallableStatement(connection, delegate);
     }
 }
